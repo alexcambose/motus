@@ -1,0 +1,26 @@
+{
+  "name": "motus",
+  "version": "1.0.0",
+  "description": "Animation library that mimics CSS keyframes",
+  "main": "index.js",
+  "scripts": {
+    "tsc": "cross-env tsc ./src/index"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alexcambose/motus.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alexcambose/motus/issues"
+  },
+  "homepage": "https://github.com/alexcambose/motus#readme",
+  "devDependencies": {
+    "cross-env": "^5.1.6",
+    "webpack": "^4.8.3",
+    "webpack-cli": "^2.1.4",
+    "webpack-dev-server": "^3.1.4"
+  }
+}

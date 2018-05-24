@@ -1,0 +1,2 @@
+export const percent = (current: number, total: number, multiplier = 100) =>  current/total*multiplier;
+export const sliceFromPercent = (value: number, percent: number, multiplier = 100) => percent*value/multiplier;
