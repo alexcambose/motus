@@ -1,0 +1,14 @@
+{
+    "compilerOptions": {
+        "module": "esnext",
+        "target": "es3",
+        "noImplicitAny": false,
+        "sourceMap": true,
+        "declaration": true,
+        "strictNullChecks": false,
+        "outDir": "./js/"
+    },
+    "include": [
+        "src/**/*.ts"
+    ]
+}

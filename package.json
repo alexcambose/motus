@@ -4,7 +4,9 @@
   "description": "Animation library that mimics CSS keyframes",
   "main": "index.js",
   "scripts": {
-    "tsc": "cross-env tsc ./src/index"
+    "tsc": "cross-env tsc",
+    "build": "webpack",
+    "watch": "webpack --watch"
   },
   "repository": {
     "type": "git",
@@ -18,7 +20,11 @@
   },
   "homepage": "https://github.com/alexcambose/motus#readme",
   "devDependencies": {
+    "chai": "^4.1.2",
     "cross-env": "^5.1.6",
+    "mocha": "^5.2.0",
+    "parcel": "^1.8.1",
+    "typescript": "^2.8.3",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.4",
     "webpack-dev-server": "^3.1.4"
