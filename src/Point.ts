@@ -1,6 +1,6 @@
 export default class Point {
-    p: number | HTMLElement = null;
-    constructor(p: number | HTMLElement) {
-        this.p = p;
+    public point: number | HTMLElement = null;
+    constructor(point: number | HTMLElement) {
+        this.point = point;
     }
 }

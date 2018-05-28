@@ -5,8 +5,7 @@
   "main": "index.js",
   "scripts": {
     "tsc": "cross-env tsc",
-    "build": "webpack",
-    "watch": "webpack --watch"
+    "serve": "parcel docs/index.html"
   },
   "repository": {
     "type": "git",
@@ -27,6 +26,7 @@
     "typescript": "^2.8.3",
     "webpack": "^4.8.3",
     "webpack-cli": "^2.1.4",
-    "webpack-dev-server": "^3.1.4"
+    "webpack-dev-server": "^3.1.4",
+    "tslint": "^5.10.0"
   }
 }
