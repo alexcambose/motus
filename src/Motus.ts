@@ -8,8 +8,7 @@ export default class Motus {
     constructor() {
         window.addEventListener('scroll', () => {
             const windowScroll = window.scrollY;
-            console.log(windowScroll);
-            this.animations.forEach(e => e.applyAnimation(windowScroll));
+            this.animations.forEach(e => e.apply(windowScroll));
         });
     }
     public addAnimation = (animation: Animation): void => {

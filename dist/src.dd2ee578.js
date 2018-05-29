@@ -98,30 +98,92 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({8:[function(require,module,exports) {
+})({6:[function(require,module,exports) {
+'use strict';
+
+Object.defineProperty(exports, "__esModule", {
+    value: true
+});
+var percentFrom = exports.percentFrom = function percentFrom(current, total) {
+    var multiplier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
+    return current / total * multiplier;
+};
+var sliceFromPercent = exports.sliceFromPercent = function sliceFromPercent(value, percent) {
+    var multiplier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
+    return percent * value / multiplier;
+};
+var getUnit = exports.getUnit = function getUnit(value) {
+    var units = ['cm', 'mm', 'in', 'pt', 'pc', 'em', 'ex', 'ch', '%', 'rem', 'vw', 'vmin', 'vmax'];
+    var _iteratorNormalCompletion = true;
+    var _didIteratorError = false;
+    var _iteratorError = undefined;
+
+    try {
+        for (var _iterator = units[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+            var unit = _step.value;
+
+            var reg = new RegExp('[1-9]+' + unit);
+            if (value.match(reg)) {
+                return unit;
+            }
+        }
+    } catch (err) {
+        _didIteratorError = true;
+        _iteratorError = err;
+    } finally {
+        try {
+            if (!_iteratorNormalCompletion && _iterator.return) {
+                _iterator.return();
+            }
+        } finally {
+            if (_didIteratorError) {
+                throw _iteratorError;
+            }
+        }
+    }
+};
+},{}],4:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
     value: true
 });
 
+var _utils = require('./utils');
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Animation = function Animation(startPoint, endPoint, element, keyframes) {
+    var _this = this;
+
     _classCallCheck(this, Animation);
 
+    this.apply = function (scroll) {
+        if (scroll >= _this.startPoint && scroll <= _this.endPoint) {
+            var percent = (0, _utils.percentFrom)(scroll - _this.startPoint, _this.endPoint - _this.startPoint);
+            var k = null;
+            for (var i = 0; i < Object.keys(_this.keyframes).length && parseInt(Object.keys(_this.keyframes)[i]) < percent; i++) {
+                k = _this.keyframes[Object.keys(_this.keyframes)[i]];
+            }_this.applyKeyframe(k);
+        }
+    };
+    this.applyKeyframe = function (keyframe) {
+        for (var attribute in keyframe) {
+            console.log(attribute);
+        }
+    };
     if (!startPoint || !endPoint || !element || !keyframes || !Object.keys(keyframes)) {
         throw new Error('startPoint endPoint element keyframes must be specified!');
     }
-    this.uid = Math.random(); // basic uid
-    this.startPoint = startPoint;
-    this.endPoint = endPoint;
+    this.uid = Math.random() * 100000000; // basic uid
+    this.startPoint = startPoint.getPosition();
+    this.endPoint = endPoint.getPosition();
     this.element = element;
     this.keyframes = keyframes;
 };
 
 exports.default = Animation;
-},{}],9:[function(require,module,exports) {
+},{"./utils":6}],5:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", {
@@ -131,14 +193,23 @@ Object.defineProperty(exports, "__esModule", {
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 var Point = function Point(point) {
+    var _this = this;
+
     _classCallCheck(this, Point);
 
-    this.point = null;
+    this.getPosition = function () {
+        var isHorizontal = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : false;
+
+        if (_this.point instanceof HTMLElement) {
+            return isHorizontal ? _this.point.offsetLeft : _this.point.offsetTop;
+        }
+        return _this.point;
+    };
     this.point = point;
 };
 
 exports.default = Point;
-},{}],5:[function(require,module,exports) {
+},{}],3:[function(require,module,exports) {
 'use strict';
 
 Object.defineProperty(exports, "__esModule", {
@@ -176,15 +247,14 @@ var Motus = function Motus() {
     };
     window.addEventListener('scroll', function () {
         var windowScroll = window.scrollY;
-        console.log(windowScroll);
         _this.animations.forEach(function (e) {
-            return e.applyAnimation(windowScroll);
+            return e.apply(windowScroll);
         });
     });
 };
 
 exports.default = Motus;
-},{"./Animation":8,"./Point":9}],2:[function(require,module,exports) {
+},{"./Animation":4,"./Point":5}],2:[function(require,module,exports) {
 'use strict';
 
 var _Motus = require('./Motus');
@@ -194,17 +264,24 @@ var _Motus2 = _interopRequireDefault(_Motus);
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
 
 window.Motus = new _Motus2.default();
-var headera = new window.Motus.Animation(new window.Motus.Point(100), new window.Motus.Point(200), document.getElementById('anim'), {
+var headera = new window.Motus.Animation(new window.Motus.Point(100), new window.Motus.Point(600), document.getElementById('anim'), {
     40: {
         'font-size': {
             from: 13,
             to: 20,
             unit: 'px'
         }
+    },
+    60: {
+        fontSize: {
+            from: 20,
+            to: 100,
+            unit: 'px'
+        }
     }
 });
 window.Motus.addAnimation(headera);
-},{"./Motus":5}],16:[function(require,module,exports) {
+},{"./Motus":3}],16:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -233,7 +310,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '42927' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '40365' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
