@@ -98,22 +98,20 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({6:[function(require,module,exports) {
-'use strict';
+})({10:[function(require,module,exports) {
+"use strict";
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-var percentFrom = exports.percentFrom = function percentFrom(current, total) {
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.percentFrom = function (current, total) {
     var multiplier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
     return current / total * multiplier;
 };
-var sliceFromPercent = exports.sliceFromPercent = function sliceFromPercent(value, percent) {
+exports.sliceFromPercent = function (value, percent) {
     var multiplier = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 100;
     return percent * value / multiplier;
 };
-var getUnit = exports.getUnit = function getUnit(value) {
-    var units = ['cm', 'mm', 'in', 'pt', 'pc', 'em', 'ex', 'ch', '%', 'rem', 'vw', 'vmin', 'vmax'];
+exports.getUnit = function (value) {
+    var units = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', '%', 'rem', 'vw', 'vmin', 'vmax'];
     var _iteratorNormalCompletion = true;
     var _didIteratorError = false;
     var _iteratorError = undefined;
@@ -122,7 +120,7 @@ var getUnit = exports.getUnit = function getUnit(value) {
         for (var _iterator = units[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
             var unit = _step.value;
 
-            var reg = new RegExp('[1-9]+' + unit);
+            var reg = new RegExp('[0-9]+' + unit);
             if (value.match(reg)) {
                 return unit;
             }
@@ -142,16 +140,23 @@ var getUnit = exports.getUnit = function getUnit(value) {
         }
     }
 };
-},{}],4:[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _utils = require('./utils');
+exports.calmelToKebabCase = function (value) {
+    value = value.trim();
+    value = value.replace(value[0], value[0].toLowerCase());
+    for (var i = 0; i < value.length; i++) {
+        if (value[i] === value[i].toUpperCase()) {
+            value = value.substring(0, i) + '-' + value[i].toLowerCase() + value.substring(i + 1);
+        }
+    }
+    return value;
+};
+},{}],6:[function(require,module,exports) {
+"use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
+var utils_1 = require("./utils");
 
 var Animation = function Animation(startPoint, endPoint, element, keyframes) {
     var _this = this;
@@ -160,14 +165,16 @@ var Animation = function Animation(startPoint, endPoint, element, keyframes) {
 
     this.apply = function (scroll) {
         if (scroll >= _this.startPoint && scroll <= _this.endPoint) {
-            var percent = (0, _utils.percentFrom)(scroll - _this.startPoint, _this.endPoint - _this.startPoint);
-            var k = null;
+            var percent = utils_1.percentFrom(scroll - _this.startPoint, _this.endPoint - _this.startPoint);
+            var keyframePercent = null;
             for (var i = 0; i < Object.keys(_this.keyframes).length && parseInt(Object.keys(_this.keyframes)[i]) < percent; i++) {
-                k = _this.keyframes[Object.keys(_this.keyframes)[i]];
-            }_this.applyKeyframe(k);
+                keyframePercent = i;
+            }_this.applyKeyframe(keyframePercent, scroll - _this.startPoint, _this.endPoint - _this.startPoint);
         }
     };
-    this.applyKeyframe = function (keyframe) {
+    this.applyKeyframe = function (keyframePercent, currentScroll, maxScroll) {
+        var keyframe = _this.keyframes[Object.keys(_this.keyframes)[keyframePercent]]; // needs refactoring because it is very confusing
+        console.log(utils_1.percentFrom(currentScroll, maxScroll), currentScroll, maxScroll);
         for (var attribute in keyframe) {
             console.log(attribute);
         }
@@ -183,14 +190,12 @@ var Animation = function Animation(startPoint, endPoint, element, keyframes) {
 };
 
 exports.default = Animation;
-},{"./utils":6}],5:[function(require,module,exports) {
+},{"./utils":10}],7:[function(require,module,exports) {
 "use strict";
 
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+Object.defineProperty(exports, "__esModule", { value: true });
 
 var Point = function Point(point) {
     var _this = this;
@@ -210,35 +215,36 @@ var Point = function Point(point) {
 
 exports.default = Point;
 },{}],3:[function(require,module,exports) {
-'use strict';
-
-Object.defineProperty(exports, "__esModule", {
-    value: true
-});
-
-var _Animation = require('./Animation');
-
-var _Animation2 = _interopRequireDefault(_Animation);
-
-var _Point = require('./Point');
-
-var _Point2 = _interopRequireDefault(_Point);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
+"use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+var __importDefault = this && this.__importDefault || function (mod) {
+    return mod && mod.__esModule ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Animation_1 = __importDefault(require("./Animation"));
+var Point_1 = __importDefault(require("./Point"));
 
 var Motus = function Motus() {
     var _this = this;
 
     _classCallCheck(this, Motus);
 
-    this.Animation = _Animation2.default;
-    this.Point = _Point2.default;
+    this.Animation = Animation_1.default;
+    this.Point = Point_1.default;
     this.animations = [];
+    /**Register new animation
+     * @param  {Animation} animation
+     * @returns void
+     */
     this.addAnimation = function (animation) {
         _this.animations.push(animation);
     };
+    /**Delete animation
+     * @param  {number} uid Animation uid
+     * @returns void
+     */
     this.removeAnimation = function (uid) {
         var index = _this.animations.findIndex(function (e) {
             return e.uid === uid;
@@ -254,16 +260,15 @@ var Motus = function Motus() {
 };
 
 exports.default = Motus;
-},{"./Animation":4,"./Point":5}],2:[function(require,module,exports) {
-'use strict';
+},{"./Animation":6,"./Point":7}],2:[function(require,module,exports) {
+"use strict";
 
-var _Motus = require('./Motus');
-
-var _Motus2 = _interopRequireDefault(_Motus);
-
-function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { default: obj }; }
-
-window.Motus = new _Motus2.default();
+var __importDefault = this && this.__importDefault || function (mod) {
+    return mod && mod.__esModule ? mod : { "default": mod };
+};
+Object.defineProperty(exports, "__esModule", { value: true });
+var Motus_1 = __importDefault(require("./Motus"));
+window.Motus = new Motus_1.default();
 var headera = new window.Motus.Animation(new window.Motus.Point(100), new window.Motus.Point(600), document.getElementById('anim'), {
     40: {
         'font-size': {
@@ -281,7 +286,7 @@ var headera = new window.Motus.Animation(new window.Motus.Point(100), new window
     }
 });
 window.Motus.addAnimation(headera);
-},{"./Motus":3}],16:[function(require,module,exports) {
+},{"./Motus":3}],11:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -310,7 +315,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '40365' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '45851' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -451,5 +456,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[16,2], null)
+},{}]},{},[11,2], null)
 //# sourceMappingURL=/src.dd2ee578.map

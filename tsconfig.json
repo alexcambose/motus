@@ -1,6 +1,6 @@
 {
     "compilerOptions": {
-        "module": "esnext",
+        "module": "commonjs",
         "target": "es6",
         "noImplicitAny": false,
         "sourceMap": true,
@@ -11,6 +11,6 @@
         "outDir": "./js/"
     },
     "include": [
-        "src/**/*.ts"
+        "src/**/*.ts",
     ]
 }
