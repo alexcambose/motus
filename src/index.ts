@@ -16,6 +16,11 @@ const headera = new window.Motus.Animation(
             to: 20,
             unit: 'px',
         },
+        'border-radius': {
+            from: 0,
+            to: 100,
+            unit: 'px',
+        }
     },
     60: {
         fontSize: {

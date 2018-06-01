@@ -19,3 +19,24 @@ export const calmelToKebabCase = (value: string): string => {
     }
     return value;
 }
+export const closest = (value: number, arr: number[]): number => {
+    arr = arr.sort((a, b) => a - b);
+    let closestIndex = -1;
+    let i = 0;
+    while (i < arr.length) {
+        if (value < arr[i] && i == 0) return i;
+        if (value < arr[i] && value > arr[i - 1]) return i
+        i++;
+    }
+    return closestIndex;
+}
+export const loopWhile = (value: any[], until: (index?: number) => boolean, func: (index?: number) => void, done?: (index?: number) => void): void => {
+    let index = 0;
+    while(until(index) || index === value.length) {
+        func(index);
+        index++;
+    }
+    if(done) {
+        done(index);
+    }
+}

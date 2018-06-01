@@ -7,8 +7,7 @@ export default class Motus {
     private animations: Animation[] = [];
     constructor() {
         window.addEventListener('scroll', () => {
-            const windowScroll = window.scrollY;
-            this.animations.forEach(e => e.apply(windowScroll));
+            this.animations.forEach(e => e.apply());
         });
     }
     /**Register new animation
@@ -17,6 +16,7 @@ export default class Motus {
      */
     public addAnimation = (animation: Animation): void => {
         this.animations.push(animation);
+        animation.apply(); // initial apply
     }
     
     /**Delete animation

@@ -1,6 +1,6 @@
 import Keyframes from './Keyframes';
 import Point from './Point';
-import { percentFrom, sliceFromPercent } from './utils';
+import { percentFrom, sliceFromPercent, closest, loopWhile } from './utils';
 import Keyframe from './Keyframe';
 
 export default class Animation {
@@ -19,20 +19,36 @@ export default class Animation {
         this.element = element;
         this.keyframes = keyframes;
     }
-    public apply = (scroll: number): void => {
+    public apply = (): void => {
+        const scroll = window.scrollY;
+        console.log(scroll)
         if (scroll >= this.startPoint && scroll <= this.endPoint) {
-            const percent: number = percentFrom(scroll - this.startPoint, this.endPoint - this.startPoint);
-            let keyframePercent: number = null;
-            for (let i = 0; i < Object.keys(this.keyframes).length && parseInt(Object.keys(this.keyframes)[i]) < percent; i++) keyframePercent = i;
-            this.applyKeyframe(keyframePercent, scroll - this.startPoint, this.endPoint - this.startPoint);
+            const currentScroll: number = scroll - this.startPoint;
+            const maxScroll: number = this.endPoint - this.startPoint;
+            const percent: number = percentFrom(currentScroll, maxScroll);
+            const keyframePercentIndex: number = closest(percent, Object.keys(this.keyframes))];
+            loopWhile(Object.keys(this.keyframes), i => i === keyframePercentIndex, i => {
+                console.log(i);
+            });
+            this.applyKeyframe(keyframePercentIndex, currentScroll, maxScroll);
         }
     }
-    private applyKeyframe = (keyframePercent: number, currentScroll: number, maxScroll: number): void => {
-        const keyframe: Keyframe = this.keyframes[Object.keys(this.keyframes)[keyframePercent]]; // needs refactoring because it is very confusing
-        
-        console.log(percentFrom(currentScroll, maxScroll), currentScroll, maxScroll);
-        for(const attribute in keyframe) {
-            console.log(attribute, );
+    private applyKeyframe = (keyframePercentIndex: number, currentScroll: number, maxScroll: number): void => {
+        const keyframe: Keyframe = this.keyframes[Object.keys(this.keyframes)[keyframePercentIndex]]; // needs refactoring because it is very confusing
+        if(!keyframe) return;
+        const startKeyframePositon = sliceFromPercent(maxScroll, Object.keys(this.keyframes)[keyframePercentIndex-1] || 0);
+        const endKeyframePositon = sliceFromPercent(maxScroll, Object.keys(this.keyframes)[keyframePercentIndex]);
+        const keyframePercent = percentFrom(currentScroll - startKeyframePositon, endKeyframePositon-startKeyframePositon);
+        // console.log(keyframe, startKeyframePositon, endKeyframePositon, currentScroll, keyframePercent);
+
+        this.setAttributes(keyframe, keyframePercent);
+    }
+    public setAttributes = (keyframe: Keyframe, percent: number) => {
+        for(const attribute: Keyframe in keyframe) {
+            const keyframeStyle = keyframe[attribute];
+            // console.log(attribute, keyframeStyle.from + sliceFromPercent(keyframeStyle.to - keyframeStyle.from, percent) + keyframeStyle.unit)
+            this.element.style[attribute] = keyframeStyle.from + sliceFromPercent(keyframeStyle.to - keyframeStyle.from, percent) + keyframeStyle.unit ;
         }
+        // console.log('---')
     }
 }

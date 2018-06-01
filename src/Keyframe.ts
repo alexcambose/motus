@@ -1,5 +1,5 @@
 export default interface Keyframe {
-    [propName: number]: {
+    [propName: string]: {
         from?: number;
         to: number;
         unit?: string;

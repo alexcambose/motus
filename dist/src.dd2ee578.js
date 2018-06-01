@@ -98,7 +98,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({10:[function(require,module,exports) {
+})({8:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -150,7 +150,30 @@ exports.calmelToKebabCase = function (value) {
     }
     return value;
 };
-},{}],6:[function(require,module,exports) {
+exports.closest = function (value, arr) {
+    arr = arr.sort(function (a, b) {
+        return a - b;
+    });
+    var closestIndex = -1;
+    var i = 0;
+    while (i < arr.length) {
+        if (value < arr[i] && i == 0) return i;
+        if (value < arr[i] && value > arr[i - 1]) return i;
+        i++;
+    }
+    return closestIndex;
+};
+exports.loopWhile = function (value, until, func, done) {
+    var index = 0;
+    while (until(index) || index === value.length) {
+        func(index);
+        index++;
+    }
+    if (done) {
+        done(index);
+    }
+};
+},{}],4:[function(require,module,exports) {
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -163,21 +186,38 @@ var Animation = function Animation(startPoint, endPoint, element, keyframes) {
 
     _classCallCheck(this, Animation);
 
-    this.apply = function (scroll) {
+    this.apply = function () {
+        var scroll = window.scrollY;
+        console.log(scroll);
         if (scroll >= _this.startPoint && scroll <= _this.endPoint) {
-            var percent = utils_1.percentFrom(scroll - _this.startPoint, _this.endPoint - _this.startPoint);
-            var keyframePercent = null;
-            for (var i = 0; i < Object.keys(_this.keyframes).length && parseInt(Object.keys(_this.keyframes)[i]) < percent; i++) {
-                keyframePercent = i;
-            }_this.applyKeyframe(keyframePercent, scroll - _this.startPoint, _this.endPoint - _this.startPoint);
+            var currentScroll = scroll - _this.startPoint;
+            var maxScroll = _this.endPoint - _this.startPoint;
+            var percent = utils_1.percentFrom(currentScroll, maxScroll);
+            var keyframePercentIndex = utils_1.closest(percent, Object.keys(_this.keyframes));
+            utils_1.loopWhile(Object.keys(_this.keyframes), function (i) {
+                return i === keyframePercentIndex;
+            }, function (i) {
+                console.log(i);
+            });
+            _this.applyKeyframe(keyframePercentIndex, currentScroll, maxScroll);
         }
     };
-    this.applyKeyframe = function (keyframePercent, currentScroll, maxScroll) {
-        var keyframe = _this.keyframes[Object.keys(_this.keyframes)[keyframePercent]]; // needs refactoring because it is very confusing
-        console.log(utils_1.percentFrom(currentScroll, maxScroll), currentScroll, maxScroll);
+    this.applyKeyframe = function (keyframePercentIndex, currentScroll, maxScroll) {
+        var keyframe = _this.keyframes[Object.keys(_this.keyframes)[keyframePercentIndex]]; // needs refactoring because it is very confusing
+        if (!keyframe) return;
+        var startKeyframePositon = utils_1.sliceFromPercent(maxScroll, Object.keys(_this.keyframes)[keyframePercentIndex - 1] || 0);
+        var endKeyframePositon = utils_1.sliceFromPercent(maxScroll, Object.keys(_this.keyframes)[keyframePercentIndex]);
+        var keyframePercent = utils_1.percentFrom(currentScroll - startKeyframePositon, endKeyframePositon - startKeyframePositon);
+        // console.log(keyframe, startKeyframePositon, endKeyframePositon, currentScroll, keyframePercent);
+        _this.setAttributes(keyframe, keyframePercent);
+    };
+    this.setAttributes = function (keyframe, percent) {
         for (var attribute in keyframe) {
-            console.log(attribute);
+            var keyframeStyle = keyframe[attribute];
+            // console.log(attribute, keyframeStyle.from + sliceFromPercent(keyframeStyle.to - keyframeStyle.from, percent) + keyframeStyle.unit)
+            _this.element.style[attribute] = keyframeStyle.from + utils_1.sliceFromPercent(keyframeStyle.to - keyframeStyle.from, percent) + keyframeStyle.unit;
         }
+        // console.log('---')
     };
     if (!startPoint || !endPoint || !element || !keyframes || !Object.keys(keyframes)) {
         throw new Error('startPoint endPoint element keyframes must be specified!');
@@ -190,7 +230,7 @@ var Animation = function Animation(startPoint, endPoint, element, keyframes) {
 };
 
 exports.default = Animation;
-},{"./utils":10}],7:[function(require,module,exports) {
+},{"./utils":8}],5:[function(require,module,exports) {
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -240,6 +280,7 @@ var Motus = function Motus() {
      */
     this.addAnimation = function (animation) {
         _this.animations.push(animation);
+        animation.apply(); // initial apply
     };
     /**Delete animation
      * @param  {number} uid Animation uid
@@ -252,15 +293,14 @@ var Motus = function Motus() {
         _this.animations.splice(index, 1);
     };
     window.addEventListener('scroll', function () {
-        var windowScroll = window.scrollY;
         _this.animations.forEach(function (e) {
-            return e.apply(windowScroll);
+            return e.apply();
         });
     });
 };
 
 exports.default = Motus;
-},{"./Animation":6,"./Point":7}],2:[function(require,module,exports) {
+},{"./Animation":4,"./Point":5}],2:[function(require,module,exports) {
 "use strict";
 
 var __importDefault = this && this.__importDefault || function (mod) {
@@ -274,6 +314,11 @@ var headera = new window.Motus.Animation(new window.Motus.Point(100), new window
         'font-size': {
             from: 13,
             to: 20,
+            unit: 'px'
+        },
+        'border-radius': {
+            from: 0,
+            to: 100,
             unit: 'px'
         }
     },
@@ -315,7 +360,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '45851' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '34713' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 

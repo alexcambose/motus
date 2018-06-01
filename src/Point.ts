@@ -3,7 +3,7 @@ export default class Point {
     constructor(point: number | HTMLElement) {
         this.point = point;
     }
-    getPosition = (isHorizontal = false): number => {
+    public getPosition = (isHorizontal = false): number => {
         if (this.point instanceof HTMLElement) {
             return (isHorizontal ? this.point.offsetLeft : this.point.offsetTop);
         }
