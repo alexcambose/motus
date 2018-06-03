@@ -1,4 +1,4 @@
-import { getUnit, percentFrom, sliceFromPercent, calmelToKebabCase, closest, loopWhile } from '../src/utils';
+import { getUnit, percentFrom, sliceFromPercent, calmelToKebabCase, closest, loopWhile, getValue, kebabToCamelCase } from '../src/utils';
 import { expect } from 'chai';
 
 describe('utils', () => {
@@ -8,6 +8,11 @@ describe('utils', () => {
         })
         it('fontSize is font-size', () => {
             expect(calmelToKebabCase('fontSize')).to.equal('font-size');
+        });
+    });
+    describe('calmelToKebabCase', () => {
+        it('font-size is fontSize', () => {
+            expect(kebabToCamelCase('font-size')).to.equal('fontSize');
         });
     });
     describe('percentFrom', () => {
@@ -20,11 +25,16 @@ describe('utils', () => {
             expect(sliceFromPercent(30, 100)).to.equal(30);
         });
     });
-    describe('getUnit', () => {
+    describe('getUnit & getValue', () => {
         const units = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', '%', 'rem', 'vw', 'vmin', 'vmax'];
         for(const unit of units) {
             it(`should return ${unit} for 12${unit}`, () => {
                 expect(getUnit('12' + unit)).to.equal(unit);
+            });
+        }
+        for(const unit of units) {
+            it(`should return 12 for 12${unit}`, () => {
+                expect(getValue('12' + unit)).to.equal(12);
             });
         }
     });

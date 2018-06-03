@@ -98,7 +98,7 @@ parcelRequire = (function (modules, cache, entry, globalName) {
 
   // Override the current require with this new one
   return newRequire;
-})({8:[function(require,module,exports) {
+})({6:[function(require,module,exports) {
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
@@ -111,34 +111,14 @@ exports.sliceFromPercent = function (value, percent) {
     return percent * value / multiplier;
 };
 exports.getUnit = function (value) {
-    var units = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', '%', 'rem', 'vw', 'vmin', 'vmax'];
-    var _iteratorNormalCompletion = true;
-    var _didIteratorError = false;
-    var _iteratorError = undefined;
-
-    try {
-        for (var _iterator = units[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
-            var unit = _step.value;
-
-            var reg = new RegExp('[0-9]+' + unit);
-            if (value.match(reg)) {
-                return unit;
-            }
-        }
-    } catch (err) {
-        _didIteratorError = true;
-        _iteratorError = err;
-    } finally {
-        try {
-            if (!_iteratorNormalCompletion && _iterator.return) {
-                _iterator.return();
-            }
-        } finally {
-            if (_didIteratorError) {
-                throw _iteratorError;
-            }
-        }
-    }
+    var unitReg = /[0-9]+(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
+    var match = value.match(unitReg);
+    return match[1];
+};
+exports.getValue = function (value) {
+    var unitReg = /([0-9]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
+    var match = value.match(unitReg);
+    return parseInt(match[1]);
 };
 exports.calmelToKebabCase = function (value) {
     value = value.trim();
@@ -149,6 +129,11 @@ exports.calmelToKebabCase = function (value) {
         }
     }
     return value;
+};
+exports.kebabToCamelCase = function (value) {
+    return value.replace(/-([a-z])/g, function ($1) {
+        return $1[1].toUpperCase();
+    });
 };
 exports.closest = function (value, arr) {
     arr = arr.sort(function (a, b) {
@@ -188,18 +173,22 @@ var Animation = function Animation(startPoint, endPoint, element, keyframes) {
 
     this.apply = function () {
         var scroll = window.scrollY;
-        console.log(scroll);
         if (scroll >= _this.startPoint && scroll <= _this.endPoint) {
             var currentScroll = scroll - _this.startPoint;
             var maxScroll = _this.endPoint - _this.startPoint;
             var percent = utils_1.percentFrom(currentScroll, maxScroll);
             var keyframePercentIndex = utils_1.closest(percent, Object.keys(_this.keyframes));
             utils_1.loopWhile(Object.keys(_this.keyframes), function (i) {
-                return i === keyframePercentIndex;
+                return i < keyframePercentIndex;
             }, function (i) {
-                console.log(i);
+                _this.setAttributes(_this.keyframes[Object.keys(_this.keyframes)[i]], 100);
             });
             _this.applyKeyframe(keyframePercentIndex, currentScroll, maxScroll);
+        } else if (scroll > _this.endPoint) {
+            // apply all keyframes if scroll is over the end point
+            for (var _percent in _this.keyframes) {
+                _this.setAttributes(_this.keyframes[_percent], 100);
+            }
         }
     };
     this.applyKeyframe = function (keyframePercentIndex, currentScroll, maxScroll) {
@@ -208,16 +197,18 @@ var Animation = function Animation(startPoint, endPoint, element, keyframes) {
         var startKeyframePositon = utils_1.sliceFromPercent(maxScroll, Object.keys(_this.keyframes)[keyframePercentIndex - 1] || 0);
         var endKeyframePositon = utils_1.sliceFromPercent(maxScroll, Object.keys(_this.keyframes)[keyframePercentIndex]);
         var keyframePercent = utils_1.percentFrom(currentScroll - startKeyframePositon, endKeyframePositon - startKeyframePositon);
-        // console.log(keyframe, startKeyframePositon, endKeyframePositon, currentScroll, keyframePercent);
         _this.setAttributes(keyframe, keyframePercent);
     };
     this.setAttributes = function (keyframe, percent) {
         for (var attribute in keyframe) {
             var keyframeStyle = keyframe[attribute];
-            // console.log(attribute, keyframeStyle.from + sliceFromPercent(keyframeStyle.to - keyframeStyle.from, percent) + keyframeStyle.unit)
-            _this.element.style[attribute] = keyframeStyle.from + utils_1.sliceFromPercent(keyframeStyle.to - keyframeStyle.from, percent) + keyframeStyle.unit;
+            attribute = utils_1.calmelToKebabCase(attribute);
+            var to = utils_1.getValue(keyframeStyle.to);
+            var from = utils_1.getValue(keyframeStyle.from || '0px');
+            var unit = utils_1.getUnit(keyframeStyle.to); // to and from should be equal
+            console.log('from', from, 'p', utils_1.sliceFromPercent(to - from, percent), 'set style', from + utils_1.sliceFromPercent(to - from, percent) + unit);
+            _this.element.style[attribute] = from + utils_1.sliceFromPercent(to - from, percent) + unit;
         }
-        // console.log('---')
     };
     if (!startPoint || !endPoint || !element || !keyframes || !Object.keys(keyframes)) {
         throw new Error('startPoint endPoint element keyframes must be specified!');
@@ -230,7 +221,7 @@ var Animation = function Animation(startPoint, endPoint, element, keyframes) {
 };
 
 exports.default = Animation;
-},{"./utils":8}],5:[function(require,module,exports) {
+},{"./utils":6}],5:[function(require,module,exports) {
 "use strict";
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -310,28 +301,14 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var Motus_1 = __importDefault(require("./Motus"));
 window.Motus = new Motus_1.default();
 var headera = new window.Motus.Animation(new window.Motus.Point(100), new window.Motus.Point(600), document.getElementById('anim'), {
-    40: {
-        'font-size': {
-            from: 13,
-            to: 20,
-            unit: 'px'
-        },
-        'border-radius': {
-            from: 0,
-            to: 100,
-            unit: 'px'
-        }
-    },
     60: {
         fontSize: {
-            from: 20,
-            to: 100,
-            unit: 'px'
+            to: '100px'
         }
     }
 });
 window.Motus.addAnimation(headera);
-},{"./Motus":3}],11:[function(require,module,exports) {
+},{"./Motus":3}],7:[function(require,module,exports) {
 var global = arguments[3];
 var OVERLAY_ID = '__parcel__error__overlay__';
 
@@ -360,7 +337,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = '' || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + '34713' + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + '33857' + '/');
   ws.onmessage = function (event) {
     var data = JSON.parse(event.data);
 
@@ -501,5 +478,5 @@ function hmrAccept(bundle, id) {
     return hmrAccept(global.parcelRequire, id);
   });
 }
-},{}]},{},[11,2], null)
+},{}]},{},[7,2], null)
 //# sourceMappingURL=/src.dd2ee578.map

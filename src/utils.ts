@@ -1,14 +1,15 @@
 export const percentFrom = (current: number, total: number, multiplier = 100) => current / total * multiplier;
 export const sliceFromPercent = (value: number, percent: number, multiplier = 100) => percent * value / multiplier;
 export const getUnit = (value: string): string => {
-    const units = ['cm', 'mm', 'in', 'px', 'pt', 'pc', 'em', 'ex', 'ch', '%', 'rem', 'vw', 'vmin', 'vmax'];
-    for (const unit of units) {
-        const reg = new RegExp('[0-9]+' + unit);
-        if (value.match(reg)) {
-            return unit;
-        }
-    }
+    const unitReg = /[0-9]+(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
+    const match = value.match(unitReg);
+    return match[1];
 };
+export const getValue = (value: string): number => {
+    const unitReg = /([0-9]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
+    const match = value.match(unitReg);
+    return parseInt(match[1]);
+}
 export const calmelToKebabCase = (value: string): string => {
     value = value.trim();
     value = value.replace(value[0], value[0].toLowerCase());
@@ -19,6 +20,7 @@ export const calmelToKebabCase = (value: string): string => {
     }
     return value;
 }
+export const kebabToCamelCase = (value: string): string => value.replace(/-([a-z])/g, $1 => $1[1].toUpperCase())
 export const closest = (value: number, arr: number[]): number => {
     arr = arr.sort((a, b) => a - b);
     let closestIndex = -1;
@@ -32,11 +34,11 @@ export const closest = (value: number, arr: number[]): number => {
 }
 export const loopWhile = (value: any[], until: (index?: number) => boolean, func: (index?: number) => void, done?: (index?: number) => void): void => {
     let index = 0;
-    while(until(index) || index === value.length) {
+    while (until(index) || index === value.length) {
         func(index);
         index++;
     }
-    if(done) {
+    if (done) {
         done(index);
     }
 }
