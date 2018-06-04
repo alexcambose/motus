@@ -18,13 +18,13 @@ export default class Motus {
         this.animations.push(animation);
         animation.apply(); // initial apply
     }
-    
+
     /**Delete animation
      * @param  {number} uid Animation uid
      * @returns void
      */
     public removeAnimation = (uid: number): void => {
-        const index = this.animations.findIndex((e) => e.uid === uid);
+        const index = this.animations.findIndex(e => e.uid === uid);
         this.animations.splice(index, 1);
     }
 }

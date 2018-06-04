@@ -5,3 +5,11 @@
 Animation library that mimics CSS keyframes.
 
 ## Installation
+As [npm](https://www.npmjs.com/package/motus) package
+```bash
+npm i -S motus
+```
+Standalone script file
+```html
+<script src="dist/motus.js"></script>
+```

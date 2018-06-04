@@ -9,7 +9,7 @@ export const getValue = (value: string): number => {
     const unitReg = /([0-9]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
     const match = value.match(unitReg);
     return parseInt(match[1]);
-}
+};
 export const calmelToKebabCase = (value: string): string => {
     value = value.trim();
     value = value.replace(value[0], value[0].toLowerCase());
@@ -19,19 +19,19 @@ export const calmelToKebabCase = (value: string): string => {
         }
     }
     return value;
-}
-export const kebabToCamelCase = (value: string): string => value.replace(/-([a-z])/g, $1 => $1[1].toUpperCase())
-export const closest = (value: number, arr: number[]): number => {
+};
+export const kebabToCamelCase = (value: string): string => value.replace(/-([a-z])/g, $1 => $1[1].toUpperCase());
+export const closest = (value: number, arr: any[]): number => {
     arr = arr.sort((a, b) => a - b);
-    let closestIndex = -1;
+    const closestIndex = -1;
     let i = 0;
     while (i < arr.length) {
-        if (value < arr[i] && i == 0) return i;
-        if (value < arr[i] && value > arr[i - 1]) return i
+        if (value < arr[i] && i === 0) { return i; }
+        if (value < arr[i] && value > arr[i - 1]) { return i; }
         i++;
     }
     return closestIndex;
-}
+};
 export const loopWhile = (value: any[], until: (index?: number) => boolean, func: (index?: number) => void, done?: (index?: number) => void): void => {
     let index = 0;
     while (until(index) || index === value.length) {
@@ -41,4 +41,4 @@ export const loopWhile = (value: any[], until: (index?: number) => boolean, func
     if (done) {
         done(index);
     }
-}
+};

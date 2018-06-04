@@ -5,16 +5,25 @@
   "main": "index.js",
   "scripts": {
     "tsc": "cross-env tsc",
-    "serve": "parcel docs/index.html",
-    "test": "mocha -r ts-node/register 'test/**/*.spec.ts'"
+    "test": "cross-env mocha -r ts-node/register 'test/**/*.spec.ts'",
+    "lint": "cross-env tslint -c tslint.json 'src/**/*.ts'",
+    "prod": "cross-env parcel build src/index.ts --out-file motus.js --no-source-maps --detailed-report",
+    "watch": "cross-env nodemon -e ts -w ./src -x npm run prod"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexcambose/motus.git"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "keywords": [
+    "typescript",
+    "css",
+    "css-animations",
+    "keyframes",
+    "javascript",
+    "animation"
+  ],
+  "author": "Alexandru Cambose",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/alexcambose/motus/issues"
   },
@@ -26,6 +35,7 @@
     "cross-env": "^5.1.6",
     "jsdom": "^11.11.0",
     "mocha": "^5.2.0",
+    "nodemon": "^1.17.5",
     "parcel": "^1.8.1",
     "ts-node": "^6.0.5",
     "tslint": "^5.10.0",

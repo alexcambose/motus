@@ -18,3 +18,5 @@ const headera = new window.Motus.Animation(
 });
 
 window.Motus.addAnimation(headera);
+
+export default Motus;
