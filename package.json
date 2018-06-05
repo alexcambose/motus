@@ -1,7 +1,7 @@
 {
   "name": "motus",
   "version": "1.0.0",
-  "description": "Animation library that mimics CSS keyframes",
+  "description": "Animation library that mimics CSS keyframes by scrolling",
   "main": "index.js",
   "scripts": {
     "tsc": "cross-env tsc",

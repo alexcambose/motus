@@ -18,6 +18,7 @@ export default class Animation {
         this.endPoint = endPoint.getPosition();
         this.element = element;
         this.keyframes = keyframes;
+        console.log(keyframes);
     }
     public apply = (): void => {
         const scroll = window.scrollY;

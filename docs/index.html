@@ -5,102 +5,118 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Document</title>
+    <link rel="stylesheet"
+      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
     <style>
-    #anim{
-        position: absolute;
-        top: 100px;
-        height: 500px;
-        background-color: red;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        
-    }</style>
+        @import url('https://fonts.googleapis.com/css?family=Quicksand');
+        body {
+            padding: 0;
+            margin: 0;
+            color: #fdfdfd;
+            font-family: 'Quicksand', sans-serif;
+            text-align: center;
+        }
+        pre { text-align: left; }
+        section {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            height: 100vh;
+        }
+        code.hljs {
+            background-color: #282a368f;
+            border-radius: 10px;
+            width: 60vw;
+        }
+        section:first-of-type {
+            background-color: #242424;
+        }
+        section:nth-of-type(2) {
+            background-color: #FAA916;
+        }
+        section:nth-of-type(3) {
+            background-color: #4D7EA8;
+        }
+        section:nth-of-type(4) {
+            background-color: #6D676E;
+        }
+        section:nth-of-type(4) {
+            background-color: #96031A;
+        }
+
+        .title {
+            font-size: 4em;
+            margin-bottom: 8px;
+        }
+        section h1 {
+            font-size: 3em;
+        }
+        hr {
+            border: .5px solid #282a368f;
+            width: 50vw;
+        }
+        div#cube-basic {
+            height: 40px;
+            width: 40px;
+            background-color: #96031A;
+        }
+    </style>
 </head>
 <body>
+    <section>
+        <h1 class="title">Motus</div>
+<h3 class="subtitle">Animation library that mimics CSS keyframes by scrolling</h3>
+    </section>
+    <section id="basic">
+        <h1>Basic animation</h1>
+        <hr>
+        <div id="cube-basic"></div>
+        <hr>
+        <pre><code class="hljs javascript">const basicAnimation = new Motus.Animation(
+    new Motus.Point(<script>document.write(innerHeight + parseInt(innerHeight/2));</script>), // start point
+    new Motus.Point(<script>document.write(innerHeight*2)</script>), // end point
+    document.getElementById('cube-basic'), // element that will animated
+    {
+        100: {
+            width: {
+                to: 100,
+                unit: 'px'
+            }
+        }
+    }
+);
+Motus.addAnimation(basicAnimation);
+</pre></code>
+    </section>
+    <section>
+
+    </section>
+    <section>
+
+    </section>
     
-    <div id="anim">ALEX</div>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
-    <br>
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+ 
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
+    <script>hljs.initHighlightingOnLoad();</script>
     <script src="../dist/motus.js"></script>
+    <script>
+        const basicAnimation = new Motus.Animation(
+    new Motus.Point(858), // start point
+    new Motus.Point(1144), // end point
+    document.getElementById('cube-basic'), // element that will animated
+    {
+        100: {
+            width: {
+                to: 100,
+                unit: 'px'
+            }
+        }
+    });
+Motus.addAnimation(basicAnimation);
+    </script>
 </body>
+
 </html>

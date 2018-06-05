@@ -3,7 +3,10 @@ export const sliceFromPercent = (value: number, percent: number, multiplier = 10
 export const getUnit = (value: string): string => {
     const unitReg = /[0-9]+(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
     const match = value.match(unitReg);
-    return match[1];
+    if (match) {
+        return match[1];
+    }
+    return null;
 };
 export const getValue = (value: string): number => {
     const unitReg = /([0-9]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
@@ -41,4 +44,7 @@ export const loopWhile = (value: any[], until: (index?: number) => boolean, func
     if (done) {
         done(index);
     }
+};
+export const getElementDefaultProperty = (element: HTMLElement, property: string): any => {
+    window.getComputedStyle(element, null).getPropertyValue(property);
 };
