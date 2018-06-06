@@ -1,7 +1,7 @@
 import Keyframe from './Keyframe';
 import Keyframes from './Keyframes';
 import Point from './Point';
-import { calmelToKebabCase, closest, getUnit, getValue, loopWhile, percentFrom, sliceFromPercent } from './utils';
+import { calmelToKebabCase, closest, getUnit, getValue, loopWhile, percentFrom, sliceFromPercent, getElementDefaultProperty } from './utils';
 
 export default class Animation {
     public uid: number;
@@ -18,7 +18,14 @@ export default class Animation {
         this.endPoint = endPoint.getPosition();
         this.element = element;
         this.keyframes = keyframes;
-        console.log(keyframes);
+        for (const keyframePercent of Object.keys(this.keyframes)) {
+            const keyframe = this.keyframes[keyframePercent];
+            for (const keyframeProperty of Object.keys(keyframe)) {
+                if (!keyframe[keyframeProperty].from) {
+                    keyframe[keyframeProperty].from = getElementDefaultProperty(this.element, keyframeProperty);
+                }
+            }
+        }
     }
     public apply = (): void => {
         const scroll = window.scrollY;
@@ -31,10 +38,10 @@ export default class Animation {
                 this.setAttributes(this.keyframes[Object.keys(this.keyframes)[i]], 100);
             });
             this.applyKeyframe(keyframePercentIndex, currentScroll, maxScroll);
-        } else if (scroll > this.endPoint) { // apply all keyframes if scroll is over the end point
+        } else { // apply all keyframes if scroll is over the end point
             for (const percent in this.keyframes) {
                 if (this.keyframes.hasOwnProperty(percent)) {
-                    this.setAttributes(this.keyframes[percent], 100);
+                    this.setAttributes(this.keyframes[percent], (scroll > this.endPoint ? 100 : 0));
                 }
             }
         }
@@ -44,9 +51,9 @@ export default class Animation {
             if (keyframe.hasOwnProperty(attribute)) {
                 const keyframeStyle = keyframe[attribute];
                 attribute = calmelToKebabCase(attribute);
-                const to = getValue(keyframeStyle.to);
+                const to = getValue(keyframeStyle.to) || keyframeStyle;
                 const from = getValue(keyframeStyle.from || '0px');
-                const unit = getUnit(keyframeStyle.to); // to and from should be equal
+                const unit = keyframeStyle.unit || getUnit(keyframeStyle.to) || getUnit(keyframeStyle.from) || 'px'; // to and from should be equal
                 this.element.style[attribute] = from + sliceFromPercent(to - from, percent) + unit;
             }
         }

@@ -2,6 +2,9 @@ export const percentFrom = (current: number, total: number, multiplier = 100) =>
 export const sliceFromPercent = (value: number, percent: number, multiplier = 100) => percent * value / multiplier;
 export const getUnit = (value: string): string => {
     const unitReg = /[0-9]+(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
+    if (typeof value === 'number') {
+        return null;
+    }
     const match = value.match(unitReg);
     if (match) {
         return match[1];
@@ -10,8 +13,14 @@ export const getUnit = (value: string): string => {
 };
 export const getValue = (value: string): number => {
     const unitReg = /([0-9]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
+    if (typeof value === 'number') {
+        return value;
+    }
     const match = value.match(unitReg);
-    return parseInt(match[1]);
+    if (match) {
+        return parseInt(match[1]);
+    }
+    return null;
 };
 export const calmelToKebabCase = (value: string): string => {
     value = value.trim();
@@ -46,5 +55,5 @@ export const loopWhile = (value: any[], until: (index?: number) => boolean, func
     }
 };
 export const getElementDefaultProperty = (element: HTMLElement, property: string): any => {
-    window.getComputedStyle(element, null).getPropertyValue(property);
+    return window.getComputedStyle(element, null).getPropertyValue(property);
 };

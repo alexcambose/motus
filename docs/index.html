@@ -9,6 +9,7 @@
       href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css?family=Quicksand');
+        @import url('https://fonts.googleapis.com/css?family=Indie+Flower');
         body {
             padding: 0;
             margin: 0;
@@ -16,8 +17,12 @@
             font-family: 'Quicksand', sans-serif;
             text-align: center;
         }
+        h1 {
+            text-shadow: 3px 3px 6px grey;
+        }
         pre { text-align: left; }
         section {
+            position: relative;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -56,10 +61,32 @@
             border: .5px solid #282a368f;
             width: 50vw;
         }
-        div#cube-basic {
+        .cube {
             height: 40px;
             width: 40px;
             background-color: #96031A;
+        }
+        #start-point {
+            position: absolute;
+            top: 30px;
+            left: 30px;
+            font-family: 'Indie Flower', cursive;
+        }
+        #start-point:after, #end-point:after {
+            content: " ";
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: -30px;
+            height: 1px;
+            background-color: rgba(255, 255, 255, 0.493);
+        }
+        #end-point:after { top: 0; bottom: auto; }
+        #end-point {
+            position: absolute;
+            font-family: 'Indie Flower', cursive;
+            top: 200px;
+            left: 30px;
         }
     </style>
 </head>
@@ -71,17 +98,16 @@
     <section id="basic">
         <h1>Basic animation</h1>
         <hr>
-        <div id="cube-basic"></div>
+        <div class="cube" id="cube-basic"></div>
         <hr>
         <pre><code class="hljs javascript">const basicAnimation = new Motus.Animation(
-    new Motus.Point(<script>document.write(innerHeight + parseInt(innerHeight/2));</script>), // start point
-    new Motus.Point(<script>document.write(innerHeight*2)</script>), // end point
+    new Motus.Point(<script>document.write(parseInt(innerHeight/2))</script>), // start point
+    new Motus.Point(<script>document.write(innerHeight + parseInt(innerHeight/2))</script>), // end point
     document.getElementById('cube-basic'), // element that will animated
     {
         100: {
             width: {
-                to: 100,
-                unit: 'px'
+                to: '200px',
             }
         }
     }
@@ -90,7 +116,26 @@ Motus.addAnimation(basicAnimation);
 </pre></code>
     </section>
     <section>
-
+        <div id="start-point">Starts here!</div>
+        <div id="end-point">Ends here!</div>
+        <h1>Custom start and end point</h1>
+        <hr>
+        <div class="cube" id="cube-startend"></div>
+        <hr>
+    <pre><code class="hljs javascript">const basicAnimation = new Motus.Animation(
+new Motus.Point(document.getElementById('start-point'))</script>), // start point
+new Motus.Point(document.getElementById('end-point'))</script>), // end point
+document.getElementById('cube-basic'), // element that will animated
+{
+    100: {
+        width: {
+            to: '200px',
+        }
+    }
+}
+);
+Motus.addAnimation(basicAnimation);
+</pre></code>
     </section>
     <section>
 
@@ -104,18 +149,33 @@ Motus.addAnimation(basicAnimation);
     <script src="../dist/motus.js"></script>
     <script>
         const basicAnimation = new Motus.Animation(
-    new Motus.Point(858), // start point
-    new Motus.Point(1144), // end point
+    new Motus.Point(parseInt(innerHeight/2)), // start point
+    new Motus.Point(innerHeight + parseInt(innerHeight/2)), // end point
     document.getElementById('cube-basic'), // element that will animated
     {
         100: {
             width: {
-                to: 100,
-                unit: 'px'
+                to: '200px',
             }
         }
     });
-Motus.addAnimation(basicAnimation);
+    Motus.addAnimation(basicAnimation);
+    
+    const customStartPointAnimation = new Motus.Animation(
+    new Motus.Point(document.getElementById('start-point')), // start point
+    new Motus.Point(document.getElementById('end-point')), // end point
+    document.getElementById('cube-startend'), // element that will animated
+    {
+        // 20: {
+        //     height: {}
+        // }
+        100: {
+            width: {
+                to: '200px',
+            }
+        }
+    });
+Motus.addAnimation(customStartPointAnimation);
     </script>
 </body>
 

@@ -5,7 +5,8 @@ export default class Point {
     }
     public getPosition = (isHorizontal = false): number => {
         if (this.point instanceof HTMLElement) {
-            return (isHorizontal ? this.point.offsetLeft : this.point.offsetTop);
+            const rect = this.point.getBoundingClientRect();
+            return (isHorizontal ? rect.left + window.scrollX : rect.top + window.scrollY);
         }
         return this.point;
     }
