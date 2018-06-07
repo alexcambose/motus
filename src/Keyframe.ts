@@ -1,7 +1,7 @@
 export default interface Keyframe {
     [propName: string]: {
-        from?: string;
-        to: string;
+        from?: string | number;
+        to: string | number;
         unit?: string;
     };
 }

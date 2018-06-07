@@ -1,7 +1,7 @@
 import Keyframe from './Keyframe';
 import Keyframes from './Keyframes';
 import Point from './Point';
-import { calmelToKebabCase, closest, getUnit, getValue, loopWhile, percentFrom, sliceFromPercent, getElementDefaultProperty } from './utils';
+import { calmelToKebabCase, closest, getUnit, getValue, loopWhile, percentFrom, sliceFromPercent, getElementDefaultProperty, previousKeyframeValue } from './utils';
 
 export default class Animation {
     public uid: number;
@@ -21,11 +21,37 @@ export default class Animation {
         for (const keyframePercent of Object.keys(this.keyframes)) {
             const keyframe = this.keyframes[keyframePercent];
             for (const keyframeProperty of Object.keys(keyframe)) {
-                if (!keyframe[keyframeProperty].from) {
-                    keyframe[keyframeProperty].from = getElementDefaultProperty(this.element, keyframeProperty);
+                const keyframeStyle = keyframe[keyframeProperty];
+                let to = null;
+                let from = null;
+                if (typeof keyframeStyle === 'string' || typeof keyframeStyle === 'number') {
+                    to = getValue(keyframeStyle);
+                    from = getElementDefaultProperty(this.element, keyframeProperty);
+                } else {
+                    if (!keyframeStyle.hasOwnProperty('to')) {
+                        throw new Error(`${keyframeProperty} doesn't have 'to' property!`);
+                    } else {
+                        to = keyframeStyle.to;
+                    }
+                    if (keyframe[keyframeProperty].from) {
+                        from = keyframeStyle.from;
+                    } else {
+                        const previousKeyframe = previousKeyframeValue(this.keyframes, parseInt(keyframePercent), keyframeProperty))
+                        if (previousKeyframe) {
+                            from = previousKeyframe.to;
+                        } else {
+                            from = getElementDefaultProperty(this.element, keyframeProperty);
+                        }
+                    }
                 }
+                this.keyframes[keyframePercent][keyframeProperty] = {
+                    from: getValue(from),
+                    to: getValue(to),
+                    unit: keyframeStyle.unit || getUnit(from) || getUnit(to), // to and from unit should be equal
+                };
             }
         }
+        console.log(this.keyframes);
     }
     public apply = (): void => {
         const scroll = window.scrollY;
@@ -39,10 +65,10 @@ export default class Animation {
             });
             this.applyKeyframe(keyframePercentIndex, currentScroll, maxScroll);
         } else { // apply all keyframes if scroll is over the end point
-            for (const percent in this.keyframes) {
-                if (this.keyframes.hasOwnProperty(percent)) {
-                    this.setAttributes(this.keyframes[percent], (scroll > this.endPoint ? 100 : 0));
-                }
+            if (scroll < this.endPoint) {
+                this.setAttributes(this.keyframes[Object.keys(this.keyframes)[0]], 0);
+            } else {
+                this.setAttributes(this.keyframes[Object.keys(this.keyframes)[Object.keys(this.keyframes).length - 1]], 100);
             }
         }
     }
@@ -51,9 +77,7 @@ export default class Animation {
             if (keyframe.hasOwnProperty(attribute)) {
                 const keyframeStyle = keyframe[attribute];
                 attribute = calmelToKebabCase(attribute);
-                const to = getValue(keyframeStyle.to) || keyframeStyle;
-                const from = getValue(keyframeStyle.from || '0px');
-                const unit = keyframeStyle.unit || getUnit(keyframeStyle.to) || getUnit(keyframeStyle.from) || 'px'; // to and from should be equal
+                const { to, from, unit } = keyframeStyle;
                 this.element.style[attribute] = from + sliceFromPercent(to - from, percent) + unit;
             }
         }

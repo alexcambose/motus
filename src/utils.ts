@@ -1,3 +1,5 @@
+import Keyframes from "./Keyframes";
+
 export const percentFrom = (current: number, total: number, multiplier = 100) => current / total * multiplier;
 export const sliceFromPercent = (value: number, percent: number, multiplier = 100) => percent * value / multiplier;
 export const getUnit = (value: string): string => {
@@ -11,7 +13,7 @@ export const getUnit = (value: string): string => {
     }
     return null;
 };
-export const getValue = (value: string): number => {
+export const getValue = (value: string | number): number => {
     const unitReg = /([0-9]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax)$/;
     if (typeof value === 'number') {
         return value;
@@ -56,4 +58,16 @@ export const loopWhile = (value: any[], until: (index?: number) => boolean, func
 };
 export const getElementDefaultProperty = (element: HTMLElement, property: string): any => {
     return window.getComputedStyle(element, null).getPropertyValue(property);
+};
+export const previousKeyframeValue = (keyframes: Keyframes, percent: number | string, property: string): any => {
+    const keyframePercents = Object.keys(keyframes);
+    const previousPercent = keyframePercents.findIndex(e => parseInt(e) === parseInt(percent)) - 1;
+    const previousKeyframe = keyframes[keyframePercents[previousPercent]];
+    if (previousKeyframe) {
+        if (typeof previousKeyframe === 'number' || typeof previousKeyframe === 'string') {
+            return previousKeyframe;
+        }
+        return previousKeyframe[property];
+    }
+    return false;
 };
