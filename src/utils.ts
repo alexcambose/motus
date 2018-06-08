@@ -24,16 +24,7 @@ export const getValue = (value: string | number): number => {
     }
     return null;
 };
-export const calmelToKebabCase = (value: string): string => {
-    value = value.trim();
-    value = value.replace(value[0], value[0].toLowerCase());
-    for (let i = 0; i < value.length; i++) {
-        if (value[i] === value[i].toUpperCase()) {
-            value = value.substring(0, i) + '-' + value[i].toLowerCase() + value.substring(i + 1);
-        }
-    }
-    return value;
-};
+export const camelToKebabCase = (value: string): string => value.replace(/([A-Z])/g, $1 => '-' + $1.toLowerCase());
 export const kebabToCamelCase = (value: string): string => value.replace(/-([a-z])/g, $1 => $1[1].toUpperCase());
 export const closest = (value: number, arr: any[]): number => {
     arr = arr.sort((a, b) => a - b);
@@ -57,11 +48,11 @@ export const loopWhile = (value: any[], until: (index?: number) => boolean, func
     }
 };
 export const getElementDefaultProperty = (element: HTMLElement, property: string): any => {
-    return window.getComputedStyle(element, null).getPropertyValue(property);
+    return window.getComputedStyle(element, null).getPropertyValue(camelToKebabCase(property));
 };
-export const previousKeyframeValue = (keyframes: Keyframes, percent: number | string, property: string): any => {
+export const previousKeyframeValue = (keyframes: Keyframes, percent: number, property: string): any => {
     const keyframePercents = Object.keys(keyframes);
-    const previousPercent = keyframePercents.findIndex(e => parseInt(e) === parseInt(percent)) - 1;
+    const previousPercent = keyframePercents.findIndex(e => parseInt(e) === percent) - 1;
     const previousKeyframe = keyframes[keyframePercents[previousPercent]];
     if (previousKeyframe) {
         if (typeof previousKeyframe === 'number' || typeof previousKeyframe === 'string') {

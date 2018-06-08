@@ -1,16 +1,13 @@
-import { getUnit, percentFrom, sliceFromPercent, calmelToKebabCase, closest, loopWhile, getValue, kebabToCamelCase } from '../src/utils';
 import { expect } from 'chai';
+import { camelToKebabCase, closest, getUnit, getValue, kebabToCamelCase, loopWhile, percentFrom, sliceFromPercent } from '../src/utils';
 
 describe('utils', () => {
-    describe('calmelToKebabCase', () => {
-        it('FontSize is font-size', () => {
-            expect(calmelToKebabCase('FontSize')).to.equal('font-size');
-        })
+    describe('camelToKebabCase', () => {
         it('fontSize is font-size', () => {
-            expect(calmelToKebabCase('fontSize')).to.equal('font-size');
+            expect(camelToKebabCase('fontSize')).to.equal('font-size');
         });
     });
-    describe('calmelToKebabCase', () => {
+    describe('kebabToCamelCase', () => {
         it('font-size is fontSize', () => {
             expect(kebabToCamelCase('font-size')).to.equal('fontSize');
         });

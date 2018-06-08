@@ -10,6 +10,14 @@
     <style>
         @import url('https://fonts.googleapis.com/css?family=Quicksand');
         @import url('https://fonts.googleapis.com/css?family=Indie+Flower');
+        :root {
+            --bg1: #242424;
+            --bg2: #FAA916;
+            --bg3: #4D7EA8;
+            --bg4: #E3170A;
+            --bg5: #395756;
+            --purple: #694873;
+        }
         body {
             padding: 0;
             margin: 0;
@@ -28,6 +36,7 @@
             align-items: center;
             flex-direction: column;
             height: 100vh;
+            min-height: 550px;
         }
         code.hljs {
             background-color: #282a368f;
@@ -35,23 +44,23 @@
             width: 60vw;
         }
         section:first-of-type {
-            background-color: #242424;
+            background-color: var(--bg1);
         }
         section:nth-of-type(2) {
-            background-color: #FAA916;
+            background-color: var(--bg2);
         }
         section:nth-of-type(3) {
-            background-color: #4D7EA8;
+            background-color: var(--bg3);
         }
         section:nth-of-type(4) {
-            background-color: #E3170A;
+            background-color: var(--bg4);
         }
         section:nth-of-type(5) {
-            background-color: #C6C5B9;
+            background-color: var(--bg5);
         }
 
         .title {
-            font-size: 4em;
+            font-size: 5em;
             margin-bottom: 8px;
         }
         section h1 {
@@ -64,7 +73,7 @@
         .cube {
             height: 40px;
             width: 40px;
-            background-color: #694873;
+            background-color: var(--purple);
         }
         .start-point {
             position: absolute;
@@ -88,15 +97,45 @@
             top: 200px;
             left: 30px;
         }
-        .fancy-letter {
-            color: #FAA916;
-            text-shadow: 3px 3px 6px #FAA916;
+        .fancy-letter-1 {
+            color: var(--bg2);
+            text-shadow: 3px 3px 6px var(--bg2);
+        }
+        .fancy-letter-2 {
+            color: var(--bg3);
+            text-shadow: 3px 3px 6px var(--bg3);
+        }
+        .fancy-letter-3 {
+            color: var(--bg4);
+            text-shadow: 3px 3px 6px var(--bg4);
+        }
+        .fancy-letter-4 {
+            color: var(--bg5);
+            text-shadow: 3px 3px 6px var(--bg5);
+        }
+        .fancy-letter-5 {
+            color: var(--purple);
+            text-shadow: 3px 3px 6px var(--purple);
+        }
+        footer {
+            height: 40vh;
+            display: block;
+            background-color: var(--purple);
+            display: flex;
+            position: relative;
+            box-shadow: -2px 16px 20px 8px black;
         }
     </style>
 </head>
 <body>
     <section>
-        <h1 class="title"><span class="fancy-letter">M</span>otus</div>
+        <div class="title">
+            <span class="fancy-letter-1">M</span>
+            <span class="fancy-letter-2">o</span>
+            <span class="fancy-letter-3">t</span>
+            <span class="fancy-letter-4">u</span>
+            <span class="fancy-letter-5">s</span>
+        </div>
 <h3 class="subtitle">Animation library that mimics CSS keyframes by scrolling</h3>
     </section>
     <section id="basic">
@@ -168,8 +207,33 @@ Motus.addAnimation(customStartPointAnimation);
 </pre></code>
     </section>
     <section>
-
-    </section>
+            <div id="start-point-startvalues" class="start-point">Starts here!</div>
+            <div id="end-point-startvalues" class="end-point">Ends here!</div>
+            <h1>Custom starting values</h1>
+            <hr>
+            <div class="cube" id="cube-startvalues" style="border: 1px solid white"></div>
+            <hr>
+    <pre><code class="hljs javascript">const customStartPointAnimation = new Motus.Animation(
+        new Motus.Point(document.getElementById('start-point-startvalues')), // start point DOM element
+        new Motus.Point(document.getElementById('end-point-startvalues')), // end point DOM element
+        document.getElementById('cube-startend'), // element that will animated
+        {
+            50: {
+                width: {
+                    to: '200px'
+                }
+            },
+            100: {
+                width: {
+                    to: '100px'
+                }
+            }
+        });
+    Motus.addAnimation(customStartPointAnimation);
+    </pre></code>
+        </section>
+        <footer>
+        </footer>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
  
 
@@ -216,7 +280,7 @@ const multiplePropertiesAnimation = new Motus.Animation(
         },
         100: {
             width: '100px',
-            marginLeft: '200px'
+            marginLeft: '0px'
         }
     });
 Motus.addAnimation(multiplePropertiesAnimation);

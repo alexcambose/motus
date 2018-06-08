@@ -1,7 +1,7 @@
 import Keyframe from './Keyframe';
 import Keyframes from './Keyframes';
 import Point from './Point';
-import { calmelToKebabCase, closest, getUnit, getValue, loopWhile, percentFrom, sliceFromPercent, getElementDefaultProperty, previousKeyframeValue } from './utils';
+import { camelToKebabCase, closest, getElementDefaultProperty, getUnit, getValue, kebabToCamelCase, loopWhile, percentFrom, previousKeyframeValue, sliceFromPercent } from './utils';
 
 export default class Animation {
     public uid: number;
@@ -22,6 +22,7 @@ export default class Animation {
             const keyframe = this.keyframes[keyframePercent];
             for (const keyframeProperty of Object.keys(keyframe)) {
                 const keyframeStyle = keyframe[keyframeProperty];
+                const previousKeyframe = previousKeyframeValue(this.keyframes, parseInt(keyframePercent), keyframeProperty);
                 let to = null;
                 let from = null;
                 if (typeof keyframeStyle === 'string' || typeof keyframeStyle === 'number') {
@@ -33,21 +34,18 @@ export default class Animation {
                     } else {
                         to = keyframeStyle.to;
                     }
-                    if (keyframe[keyframeProperty].from) {
-                        from = keyframeStyle.from;
-                    } else {
-                        const previousKeyframe = previousKeyframeValue(this.keyframes, parseInt(keyframePercent), keyframeProperty))
-                        if (previousKeyframe) {
-                            from = previousKeyframe.to;
-                        } else {
-                            from = getElementDefaultProperty(this.element, keyframeProperty);
-                        }
-                    }
+                }
+                if (keyframe[keyframeProperty].from) {
+                    from = keyframeStyle.from;
+                } else if (previousKeyframe) {
+                    from = previousKeyframe.to;
+                } else {
+                    from = getElementDefaultProperty(this.element, keyframeProperty);
                 }
                 this.keyframes[keyframePercent][keyframeProperty] = {
                     from: getValue(from),
                     to: getValue(to),
-                    unit: keyframeStyle.unit || getUnit(from) || getUnit(to), // to and from unit should be equal
+                    unit: keyframeStyle.unit || getUnit(from) || getUnit(to) || previousKeyframe.unit, // to and from unit should be equal
                 };
             }
         }
@@ -76,7 +74,7 @@ export default class Animation {
         for (let attribute in keyframe) {
             if (keyframe.hasOwnProperty(attribute)) {
                 const keyframeStyle = keyframe[attribute];
-                attribute = calmelToKebabCase(attribute);
+                attribute = camelToKebabCase(attribute);
                 const { to, from, unit } = keyframeStyle;
                 this.element.style[attribute] = from + sliceFromPercent(to - from, percent) + unit;
             }
