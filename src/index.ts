@@ -7,3 +7,4 @@ declare global {
 window.Motus = new Motus();
 
 export default Motus;
+

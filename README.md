@@ -6,12 +6,95 @@ Animation library that mimics CSS keyframes when scrolling.
 
 ## Installation
 As [npm](https://www.npmjs.com/package/motus) package
+
 ```bash
 npm i -S motus
 ```
+
 Standalone script file
+
 ```html
 <script src="dist/motus.js"></script>
 ```
 
 ## Usage
+
+Basic usage
+
+```js
+const myAnimation = new Motus.Animation(
+    new Motus.Point(100), // set animation start position in px
+    new Motus.Point(200), // set animation end position in px
+    {
+        50: { // make font size 10 px before it hits 50% of the distance (in this case <150px)
+            fontSize: 10, // px by default
+        },
+        100: { // make font size 20 px after 50%
+            fontSize: 20, // px by default
+        }
+    }
+);
+Motus.add(myAnimation);
+```
+
+Different usages
+
+```js
+/********************************************
+    Different ways of defining keyframes
+*********************************************/
+const k1 = {
+    50: {
+        'font-size': {
+            to: 10, // px by default
+        }
+    },
+    100: {
+        'font-size': {
+            to: 20,
+        }
+    }
+}
+//*******************************************
+const k2 = {
+    50: {
+        'font-size': {
+            from: '5em', // initial value (in this case at 0%)
+            to: '10em',
+        }
+    },
+    100: {
+        fontSize: {
+            from: '10em',
+            to: '20em',
+        }
+    }
+}
+//*******************************************
+const k3 = {
+    50: {
+        fontSize: {
+            to: 10,
+            unit: 'em',
+        }
+    },
+    100: {
+        'font-size': {
+            from: 10,
+            to: 20,
+            unit: 'em',
+        }
+    }
+}
+
+const mYaNiMaTiOn = new Motus.Animation(
+    new Motus.Point(document.getElementById('start-point')), // dom elements instead of px
+    new Motus.Point(document.getElementById('end-point')),
+    k1 || k2 || k3 // your choice
+);
+Motus.add(mYaNiMaTiOn);
+```
+
+### License
+
+[MIT](LICENSE)

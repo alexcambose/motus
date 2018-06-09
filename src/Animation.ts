@@ -1,7 +1,7 @@
 import Keyframe from './Keyframe';
 import Keyframes from './Keyframes';
 import Point from './Point';
-import { camelToKebabCase, closest, getElementDefaultProperty, getUnit, getValue, kebabToCamelCase, loopWhile, percentFrom, previousKeyframeValue, sliceFromPercent } from './utils';
+import { camelToKebabCase, closest, getElementDefaultProperty, getUnit, getValue, loopWhile, percentFrom, previousKeyframeValue, sliceFromPercent } from './utils';
 
 export default class Animation {
     public uid: number;
@@ -35,7 +35,7 @@ export default class Animation {
                         to = keyframeStyle.to;
                     }
                 }
-                if (keyframe[keyframeProperty].from) {
+                if (keyframe[keyframeProperty].hasOwnProperty('from')) {
                     from = keyframeStyle.from;
                 } else if (previousKeyframe) {
                     from = previousKeyframe.to;
@@ -49,7 +49,6 @@ export default class Animation {
                 };
             }
         }
-        console.log(this.keyframes);
     }
     public apply = (): void => {
         const scroll = window.scrollY;
@@ -75,7 +74,7 @@ export default class Animation {
             if (keyframe.hasOwnProperty(attribute)) {
                 const keyframeStyle = keyframe[attribute];
                 attribute = camelToKebabCase(attribute);
-                const { to, from, unit } = keyframeStyle;
+                const { to, from, unit }: { to: number, from: number, unit: string } = keyframeStyle;
                 this.element.style[attribute] = from + sliceFromPercent(to - from, percent) + unit;
             }
         }

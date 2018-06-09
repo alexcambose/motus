@@ -71,6 +71,7 @@
             width: 50vw;
         }
         .cube {
+            border: 1px solid white;
             height: 40px;
             width: 40px;
             background-color: var(--purple);
@@ -118,12 +119,25 @@
             text-shadow: 3px 3px 6px var(--purple);
         }
         footer {
-            height: 40vh;
-            display: block;
+            height: 32vh;
             background-color: var(--purple);
-            display: flex;
             position: relative;
             box-shadow: -2px 16px 20px 8px black;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            height: 100%;
+            max-width: 1024px;
+            margin: auto;
+        }
+        small {
+            display: block;
+            font-size: 40%;
+        }
+        a {
+            text-decoration: none;
+            color: var(--bg2);
         }
     </style>
 </head>
@@ -136,8 +150,9 @@
             <span class="fancy-letter-4">u</span>
             <span class="fancy-letter-5">s</span>
         </div>
-<h3 class="subtitle">Animation library that mimics CSS keyframes by scrolling</h3>
-    </section>
+<h3 class="subtitle">Animation library that mimics CSS keyframes when scrolling.</h3>
+<span style="position: absolute; bottom: 30px;"><a class="github-button" href="https://github.com/alexcambose/motus" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star alexcambose/motus on GitHub">Star</a></span>
+</section>
     <section id="basic">
         <h1>Basic animation</h1>
         <hr>
@@ -178,7 +193,8 @@ Motus.addAnimation(basicAnimation);
                 to: '100px'
             }
         }
-    });
+    }
+);
 Motus.addAnimation(customStartPointAnimation);
 </pre></code>
     </section>
@@ -202,46 +218,68 @@ Motus.addAnimation(customStartPointAnimation);
             width: '100px',
             marginLeft: '200px'
         }
-    });
+    }
+);
 Motus.addAnimation(customStartPointAnimation);
 </pre></code>
     </section>
     <section>
             <div id="start-point-startvalues" class="start-point">Starts here!</div>
             <div id="end-point-startvalues" class="end-point">Ends here!</div>
-            <h1>Custom starting values</h1>
+            <h1>Custom starting values <small>the smoothness of the animation will depend on what values you specify</small></h1>
             <hr>
-            <div class="cube" id="cube-startvalues" style="border: 1px solid white"></div>
+            <div class="cube" id="cube-startvalues"></div>
             <hr>
     <pre><code class="hljs javascript">const customStartPointAnimation = new Motus.Animation(
-        new Motus.Point(document.getElementById('start-point-startvalues')), // start point DOM element
-        new Motus.Point(document.getElementById('end-point-startvalues')), // end point DOM element
-        document.getElementById('cube-startend'), // element that will animated
-        {
-            50: {
-                width: {
-                    to: '200px'
-                }
-            },
-            100: {
-                width: {
-                    to: '100px'
-                }
+    new Motus.Point(document.getElementById('start-point-startvalues')), // start point DOM element
+    new Motus.Point(document.getElementById('end-point-startvalues')), // end point DOM element
+    document.getElementById('cube-startend'), // element that will animated
+    {
+        50: {
+            width: {
+                from: 0,
+                to: 40,
+                unit: 'mm',
             }
-        });
-    Motus.addAnimation(customStartPointAnimation);
+        },
+        100: {
+            width: {
+                from: 10,
+                to: 70,
+                unit: 'mm',
+            }
+        }
+    }
+);
+Motus.addAnimation(customStartPointAnimation);
     </pre></code>
+    
         </section>
         <footer>
+            <div class="container">
+                <div style="display: flex;flex: 3; ">
+                    <span>Animation library that mimics <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes">CSS keyframes</a> when scrolling.</span>
+                </div>
+                <div style="display: flex; flex: 3; align-self: flex-end; margin-bottom: 10px; margin-left: auto; margin-right: auto; justify-content: center;">
+                    <a class="github-button" href="https://github.com/alexcambose" data-size="large" data-show-count="true" aria-label="Follow @alexcambose on GitHub">Follow @alexcambose</a>
+                </div>
+                <div style="display: flex;flex: 3;">
+                    <span>Licensed under the <a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a> license</span>
+                </div>
+            </div>
         </footer>
+        <a href="https://github.com/alexcambose/motus"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
- 
+    <script src="https://buttons.github.io/buttons.js"></script>
 
     <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
     <script>hljs.initHighlightingOnLoad();</script>
     <script src="../dist/motus.js"></script>
+    <script src="https://cdn.rawgit.com/alexcambose/motus/master/dist/motus.js"></script>
     <script>
-        const basicAnimation = new Motus.Animation(
+
+    // animation related stuff
+    const basicAnimation = new Motus.Animation(
     new Motus.Point(parseInt(innerHeight/2)), // start point
     new Motus.Point(innerHeight + parseInt(innerHeight/2)), // end point
     document.getElementById('cube-basic'), // element that will animated
@@ -280,10 +318,31 @@ const multiplePropertiesAnimation = new Motus.Animation(
         },
         100: {
             width: '100px',
-            marginLeft: '0px'
+            marginLeft: '200px'
         }
     });
 Motus.addAnimation(multiplePropertiesAnimation);
+const startvaluesAnimation = new Motus.Animation(
+    new Motus.Point(document.getElementById('start-point-startvalues')), // start point
+    new Motus.Point(document.getElementById('end-point-startvalues')), // end point
+    document.getElementById('cube-startvalues'), // element that will animated
+    {
+        50: {
+            width: {
+                from: 0,
+                to: 40,
+                unit: 'mm',
+            }
+        },
+        100: {
+            width: {
+                from: 10,
+                to: 70,
+                unit: 'mm',
+            }
+        }
+    });
+Motus.addAnimation(startvaluesAnimation);
     </script>
 </body>
 
