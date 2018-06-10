@@ -1,4 +1,5 @@
 # motus
+![Motus Logo](https://i.imgur.com/7LBn4c7.png "Motus logo")
 
 [![Build Status](https://travis-ci.com/alexcambose/motus.svg?token=zpfhtmtiyLf5iVSdDrUd&branch=master)](https://travis-ci.com/alexcambose/motus)
 
