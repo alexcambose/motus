@@ -2,12 +2,12 @@
   "name": "motus",
   "version": "1.0.0",
   "description": "Animation library that mimics CSS keyframes when scrolling",
-  "main": "index.js",
+  "main": "js/index.js",
   "scripts": {
     "tsc": "cross-env tsc",
     "test": "cross-env mocha -r ts-node/register 'test/**/*.spec.ts'",
     "lint": "cross-env tslint -c tslint.json 'src/**/*.ts'",
-    "prod": "cross-env parcel build src/index.ts --out-file motus.js --no-source-maps --detailed-report",
+    "prod": "cross-env parcel build src/index.ts --out-file motus.js --no-source-maps --detailed-report && npm run tsc",
     "build": "cross-env parcel build src/index.ts --out-file motus.js --detailed-report",
     "watch": "cross-env nodemon -e ts -w ./src -x npm run build"
   },

@@ -95,6 +95,16 @@ const mYaNiMaTiOn = new Motus.Animation(
 Motus.add(mYaNiMaTiOn);
 ```
 
-### License
+## Development
+
+`npm run tsc` - compiles *ts* files in *js* files
+
+`npm run build` - watches for changes and compiles *ts* files into *dist* in develompent mode
+
+`npm run watch` - watches for changes and compiles with `build` *ts* files into *dist*
+
+`npm run prod` - watches for changes and compiles *ts* files into *dist* in production mode
+
+## License
 
 [MIT](LICENSE)
