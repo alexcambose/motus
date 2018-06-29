@@ -1,5 +1,3 @@
-import Keyframes from './Keyframe';
-
 export const percentFrom = (current: number, total: number, multiplier = 100) => current / total * multiplier;
 export const sliceFromPercent = (value: number, percent: number, multiplier = 100) => percent * value / multiplier;
 export const getUnit = (value: string): string => {
@@ -50,7 +48,7 @@ export const loopWhile = (value: any[], until: (index?: number) => boolean, func
 export const getElementDefaultProperty = (element: HTMLElement, property: string): any => {
     return window.getComputedStyle(element, null).getPropertyValue(camelToKebabCase(property));
 };
-export const previousKeyframeValue = (keyframes: Keyframes, percent: number, property: string): any => {
+export const previousKeyframeValue = (keyframes, percent: number, property: string): any => {
     const keyframePercents = Object.keys(keyframes);
     const previousPercent = keyframePercents.findIndex(e => parseInt(e) === percent) - 1;
     const previousKeyframe = keyframes[keyframePercents[previousPercent]];

@@ -16,6 +16,10 @@ export default class Animation {
         this.uid = Math.random() * 100000000; // basic uid
         this.startPoint = startPoint.getPosition();
         this.endPoint = endPoint.getPosition();
+        window.addEventListener('resize', () => {
+            this.startPoint = startPoint.getPosition();
+            this.endPoint = endPoint.getPosition();
+        });
         this.element = element;
         this.keyframes = keyframes;
         for (const keyframePercent of Object.keys(this.keyframes)) {

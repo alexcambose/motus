@@ -1,6 +1,6 @@
 {
   "name": "motus",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Animation library that mimics CSS keyframes when scrolling",
   "main": "js/index.js",
   "scripts": {

@@ -9,6 +9,9 @@ export default class Motus {
         window.addEventListener('scroll', () => {
             this.animations.forEach(e => e.apply());
         });
+        window.addEventListener('resize', () => {
+            this.animations.forEach(e => e.apply());
+        });
     }
     /**Register new animation
      * @param  {Animation} animation
