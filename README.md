@@ -36,7 +36,7 @@ const myAnimation = new Motus.Animation(
         }
     }
 );
-Motus.add(myAnimation);
+Motus.addAnimation(myAnimation);
 ```
 
 Different usages
@@ -95,7 +95,7 @@ const mYaNiMaTiOn = new Motus.Animation(
     document.getElementById('some-element'),
     k1 || k2 || k3 // your choice
 );
-Motus.add(mYaNiMaTiOn);
+Motus.addAnimation(mYaNiMaTiOn);
 ```
 
 ## Development
