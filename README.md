@@ -25,7 +25,8 @@ Basic usage
 ```js
 const myAnimation = new Motus.Animation(
     new Motus.Point(100), // set animation start position in px
-    new Motus.Point(200), // set animation end position in px
+    new Motus.Point(200), // set animation end position in px,
+    document.getElementById('some-element'), // element that will animated
     {
         50: { // make font size 10 px before it hits 50% of the distance (in this case <150px)
             fontSize: 10, // px by default
@@ -91,6 +92,7 @@ const k3 = {
 const mYaNiMaTiOn = new Motus.Animation(
     new Motus.Point(document.getElementById('start-point')), // dom elements instead of px
     new Motus.Point(document.getElementById('end-point')),
+    document.getElementById('some-element'),
     k1 || k2 || k3 // your choice
 );
 Motus.add(mYaNiMaTiOn);
