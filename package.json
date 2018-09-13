@@ -1,22 +1,16 @@
 {
   "name": "motus",
-  "version": "1.0.1",
+  "version": "2.0.0",
   "description": "Animation library that mimics CSS keyframes when scrolling",
   "main": "js/index.js",
   "scripts": {
-    "tsc": "cross-env tsc",
-    "test": "cross-env mocha -r ts-node/register 'test/**/*.spec.ts'",
-    "lint": "cross-env tslint -c tslint.json 'src/**/*.ts'",
-    "prod": "cross-env parcel build src/index.ts --out-file motus.js --no-source-maps --detailed-report && npm run tsc",
-    "build": "cross-env parcel build src/index.ts --out-file motus.js --detailed-report",
-    "watch": "cross-env nodemon -e ts -w ./src -x npm run build"
+   "test": ""
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexcambose/motus.git"
   },
   "keywords": [
-    "typescript",
     "css",
     "css-animations",
     "keyframes",
@@ -30,16 +24,6 @@
   },
   "homepage": "https://github.com/alexcambose/motus#readme",
   "devDependencies": {
-    "@types/chai": "^4.1.3",
-    "@types/mocha": "^5.2.0",
-    "chai": "^4.1.2",
-    "cross-env": "^5.1.6",
-    "jsdom": "^11.11.0",
-    "mocha": "^5.2.0",
-    "nodemon": "^1.17.5",
-    "parcel": "^1.8.1",
-    "ts-node": "^6.0.5",
-    "tslint": "^5.10.0",
-    "typescript": "^2.8.3"
+
   }
 }
