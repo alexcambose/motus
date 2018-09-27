@@ -111,3 +111,15 @@ Motus.addAnimation(mYaNiMaTiOn);
 ## License
 
 [MIT](LICENSE)
+
+
+# Future versions roadmap
+## Motus version 2.0.0
+- [ ] Rewrite in vanilla js 
+
+- [ ] Decouple things
+
+- [ ] Support for transform rules
+
+
+## Create a react version
