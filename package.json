@@ -4,8 +4,11 @@
   "description": "Animation library that mimics CSS keyframes when scrolling",
   "main": "js/index.js",
   "scripts": {
-   "test": ""
+    "test": "jest",
+    "test:watch": "jest --watchAll",
+    "lint": "eslint **/*.js"
   },
+  "pre-commit": "lint",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/alexcambose/motus.git"
@@ -22,8 +25,25 @@
   "bugs": {
     "url": "https://github.com/alexcambose/motus/issues"
   },
+  "standard": {
+    "env": [
+      "mocha"
+    ]
+  },
   "homepage": "https://github.com/alexcambose/motus#readme",
   "devDependencies": {
-
+    "babel-core": "^6.26.3",
+    "babel-jest": "^23.6.0",
+    "babel-preset-env": "^1.7.0",
+    "eslint": "^5.6.0",
+    "eslint-config-standard": "^12.0.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-node": "^7.0.1",
+    "eslint-plugin-promise": "^4.0.1",
+    "eslint-plugin-standard": "^4.0.0",
+    "jest": "^23.6.0",
+    "pre-commit": "^1.2.2",
+    "prettier-eslint": "^8.8.2",
+    "regenerator-runtime": "^0.12.1"
   }
 }
