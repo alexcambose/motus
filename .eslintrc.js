@@ -1,6 +1,17 @@
 module.exports = {
   extends: 'standard',
   rules: {
-    semi: ['error', 'always']
-  }
-}
+    semi: ['error', 'always'],
+    indent: ['error', 2],
+    'comma-dangle': [
+      'error',
+      {
+        arrays: 'always-multiline',
+        objects: 'always-multiline',
+        imports: 'always-multiline',
+        exports: 'always-multiline',
+        functions: 'ignore',
+      },
+    ],
+  },
+};
