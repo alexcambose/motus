@@ -6,7 +6,7 @@ describe('Motus', () => {
     motus = new Motus();
   });
   it('has `Animation` class in class properties', () => {
-    const animation = new motus.Animation();
+    const animation = new motus.Animation({});
 
     expect(animation instanceof motus.Animation).toBeTruthy();
   });
