@@ -6,9 +6,9 @@
   "scripts": {
     "test": "jest --coverage  --silent",
     "test:watch": "jest --watchAll",
-    "lint": "eslint **/*.js",
-    "build": "babel ./src/* --out-dir ./dist",
-    "run": "babel-node ./test.js"
+    "lint": "eslint src/*.js",
+    "build": "webpack --mode=development",
+    "prod": "webpack --mode=production"
   },
   "pre-commit": "lint",
   "repository": {
@@ -39,6 +39,7 @@
     "@babel/node": "^7.0.0",
     "@babel/preset-env": "^7.2.0",
     "babel-jest": "^23.4.2",
+    "babel-loader": "^8.0.4",
     "eslint": "^5.6.0",
     "eslint-config-standard": "^12.0.0",
     "eslint-plugin-import": "^2.14.0",
@@ -49,6 +50,7 @@
     "pre-commit": "^1.2.2",
     "prettier-eslint": "^8.8.2",
     "regenerator-runtime": "^0.12.1",
-    "webpack": "^4.27.1"
+    "webpack": "^4.27.1",
+    "webpack-cli": "^3.1.2"
   }
 }
