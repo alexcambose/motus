@@ -8,9 +8,16 @@ export const getValue = value => {
     return [value, 'px'];
   }
   const match = value.match(unitReg);
-  console.log(match);
   if (match.length === 3) {
     return [parseInt(match[1]), match[2]];
   }
   return [];
 };
+export const getElementDefaultProperty = (
+  element,
+  property,
+  _window = window
+) =>
+  _window
+    .getComputedStyle(element, null)
+    .getPropertyValue(camelToKebabCase(property));

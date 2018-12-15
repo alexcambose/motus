@@ -1,18 +1,14 @@
 import Motus from '../src/Motus';
 
 describe('Motus', () => {
-  let motus;
-  beforeEach(() => {
-    motus = new Motus();
-  });
   it('has `Animation` class in class properties', () => {
-    const animation = new motus.Animation({});
+    const animation = new Motus.Animation({});
 
-    expect(animation instanceof motus.Animation).toBeTruthy();
+    expect(animation instanceof Motus.Animation).toBeTruthy();
   });
   it('has `Point` class in class properties', () => {
-    const point = new motus.Point();
+    const point = new Motus.Point();
 
-    expect(point instanceof motus.Point).toBeTruthy();
+    expect(point instanceof Motus.Point).toBeTruthy();
   });
 });

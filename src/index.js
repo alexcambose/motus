@@ -1,7 +1,5 @@
 import Motus from './Motus';
-
-if (typeof window === 'undefined') {
-  module.exports = Motus;
-} else {
+if (typeof window !== 'undefined') {
   window.Motus = Motus;
 }
+export default Motus;

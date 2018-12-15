@@ -4,6 +4,7 @@ module.exports = {
   output: {
     path: path.resolve(__dirname, 'dist'),
     filename: 'motus.js',
+    libraryTarget: 'commonjs2',
   },
   devtool: 'sourcemaps',
   module: {

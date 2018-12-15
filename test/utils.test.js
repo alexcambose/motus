@@ -1,4 +1,10 @@
-import { camelToKebabCase, getValue } from '../src/utils';
+import {
+  camelToKebabCase,
+  getValue,
+  getElementDefaultProperty,
+} from '../src/utils';
+const { JSDOM } = require('jsdom');
+const dom = new JSDOM(`<!DOCTYPE html><p>test</p>`);
 describe('utils', () => {
   describe('camelToKebabCase', () => {
     it('converts aaBcDe to aa-bc-de', () => {
@@ -8,6 +14,20 @@ describe('utils', () => {
   describe('getValue', () => {
     it('returns an array with the value and unit', () => {
       expect(getValue('20px')).toEqual([20, 'px']);
+    });
+    it('throws error if an invalid value is specified', () => {
+      expect(getValue('20px')).toEqual([20, 'px']);
+    });
+  });
+  describe('getElementDefaultProperty', () => {
+    it('gets a default property of a dom element', () => {
+      expect(
+        getElementDefaultProperty(
+          dom.window.document.querySelector('p'),
+          'width',
+          dom.window
+        )
+      ).toEqual(0 || '');
     });
   });
 });

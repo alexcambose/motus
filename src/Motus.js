@@ -1,4 +1,4 @@
-import Animation from './Animation';
+import Animation from './animation/Animation';
 import Point from './Point';
 
 class Motus {
