@@ -1,4 +1,9 @@
 import Animation from '../../src/animation/Animation';
+document.body.innerHTML = `<p>test</p>`;
+const element = document.querySelector('p');
+element.style.width = '10px';
+element.style.height = '10px';
+
 describe('Animation', () => {
   const keyframesArr = [
     {
@@ -32,18 +37,26 @@ describe('Animation', () => {
       },
     },
   };
-
   describe('normalize', () => {
-    const animation = new Animation(keyframesArr);
+    const animation = new Animation(element, keyframesArr);
     it('throws an error if the array provided is smaller that 1 element', () => {
-      expect(() => new Animation(keyframesArr.slice(0, 0))).toThrow();
+      expect(() => new Animation(element, keyframesArr.slice(0, 0))).toThrow();
     });
     it('converts an array of keyframes to an object', () => {
       expect(Array.isArray(animation.keyframes)).toBeTruthy();
     });
     describe('normalizeKeyframeRule', () => {
-      it('converts the short form of describing property values to the long form', () => {
-        expect(animation.keyframes).toEqual(keyframesObj);
+      describe('converts the short form of describing property values to the long form', () => {
+        it('sets `from` property to the default element property', () => {
+          expect(animation.normalizeKeyframeRule('width', 20, {}, 0)).toEqual({
+            width: {
+              from: 10,
+              to: 20,
+              unit: 'px',
+            },
+          });
+        });
+        // expect(animation.keyframes).toEqual(keyframesObj);
       });
     });
   });

@@ -1,5 +1,12 @@
+import {
+  isNumber,
+  getElementDefaultProperty,
+  getValue,
+  isString,
+} from '../utils';
 export default class Animation {
-  constructor (keyframes) {
+  constructor ($element, keyframes) {
+    this.$element = $element;
     this.keyframes = this.normalize(keyframes);
   }
   /**
@@ -36,22 +43,40 @@ export default class Animation {
         this.normalizeKeyframeRule(
           keyframeProperty,
           keyframe[keyframeProperty],
-          keyframes,
           keyframePercent
         )
       );
     });
     return keyframes;
   }
-  normalizeKeyframeRule (property, value, keyframes, keyframePercent) {
-    let from, to;
-    if (value === undefined) throw new Error('Property value not specified');
-    // if(typeof)
-    console.log(property, value, keyframes, keyframePercent, '- ');
+  /**
+   * @param  {string} property
+   * @param  {number|string|object} value
+   * @param  {number} keyframePercent
+   */
+  normalizeKeyframeRule (property, value, keyframePercent) {
+    let from, to, unit;
+    // {height: value}, value must be defined
+    if (!value) throw new Error('Property value not specified');
+
+    // if the provided value is a number, we need to set `from` and `unit`
+    if (isNumber(value)) {
+      to = value;
+      unit = 'px';
+      [from] = getValue(getElementDefaultProperty(this.$element, property));
+    }
+    // if value is a string
+    // if (isString(value)) {
+    //   [to, unit] = getValue(value);
+
+    // }
+    // console.log(property, value, keyframePercent, '- ');
+
     return {
       [property]: {
         from,
         to,
+        unit,
       },
     };
   }

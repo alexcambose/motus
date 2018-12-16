@@ -14,10 +14,13 @@ export const getValue = value => {
   return [];
 };
 export const getElementDefaultProperty = (
-  element,
+  $element,
   property,
   _window = window
 ) =>
   _window
-    .getComputedStyle(element, null)
+    .getComputedStyle($element, null)
     .getPropertyValue(camelToKebabCase(property));
+
+export const isNumber = val => typeof val === 'number';
+export const isString = val => typeof val === 'string';
