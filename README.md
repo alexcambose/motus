@@ -5,6 +5,7 @@
 
 Animation library that mimics CSS keyframes when scrolling.
 ### [DEMO Website](https://alexcambose.github.io/motus/)
+![dev](https://media.giphy.com/media/nEDxXuCdCJgP6yhn7b/giphy.gif)
 ## Installation
 As [npm](https://www.npmjs.com/package/motus) package
 
