@@ -4,6 +4,8 @@ import {
   getElementDefaultProperty,
   isNumber,
   isString,
+  isObject,
+  previousArrayValue,
 } from '../src/utils';
 document.body.innerHTML = `<p>test</p>`;
 const element = document.querySelector('p');
@@ -41,6 +43,39 @@ describe('utils', () => {
     });
     it('returns false if the provided parameter is not a string', () => {
       expect(isString(123)).toBeFalsy();
+    });
+  });
+  describe('isObject', () => {
+    it('returns true if the provided parameter is an object', () => {
+      expect(isObject({})).toBeTruthy();
+    });
+    it('returns false if the provided parameter is not an object', () => {
+      expect(isObject(213)).toBeFalsy();
+    });
+  });
+  describe('isArray', () => {
+    it('returns true if the provided parameter is an array', () => {
+      expect(isObject([])).toBeTruthy();
+    });
+    it('returns false if the provided parameter is not an array', () => {
+      expect(isObject('')).toBeFalsy();
+    });
+  });
+  describe('previousArrayValue', () => {
+    const obj = {
+      1: {},
+      4: {},
+      3: {},
+    };
+    it('returns the previous key of an object', () => {
+      expect(previousArrayValue(Object.keys(obj), 3)).toEqual(1);
+      expect(previousArrayValue(Object.keys(obj), 4)).toEqual(3);
+    });
+    it('returns false if the provided key is the first one', () => {
+      expect(previousArrayValue(Object.keys(obj), 1)).toBeFalsy();
+    });
+    it("returns false if the provided key doesn't exist ", () => {
+      expect(previousArrayValue(Object.keys(obj), 6)).toBeFalsy();
     });
   });
 });

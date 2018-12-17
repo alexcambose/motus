@@ -24,3 +24,15 @@ export const getElementDefaultProperty = (
 
 export const isNumber = val => typeof val === 'number';
 export const isString = val => typeof val === 'string';
+export const isObject = val => typeof val === 'object';
+export const isArray = val => Array.isArray(val);
+/**
+ * Returns the previous closest number found aftar the `value`
+ * ``` array = [1,5,3,7,6] and value = 3 => returns 1 ```
+ * @param  {array} array
+ * @param  {number|string} value Must be a number or an array that represents a number
+ */
+export const previousArrayValue = (array, value) => {
+  array = array.map(e => parseInt(e));
+  return array[array.indexOf(parseInt(value)) - 1];
+};
