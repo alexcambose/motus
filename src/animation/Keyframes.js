@@ -16,6 +16,7 @@ import {
   INVALID_KEYFRAME_PERCENT,
   PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT,
   DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT,
+  KEYFRAME_TO_IS_NOT_SET,
 } from '../enum/errorEnum';
 
 export default class Keyframes {
@@ -153,8 +154,10 @@ export default class Keyframes {
     );
     // if there is a previous keyframe inherit `unit` and get `from`
     if (previousKeyframe) {
+      // get previous `to`(actual `from`) and unit
       unit = previousKeyframe[property].unit;
       from = previousKeyframe[property].to;
+      // automatically assigned
     } else {
       [from, unit] = getValue(getElementDefaultProperty($element, property));
     }
@@ -180,8 +183,10 @@ export default class Keyframes {
 
     // if there is a previous keyframe inherit `unit` and get `from`
     if (previousKeyframe) {
+      // get previous `to`(actual `from`) and unit
       const previousUnit = previousKeyframe[property].unit;
       const previousTo = previousKeyframe[property].to;
+      // previousUnit and unit must be equal
       if (previousUnit !== unit) {
         throwError(PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT, previousUnit, unit);
       }
@@ -195,6 +200,7 @@ export default class Keyframes {
         throwError(DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT, defaultUnit, unit);
       }
       // unit is the same as the default one so no need for assignment
+      from = defaultFrom;
     }
     return [from, to, unit];
   }
@@ -205,14 +211,49 @@ export default class Keyframes {
     $element
   ) {
     let { from, to, unit } = keyframes[currentKeyframePercent][property];
+    // get previous keyframe
+    const previousKeyframe = this._getPreviousKeyframe(
+      keyframes,
+      currentKeyframePercent
+    );
 
+    // if `from` is not specified
     if (!from) {
-      const [defaultFrom, defaultUnit] = getValue(
-        getElementDefaultProperty($element, property)
-      );
-      if (defaultUnit !== unit) {
-        throwError(DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT, defaultUnit, unit);
+      // if `from` is not specified and there is a previous keyframe
+      if (previousKeyframe) {
+        // get previous `to`(actual `from`) and unit
+        const previousUnit = previousKeyframe[property].unit;
+        const previousTo = previousKeyframe[property].to;
+        // if `unit` is set, previousUnit and unit must be equal
+        if (unit && previousUnit !== unit) {
+          throwError(PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT, previousUnit, unit);
+        }
+        // set `from` with the provious keyframe `to`
+        from = previousTo;
+      } else {
+        // if there is no previous keyframe
+        const [defaultFrom, defaultUnit] = getValue(
+          getElementDefaultProperty($element, property)
+        );
+        if (defaultUnit !== unit) {
+          throwError(DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT, defaultUnit, unit);
+        }
+        from = defaultFrom;
       }
+    }
+    if (!unit) {
+      // there is a keyframe
+      if (previousKeyframe) {
+        // update with the previous unit
+        ({ unit } = previousKeyframe[property]);
+      } else {
+        // if there is no previous keyframe
+        [, unit] = getValue(getElementDefaultProperty($element, property));
+      }
+    }
+    // throw error if `to` is not defined
+    if (!to) {
+      throwError(KEYFRAME_TO_IS_NOT_SET);
     }
     return [from, to, unit];
   }

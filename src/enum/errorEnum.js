@@ -14,3 +14,4 @@ export const PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT = (
   `Previous unit '${previousUnit}' does not match current unit '${currentUnit}'`;
 export const DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT = (defaultUnit, currentUnit) =>
   `Previous unit '${defaultUnit}' does not match current unit '${currentUnit}'`;
+export const KEYFRAME_TO_IS_NOT_SET = `Keyframe property 'to' must be set`;

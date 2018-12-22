@@ -154,5 +154,65 @@ describe('keyframes', () => {
         ).toEqual([100, 200, '%']);
       });
     });
+
+    describe('_normalizeObjectValue', () => {
+      it('throws error if the property that is inherited from the previous keyframe has a diferent unit', () => {
+        expect(() =>
+          Keyframes._normalizeObjectValue(
+            'width',
+            10,
+            { 0: { width: '30px' } },
+            $element
+          )
+        ).toThrow();
+      });
+      it('throws error if the property that is inherited from the default value has a diferent unit', () => {
+        expect(() =>
+          Keyframes._normalizeObjectValue(
+            'width',
+            0,
+            { 0: { width: '100pt' } },
+            $element
+          )
+        ).toThrow();
+      });
+      it('inherits the unit from the default property', () => {
+        const k = {
+          0: {
+            width: { from: 10, to: 100 },
+            color: { from: 'rgb(255, 255, 255)', to: 'red' },
+            opacity: { from: 1, to: 0.5 },
+          },
+        };
+        expect(
+          Keyframes._normalizeObjectValue('width', 0, k, $element)
+        ).toEqual([10, 100, 'px']);
+        expect(
+          Keyframes._normalizeObjectValue('color', 0, k, $element)
+        ).toEqual(['rgb(255, 255, 255)', 'red', COLOR_UNIT]);
+        expect(
+          Keyframes._normalizeObjectValue('opacity', 0, k, $element)
+        ).toEqual([1, 0.5, NO_UNIT]);
+      });
+      it('inherits the unit and sets the `from` from the property before', () => {
+        const k = {
+          0: { width: { from: 10, to: 100, unit: '%' } },
+          100: { width: { to: 200 } },
+        };
+        expect(
+          Keyframes._normalizeObjectValue('width', 100, k, $element)
+        ).toEqual([100, 200, '%']);
+      });
+      it('thorws error if property `to` is not defined', () => {
+        expect(() =>
+          Keyframes._normalizeObjectValue(
+            'height',
+            0,
+            { 0: { height: {} } },
+            $element
+          )
+        ).toThrow();
+      });
+    });
   });
 });
