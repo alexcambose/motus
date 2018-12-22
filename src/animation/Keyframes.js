@@ -5,13 +5,18 @@ import {
   isString,
   isObject,
   isArray,
+  previousArrayValue,
+  isNumeric,
 } from '../utils';
 import throwError from '../error/throwError';
 import {
   UNIT_DOES_NOT_MATCH_DEFAULT,
   UNKNOWN_PROPERTY_VALUE,
   KEYFRAMES_VALUE_NOT_SPECIFIED,
-} from '../error/errorEnum';
+  INVALID_KEYFRAME_PERCENT,
+  PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT,
+  DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT,
+} from '../enum/errorEnum';
 
 export default class Keyframes {
   /**
@@ -24,34 +29,51 @@ export default class Keyframes {
     }
     // convert each keyframe values
     keyframes = Object.keys(keyframes).map(keyframePercent => {
+      // check if the percent is a number or a string
+      if (!isNumeric(keyframePercent)) {
+        throwError(INVALID_KEYFRAME_PERCENT, keyframePercent);
+      }
+
+      // get the keyframe associated with the percent
       const keyframe = keyframes[keyframePercent];
 
       return Object.keys(keyframe).map(keyframeProperty =>
         this._normalizeKeyframeRule(
           keyframeProperty,
-          keyframe[keyframeProperty],
           keyframePercent,
+          keyframes,
           $element
         )
       );
     });
     return keyframes;
   }
+
   /**
    * @param  {string} property
    * @param  {number|string|object} value
    * @param  {number} keyframePercent
    */
-  static _normalizeKeyframeRule (property, value, keyframePercent, $element) {
+  static _normalizeKeyframeRule (
+    property,
+    keyframePercent,
+    keyframes,
+    $element
+  ) {
     let from, to, unit;
+    const value = keyframes[keyframePercent][property];
+
     // {height: value}, value must be defined
     if (!value) throwError(KEYFRAMES_VALUE_NOT_SPECIFIED);
 
     // if the provided value is a number, we need to set `from` and `unit`
     if (isNumber(value)) {
-      to = value;
-      unit = 'px';
-      [from] = getValue(getElementDefaultProperty($element, property));
+      [from, to, unit] = this._normalizeNumberValue(
+        property,
+        keyframePercent,
+        keyframes,
+        $element
+      );
     } else if (isString(value)) {
       // if value is a string
       [to, unit] = getValue(value);
@@ -92,5 +114,106 @@ export default class Keyframes {
       carry[i ? 100 / (keyframes.length - i) : 0] = e;
       return carry;
     }, {});
+  }
+  /**
+   * Gets the previous keyframe percent, if it's the first one returns falsy
+   * ex:
+   * ```js
+   *  _getPreviousKeyframe({ 0: {a:'b'}, 50: {c:'d'}, 100: {e:'f'}, }, 50) -> 0
+   * ```
+   * @param  {object} keyframes
+   * @param  {number|string} percent
+   * @returns {number|boolean} false if the provided percent is the first one
+   */
+  static _getPreviousKeyframe (keyframes, percent) {
+    const points = Object.keys(keyframes);
+    return keyframes[previousArrayValue(points, percent)];
+  }
+  /**
+   * returns `[from, to, unit]` array for the current keyframe
+   * @param  {string} property
+   * @param  {number|string} value
+   * @param  {number} currentKeyframePercent
+   * @param  {object} keyframes
+   * @param  {HTMLElement} $element
+   */
+  static _normalizeNumberValue (
+    property,
+    currentKeyframePercent,
+    keyframes,
+    $element
+  ) {
+    let from, unit;
+    const value = keyframes[currentKeyframePercent][property];
+
+    // get previous keyframe
+    const previousKeyframe = this._getPreviousKeyframe(
+      keyframes,
+      currentKeyframePercent
+    );
+    // if there is a previous keyframe inherit `unit` and get `from`
+    if (previousKeyframe) {
+      unit = previousKeyframe[property].unit;
+      from = previousKeyframe[property].to;
+    } else {
+      [from, unit] = getValue(getElementDefaultProperty($element, property));
+    }
+    return [from, value, unit]; // [from, to, unit]
+  }
+
+  static _normalizeStringValue (
+    property,
+    currentKeyframePercent,
+    keyframes,
+    $element
+  ) {
+    let from, to, unit;
+
+    const value = keyframes[currentKeyframePercent][property];
+    [to, unit] = getValue(value);
+
+    // get previous keyframe
+    const previousKeyframe = this._getPreviousKeyframe(
+      keyframes,
+      currentKeyframePercent
+    );
+
+    // if there is a previous keyframe inherit `unit` and get `from`
+    if (previousKeyframe) {
+      const previousUnit = previousKeyframe[property].unit;
+      const previousTo = previousKeyframe[property].to;
+      if (previousUnit !== unit) {
+        throwError(PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT, previousUnit, unit);
+      }
+      from = previousTo;
+      // unit is the same as the previous one so no need for assignment
+    } else {
+      const [defaultFrom, defaultUnit] = getValue(
+        getElementDefaultProperty($element, property)
+      );
+      if (defaultUnit !== unit) {
+        throwError(DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT, defaultUnit, unit);
+      }
+      // unit is the same as the default one so no need for assignment
+    }
+    return [from, to, unit];
+  }
+  static _normalizeObjectValue (
+    property,
+    currentKeyframePercent,
+    keyframes,
+    $element
+  ) {
+    let { from, to, unit } = keyframes[currentKeyframePercent][property];
+
+    if (!from) {
+      const [defaultFrom, defaultUnit] = getValue(
+        getElementDefaultProperty($element, property)
+      );
+      if (defaultUnit !== unit) {
+        throwError(DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT, defaultUnit, unit);
+      }
+    }
+    return [from, to, unit];
   }
 }

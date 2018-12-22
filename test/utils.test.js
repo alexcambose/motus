@@ -5,8 +5,11 @@ import {
   isNumber,
   isString,
   isObject,
+  isNumeric,
   previousArrayValue,
 } from '../src/utils';
+import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
+
 document.body.innerHTML = `<p>test</p>`;
 const element = document.querySelector('p');
 
@@ -17,11 +20,19 @@ describe('utils', () => {
     });
   });
   describe('getValue', () => {
-    it('returns an array with the value and unit', () => {
-      expect(getValue('20px')).toEqual([20, 'px']);
+    describe('returns an array with the value and unit', () => {
+      it('works for standard css units', () => {
+        expect(getValue('20px')).toEqual([20, 'px']);
+      });
+      it('returns [value, NO_UNIT] if the unit is not specified', () => {
+        expect(getValue('1')).toEqual([1, NO_UNIT]);
+      });
+      it('returns [value, COLOR_UNIT] if the value is a color', () => {
+        expect(getValue('#ddd')).toEqual(['#ddd', COLOR_UNIT]);
+      });
     });
     it('throws error if an invalid value is specified', () => {
-      expect(getValue('20px')).toEqual([20, 'px']);
+      expect(() => getValue('px')).toThrow();
     });
   });
   describe('getElementDefaultProperty', () => {
@@ -59,6 +70,16 @@ describe('utils', () => {
     });
     it('returns false if the provided parameter is not an array', () => {
       expect(isObject('')).toBeFalsy();
+    });
+  });
+  describe('isNumeric', () => {
+    it('returns true if the provided parameter is a numeric value', () => {
+      expect(isNumeric('123')).toBeTruthy();
+      expect(isNumeric(123)).toBeTruthy();
+    });
+    it('returns false if the provided parameter is not a numeric value', () => {
+      expect(isNumeric('123a')).toBeFalsy();
+      expect(isNumeric([])).toBeFalsy();
     });
   });
   describe('previousArrayValue', () => {

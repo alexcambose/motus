@@ -6,6 +6,7 @@
   "scripts": {
     "test": "jest --coverage",
     "test:watch": "jest --watchAll",
+    "test:coverage": "jest --coverage",
     "lint": "eslint src/*.js",
     "build": "webpack --mode=development",
     "build:watch": "webpack --mode=development --watch",
@@ -56,5 +57,8 @@
     "regenerator-runtime": "^0.12.1",
     "webpack": "^4.27.1",
     "webpack-cli": "^3.1.2"
+  },
+  "dependencies": {
+    "color-string": "^1.5.3"
   }
 }
