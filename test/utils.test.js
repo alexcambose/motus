@@ -21,14 +21,26 @@ describe('utils', () => {
   });
   describe('getValue', () => {
     describe('returns an array with the value and unit', () => {
+      it('return px as default is unit is not specified', () => {
+        expect(getValue('20px')).toEqual([20, 'px']);
+      });
       it('works for standard css units', () => {
         expect(getValue('20px')).toEqual([20, 'px']);
       });
       it('returns [value, NO_UNIT] if the unit is not specified', () => {
-        expect(getValue('1')).toEqual([1, NO_UNIT]);
+        expect(getValue(1)).toEqual([1, NO_UNIT]);
       });
       it('returns [value, COLOR_UNIT] if the value is a color', () => {
         expect(getValue('#ddd')).toEqual(['#ddd', COLOR_UNIT]);
+      });
+    });
+    describe('works with array values', () => {
+      it('returns an array of arrays with the value and unit', () => {
+        expect(getValue(['20px', 0.3, '3%'])).toEqual([
+          [20, 'px'],
+          [0.3, NO_UNIT],
+          [3, '%'],
+        ]);
       });
     });
     it('throws error if an invalid value is specified', () => {

@@ -8,23 +8,6 @@ $element.style.height = '10px';
 $element.style.color = 'rgb(255, 255, 255)';
 $element.style.opacity = '1';
 
-const keyframesArr = [
-  {
-    width: 100,
-    height: {
-      from: 10,
-      to: 20,
-    },
-  },
-  {
-    width: 200,
-    height: {
-      from: 10,
-      to: 20,
-    },
-  },
-];
-
 describe('keyframes', () => {
   describe('normalize', () => {
     it('throws error if the keyframe percent value is not a valid number', () => {
@@ -54,11 +37,9 @@ describe('keyframes', () => {
               $element
             )
           ).toEqual({
-            width: {
-              from: 10,
-              to: 20,
-              unit: 'px',
-            },
+            from: 10,
+            to: 20,
+            unit: 'px',
           });
         });
         it('throws error if the specified `to` parameter has the unit different from the default unit', () => {

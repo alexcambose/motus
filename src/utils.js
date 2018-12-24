@@ -2,26 +2,28 @@ import colorString from 'color-string';
 import { NO_UNIT, COLOR_UNIT } from './enum/specialUnitEnum';
 import { NO_VALUE_SPECIFIED } from './enum/errorEnum';
 import throwError from './error/throwError';
-
 export const camelToKebabCase = value =>
   value.replace(/([A-Z])/g, $1 => '-' + $1.toLowerCase());
+
 export const getValue = value => {
+  if (isArray(value)) {
+    return value.map(getValue);
+  }
+  value = String(value);
   // check if it is a color
-  const color = colorString.get(value);
-  if (color) {
+  if (colorString.get(value)) {
     return [value, COLOR_UNIT];
   }
-  const unitReg = /([0-9]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax|deg)*/;
+  const unitReg = /([0-9.]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax|deg)*/;
 
-  if (typeof value === 'number') {
-    return [value, 'px'];
-  }
   const match = value.match(unitReg);
   if (match && match.length === 3) {
-    return [parseInt(match[1]), match[2] || NO_UNIT];
+    return [parseFloat(match[1]), match[2] || NO_UNIT];
   }
+  console.log(value, match);
   throwError(NO_VALUE_SPECIFIED);
 };
+
 export const getElementDefaultProperty = (
   $element,
   property,

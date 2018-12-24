@@ -28,8 +28,9 @@ export default class Keyframes {
     if (Array.isArray(keyframes)) {
       keyframes = this._arrayToObject(keyframes);
     }
-    // convert each keyframe values
-    keyframes = Object.keys(keyframes).map(keyframePercent => {
+
+    // loop through each keyframe values
+    Object.keys(keyframes).forEach(keyframePercent => {
       // check if the percent is a number or a string
       if (!isNumeric(keyframePercent)) {
         throwError(INVALID_KEYFRAME_PERCENT, keyframePercent);
@@ -38,14 +39,21 @@ export default class Keyframes {
       // get the keyframe associated with the percent
       const keyframe = keyframes[keyframePercent];
 
-      return Object.keys(keyframe).map(keyframeProperty =>
-        this._normalizeKeyframeRule(
+      Object.keys(keyframe).forEach(keyframeProperty => {
+        // returns something like { from: 10, to: 100, unit: 'px' }
+
+        const normalizedValue = this._normalizeKeyframeRule(
           keyframeProperty,
           keyframePercent,
           keyframes,
           $element
-        )
-      );
+        );
+        // rewrite the current property and keep the old ones to be normalized
+        keyframes[keyframePercent] = {
+          ...keyframes[keyframePercent],
+          [keyframeProperty]: normalizedValue,
+        };
+      });
     });
     return keyframes;
   }
@@ -63,7 +71,7 @@ export default class Keyframes {
   ) {
     let from, to, unit;
     const value = keyframes[keyframePercent][property];
-
+    // console.log(keyframes[keyframePercent], keyframePercent, value);
     // {height: value}, value must be defined
     if (!value) throwError(KEYFRAMES_VALUE_NOT_SPECIFIED);
 
@@ -77,28 +85,29 @@ export default class Keyframes {
       );
     } else if (isString(value)) {
       // if value is a string
-      [to, unit] = getValue(value);
-      const [defaultFrom, defaultUnit] = getValue(
-        getElementDefaultProperty($element, property)
+      [from, to, unit] = this._normalizeStringValue(
+        property,
+        keyframePercent,
+        keyframes,
+        $element
       );
-      if (defaultUnit !== unit) {
-        throwError(UNIT_DOES_NOT_MATCH_DEFAULT, unit, defaultUnit);
-      }
-      from = defaultFrom;
     } else if (isObject(value) && !isArray(value)) {
-      ({ from, to, unit } = value);
-      console.log(value);
+      // if value is an object
+      [from, to, unit] = this._normalizeObjectValue(
+        property,
+        keyframePercent,
+        keyframes,
+        $element
+      );
     } else {
       throwError(UNKNOWN_PROPERTY_VALUE, property);
     }
     // console.log(property, value, keyframePercent, '- ');
 
     return {
-      [property]: {
-        from,
-        to,
-        unit,
-      },
+      from,
+      to,
+      unit,
     };
   }
   /**
@@ -174,7 +183,7 @@ export default class Keyframes {
 
     const value = keyframes[currentKeyframePercent][property];
     [to, unit] = getValue(value);
-
+    console.log(value, getValue(value));
     // get previous keyframe
     const previousKeyframe = this._getPreviousKeyframe(
       keyframes,
@@ -202,6 +211,7 @@ export default class Keyframes {
       // unit is the same as the default one so no need for assignment
       from = defaultFrom;
     }
+
     return [from, to, unit];
   }
   static _normalizeObjectValue (
@@ -235,7 +245,7 @@ export default class Keyframes {
         const [defaultFrom, defaultUnit] = getValue(
           getElementDefaultProperty($element, property)
         );
-        if (defaultUnit !== unit) {
+        if (unit && defaultUnit !== unit) {
           throwError(DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT, defaultUnit, unit);
         }
         from = defaultFrom;
