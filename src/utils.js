@@ -14,7 +14,11 @@ export const getValue = value => {
   value = String(value);
   // check if it is a color
   if (colorString.get(value)) {
-    return [value, COLOR_UNIT];
+    // returns a rgb array that needs to be further converted into rgb string
+    const rgbArr = colorString.get.rgb(value);
+    // convert array to rgb/rgba
+    const color = colorString.to.rgb(rgbArr);
+    return [color, COLOR_UNIT];
   }
   const unitReg = /([0-9.]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax|deg)*/;
 

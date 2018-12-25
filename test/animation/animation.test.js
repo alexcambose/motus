@@ -1,10 +1,11 @@
 import Animation from '../../src/animation/Animation';
-import { NO_UNIT } from '../../src/enum/specialUnitEnum';
+import { NO_UNIT, COLOR_UNIT } from '../../src/enum/specialUnitEnum';
 document.body.innerHTML = `<p>test</p>`;
 const $element = document.querySelector('p');
 $element.style.width = '10px';
 $element.style.height = '10px';
 $element.style.opacity = 1;
+$element.style.color = 'rgb(0,0,0)';
 
 describe('Animation', () => {
   const keyframesArr = [
@@ -16,7 +17,7 @@ describe('Animation', () => {
     },
     {
       scale: 1.1,
-
+      color: 'red',
       translate: ['30px', '30px'],
       width: 400,
       opacity: 0.2,
@@ -24,7 +25,6 @@ describe('Animation', () => {
         from: 100,
         to: 40,
       },
-      // fontSize: 30,
     },
   ];
   const keyframesObj = {
@@ -65,6 +65,11 @@ describe('Animation', () => {
         from: 1,
         to: 1.1,
         unit: NO_UNIT,
+      },
+      color: {
+        from: 'rgb(0, 0, 0)',
+        to: 'rgb(255, 0, 0)',
+        unit: COLOR_UNIT,
       },
     },
   };

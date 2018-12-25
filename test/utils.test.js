@@ -30,8 +30,17 @@ describe('utils', () => {
       it('returns [value, NO_UNIT] if the unit is not specified', () => {
         expect(getValue(1)).toEqual([1, NO_UNIT]);
       });
-      it('returns [value, COLOR_UNIT] if the value is a color', () => {
-        expect(getValue('#ddd')).toEqual(['#ddd', COLOR_UNIT]);
+      describe('works with colors', () => {
+        it('returns [value, COLOR_UNIT] if the value is a color', () => {
+          expect(getValue('#fff')).toEqual(['rgb(255, 255, 255)', COLOR_UNIT]);
+        });
+        it('converts the given color into rgb/rgba format', () => {
+          expect(getValue('red')).toEqual(['rgb(255, 0, 0)', COLOR_UNIT]);
+          expect(getValue('rgba(123, 123, 123, .3)')).toEqual([
+            'rgba(123, 123, 123, 0.3)',
+            COLOR_UNIT,
+          ]);
+        });
       });
     });
     describe('works with array values', () => {
