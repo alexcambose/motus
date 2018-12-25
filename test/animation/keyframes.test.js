@@ -58,13 +58,29 @@ describe('keyframes', () => {
     describe('_getPreviousKeyframe', () => {
       const obj = { 0: { a: 'b' }, 100: { c: 'd' } };
       it('returns previous keyframe', () => {
-        expect(Keyframes._getPreviousKeyframe(obj, 100)).toEqual({ a: 'b' });
+        expect(Keyframes._getPreviousKeyframe(obj, 100)).toEqual(0);
       });
       it('returns false if the provided keyframe is the first one', () => {
         expect(Keyframes._getPreviousKeyframe(obj, 0)).toBeFalsy();
       });
     });
-
+    describe('_previousKeyframeProperty', () => {
+      const obj = {
+        0: { width: { from: 100, to: 200, unit: 'px' } },
+        50: { height: { from: 100, to: 100, unit: 'px' } },
+        100: { width: 300 },
+      };
+      it('searces the property in the keyframes before', () => {
+        expect(
+          Keyframes._previousKeyframeProperty('width', 100, obj, $element)
+        ).toEqual([200, 'px']);
+      });
+      it('returns the default property if the keyframes did not contain any properties related to the one that is searched', () => {
+        expect(
+          Keyframes._previousKeyframeProperty('height', 50, obj, $element)
+        ).toEqual([10, 'px']);
+      });
+    });
     describe('_normalizeNumberValue', () => {
       it('inherits the unit from the default property', () => {
         const k = {
@@ -95,8 +111,8 @@ describe('keyframes', () => {
         expect(() =>
           Keyframes._normalizeStringValue(
             'width',
-            10,
-            { 0: { width: '30px' } },
+            0,
+            { 0: { width: '30%' } },
             $element
           )
         ).toThrow();
@@ -137,25 +153,15 @@ describe('keyframes', () => {
     });
 
     describe('_normalizeObjectValue', () => {
-      it('throws error if the property that is inherited from the previous keyframe has a diferent unit', () => {
-        expect(() =>
-          Keyframes._normalizeObjectValue(
-            'width',
-            10,
-            { 0: { width: '30px' } },
-            $element
-          )
-        ).toThrow();
-      });
-      it('throws error if the property that is inherited from the default value has a diferent unit', () => {
+      it('does not throw error if the property that is inherited from the previous keyframe has a diferent unit', () => {
         expect(() =>
           Keyframes._normalizeObjectValue(
             'width',
             0,
-            { 0: { width: '100pt' } },
+            { 0: { width: { to: 30, unit: '%' } } },
             $element
           )
-        ).toThrow();
+        ).not.toThrow();
       });
       it('inherits the unit from the default property', () => {
         const k = {

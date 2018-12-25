@@ -2,10 +2,12 @@ import colorString from 'color-string';
 import { NO_UNIT, COLOR_UNIT } from './enum/specialUnitEnum';
 import { NO_VALUE_SPECIFIED } from './enum/errorEnum';
 import throwError from './error/throwError';
+import transformValuesEnums from './enum/transformValuesEnums';
 export const camelToKebabCase = value =>
   value.replace(/([A-Z])/g, $1 => '-' + $1.toLowerCase());
 
 export const getValue = value => {
+  /// call getValue recursively for each item in the array
   if (isArray(value)) {
     return value.map(getValue);
   }
@@ -20,7 +22,7 @@ export const getValue = value => {
   if (match && match.length === 3) {
     return [parseFloat(match[1]), match[2] || NO_UNIT];
   }
-  console.log(value, match);
+
   throwError(NO_VALUE_SPECIFIED);
 };
 
@@ -28,10 +30,14 @@ export const getElementDefaultProperty = (
   $element,
   property,
   _window = window
-) =>
-  _window
+) => {
+  if (transformValuesEnums[property]) {
+    return transformValuesEnums[property].defaultValue;
+  }
+  return _window
     .getComputedStyle($element, null)
     .getPropertyValue(camelToKebabCase(property));
+};
 
 export const isNumber = val => typeof val === 'number';
 export const isString = val => typeof val === 'string';
@@ -47,5 +53,7 @@ export const isNumeric = val => (isNumber(val) || isString(val)) && !isNaN(val);
  */
 export const previousArrayValue = (array, value) => {
   array = array.map(e => parseInt(e));
-  return array[array.indexOf(parseInt(value)) - 1];
+  const arrValue = array[array.indexOf(parseInt(value)) - 1];
+  if (arrValue || arrValue === 0) return arrValue;
+  return false;
 };

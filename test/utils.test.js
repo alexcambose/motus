@@ -106,9 +106,11 @@ describe('utils', () => {
     });
     it('returns false if the provided key is the first one', () => {
       expect(previousArrayValue(Object.keys(obj), 1)).toBeFalsy();
+      expect(typeof previousArrayValue(Object.keys(obj), 1)).toEqual('boolean');
     });
     it("returns false if the provided key doesn't exist ", () => {
       expect(previousArrayValue(Object.keys(obj), 6)).toBeFalsy();
+      expect(typeof previousArrayValue(Object.keys(obj), 1)).toEqual('boolean');
     });
   });
 });

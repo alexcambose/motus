@@ -10,28 +10,25 @@ describe('Animation', () => {
   const keyframesArr = [
     {
       width: 100,
-      opacity: 0.2,
       height: {
         to: 20,
       },
     },
     {
-      // translateX: 30,
-      // translate: ['30px', '39px'],
+      scale: 1.1,
+
+      translate: ['30px', '30px'],
       width: 400,
+      opacity: 0.2,
       height: {
         from: 100,
         to: 40,
       },
+      // fontSize: 30,
     },
   ];
   const keyframesObj = {
     0: {
-      opacity: {
-        from: 1,
-        to: 0.2,
-        unit: NO_UNIT,
-      },
       width: {
         from: 10,
         to: 100,
@@ -44,6 +41,11 @@ describe('Animation', () => {
       },
     },
     100: {
+      opacity: {
+        from: 1,
+        to: 0.2,
+        unit: NO_UNIT,
+      },
       width: {
         from: 100,
         to: 400,
@@ -53,6 +55,16 @@ describe('Animation', () => {
         from: 100,
         to: 40,
         unit: 'px',
+      },
+      translate: {
+        from: [[0, 'px'], [0, 'px']],
+        to: [[30, 'px'], [30, 'px']],
+        unit: undefined,
+      },
+      scale: {
+        from: 1,
+        to: 1.1,
+        unit: NO_UNIT,
       },
     },
   };
