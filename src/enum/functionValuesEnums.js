@@ -1,4 +1,4 @@
-export default {
+const transforms = {
   matrix: {
     defaultValue: [0, 0, 0, 0, 0, 0],
   },
@@ -62,4 +62,8 @@ export default {
   perspective: {
     defaultValue: 0,
   },
+};
+
+export default {
+  ...transforms,
 };

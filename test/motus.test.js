@@ -8,7 +8,48 @@ describe('Motus', () => {
   });
   it('has `Point` class in class properties', () => {
     const point = new Motus.Point();
-
     expect(point instanceof Motus.Point).toBeTruthy();
+  });
+  describe('addAnimation', () => {
+    const animation = new Motus.Animation(0, 0, null, {});
+    beforeEach(() => {
+      Motus.clearAnimations();
+    });
+    it('appends to the _animations the animation', () => {
+      expect(Motus._animations).toEqual([]);
+      Motus.addAnimation(animation);
+      expect(Motus._animations).toEqual([animation]);
+    });
+    it('sets the animation as started by default', () => {
+      Motus.addAnimation(animation);
+      expect(Motus._animations[0].started).toBeTruthy();
+    });
+    it('does not set the animation as started if the second parameter is false', () => {
+      Motus.addAnimation(animation, false);
+      expect(Motus._animations[0].started).toBeFalsy();
+    });
+    it('throws erorr if the specified animation is not an instance of Motus.Animation', () => {
+      expect(() => {
+        Motus.addAnimation({});
+      }).toThrow();
+    });
+  });
+  describe('clearAnimations', () => {
+    const animation = new Motus.Animation(0, 0, null, {});
+    it('empties the _animations array', () => {
+      Motus.addAnimation(animation);
+      Motus.clearAnimations();
+      expect(Motus._animations).toEqual([]);
+    });
+    it('automatically stops the animations by default', () => {
+      Motus.addAnimation(animation);
+      Motus.clearAnimations();
+      expect(animation.started).toBeFalsy();
+    });
+    it('does not stop the animations if the `autostop` parameter is set to false', () => {
+      Motus.addAnimation(animation);
+      Motus.clearAnimations(false);
+      expect(animation.started).toBeTruthy();
+    });
   });
 });

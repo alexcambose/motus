@@ -2,7 +2,7 @@ import colorString from 'color-string';
 import { NO_UNIT, COLOR_UNIT } from './enum/specialUnitEnum';
 import { NO_VALUE_SPECIFIED } from './enum/errorEnum';
 import throwError from './error/throwError';
-import transformValuesEnums from './enum/transformValuesEnums';
+import transformValuesEnums from './enum/functionValuesEnums';
 export const camelToKebabCase = value =>
   value.replace(/([A-Z])/g, $1 => '-' + $1.toLowerCase());
 

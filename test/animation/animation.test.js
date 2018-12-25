@@ -1,4 +1,5 @@
 import Animation from '../../src/animation/Animation';
+import Point from '../../src/Point';
 import { NO_UNIT, COLOR_UNIT } from '../../src/enum/specialUnitEnum';
 document.body.innerHTML = `<p>test</p>`;
 const $element = document.querySelector('p');
@@ -74,7 +75,12 @@ describe('Animation', () => {
     },
   };
   it('keyframe normalization', () => {
-    const animation = new Animation($element, keyframesArr);
+    const animation = new Animation(
+      new Point(),
+      new Point(),
+      $element,
+      keyframesArr
+    );
     expect(animation.keyframes).toEqual(keyframesObj);
   });
 });

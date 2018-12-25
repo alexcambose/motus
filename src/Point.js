@@ -1,6 +1,6 @@
 export default class Point {
   constructor (point) {
-    this.px = this.getPxFromPoint(point);
+    this.point = point;
   }
 
   /**
@@ -9,12 +9,12 @@ export default class Point {
    * @param  {number|HTMLElement} point
    * @returns number
    */
-  getPxFromPoint (point) {
+  getPxFromPoint () {
     // let a;
     if (this.point instanceof global.HTMLElement) {
       const rect = this.point.getBoundingClientRect();
       return rect.top + window.scrollY;
     }
-    return point;
+    return this.point;
   }
 }
