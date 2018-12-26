@@ -1,6 +1,16 @@
 import Keyframes from './Keyframes';
+import throttle from 'lodash.throttle';
+
 export default class Animation {
-  constructor (startPoint, endPoint, $element, keyframes) {
+  constructor (
+    startPoint,
+    endPoint,
+    $element,
+    keyframes,
+    options = {
+      throttle: 10,
+    }
+  ) {
     this.$element = $element;
     this.startPoint = startPoint;
     this.endPoint = endPoint;
@@ -9,11 +19,14 @@ export default class Animation {
   }
   start () {
     this.started = true;
-    window.addEventListener('scroll', this.compute);
   }
   stop () {
     this.started = false;
-    window.removeEventListener('scroll', this.compute);
   }
-  _compute () {}
+  _compute () {
+    return throttle(() => {
+      if (!this.started) return;
+      console.log('a');
+    }, this.options.throttle);
+  }
 }

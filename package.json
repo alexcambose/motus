@@ -8,9 +8,13 @@
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "lint": "eslint src/*.js",
-    "build": "webpack --mode=development",
-    "build:watch": "webpack --mode=development --watch",
-    "prod": "webpack --mode=production"
+    "build:node": "webpack --mode=development --env.TARGET_ENV=NODE",
+    "build:web": "webpack --mode=development --env.TARGET_ENV=WEB",
+    "build": "npm run build:web && npm run build:node",
+    "build:watch": "npm run build:web -- --watch && npm run build:node -- --watch",
+    "prod:web": "webpack --mode=production --env.TARGET_ENV=WEB",
+    "prod:node": "webpack --mode=production --env.TARGET_ENV=NODE",
+    "prod": "npm run prod:web && npm run prod:node"
   },
   "pre-commit": "lint",
   "repository": {
@@ -59,6 +63,7 @@
     "webpack-cli": "^3.1.2"
   },
   "dependencies": {
-    "color-string": "^1.5.3"
+    "color-string": "^1.5.3",
+    "lodash.throttle": "^4.1.1"
   }
 }

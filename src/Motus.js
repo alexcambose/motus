@@ -7,6 +7,7 @@ class Motus {
     this.Animation = Animation;
     this.Point = Point;
     this._animations = [];
+    window.addEventListener('scroll', this._computeAnimations);
   }
 
   static getInstance () {
@@ -26,13 +27,17 @@ class Motus {
     }
   }
   /** Removes all registered animations
-   * @param  {boolean} autostop=true If thrue the registered animations will be automatically stopped
+   * @param  {boolean} autostop=true If true the registered animations will be automatically stopped
    */
   clearAnimations (autostop = true) {
     if (autostop) {
       this._animations.forEach(animation => animation.stop());
     }
     this._animations = [];
+  }
+  _computeAnimations ({ scrollX }) {
+    console.log(this._animations);
+    this._animations.map(animation => animation._compute(scrollX));
   }
 }
 
