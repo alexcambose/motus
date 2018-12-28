@@ -2,18 +2,14 @@ import Animation from './animation/Animation';
 import Point from './Point';
 import throwError from './error/throwError';
 import { ANIMATION_NOT_INSTANCE_OF_ANIMATION } from './enum/errorEnum';
+
 class Motus {
   constructor () {
     this.Animation = Animation;
     this.Point = Point;
     this._animations = [];
-    window.addEventListener('scroll', this._computeAnimations);
   }
 
-  static getInstance () {
-    if (!this.instance) this.instance = new Motus();
-    return this.instance;
-  }
   /** Adds an animation
    * @param  {Motus.Animation} animation The animation class
    * @param  {boolean} autostart=true If thrue the scroll event listener will be automatically added
@@ -35,10 +31,6 @@ class Motus {
     }
     this._animations = [];
   }
-  _computeAnimations ({ scrollX }) {
-    console.log(this._animations);
-    this._animations.map(animation => animation._compute(scrollX));
-  }
 }
 
-export default Motus.getInstance();
+export default new Motus();

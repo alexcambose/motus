@@ -1,5 +1,6 @@
 module.exports = {
   extends: 'standard',
+  parser: 'babel-eslint',
   rules: {
     semi: ['error', 'always'],
     indent: ['error', 2],

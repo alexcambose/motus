@@ -1,6 +1,8 @@
 export default class Point {
-  constructor (point) {
+  constructor (point, $scrollElement, horizontal) {
     this.point = point;
+    this.$scrollElement = $scrollElement;
+    this.horizontal = horizontal;
   }
 
   /**
@@ -10,11 +12,14 @@ export default class Point {
    * @returns number
    */
   getPxFromPoint () {
+    const { point, $scrollElement, horizontal } = this;
     // let a;
-    if (this.point instanceof global.HTMLElement) {
-      const rect = this.point.getBoundingClientRect();
-      return rect.top + window.scrollY;
+    if (point instanceof window.HTMLElement) {
+      if (horizontal) {
+        return point.offsetLeft - $scrollElement.offsetLeft || 0;
+      }
+      return point.offsetTop - $scrollElement.offsetTop || 0;
     }
-    return this.point;
+    return point;
   }
 }

@@ -7,6 +7,7 @@ import {
   isObject,
   isNumeric,
   previousArrayValue,
+  calculatePercent,
 } from '../src/utils';
 import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
 
@@ -64,9 +65,11 @@ describe('utils', () => {
   describe('isNumber', () => {
     it('returns true if the provided parameter is a number', () => {
       expect(isNumber(123)).toBeTruthy();
+      expect(isNumber(4321)).toBeTruthy();
     });
     it('returns false if the provided parameter is not a number', () => {
       expect(isNumber('123')).toBeFalsy();
+      expect(isNumber(true)).toBeFalsy();
     });
   });
   describe('isString', () => {
@@ -120,6 +123,16 @@ describe('utils', () => {
     it("returns false if the provided key doesn't exist ", () => {
       expect(previousArrayValue(Object.keys(obj), 6)).toBeFalsy();
       expect(typeof previousArrayValue(Object.keys(obj), 1)).toEqual('boolean');
+    });
+  });
+  describe('calculate percent', () => {
+    it('gets the percent with values starting from 0 to 100', () => {
+      expect(calculatePercent(0, 100, 50)).toEqual(50);
+    });
+    it('gets the percent with values starting from 50 to 100 or any values', () => {
+      expect(calculatePercent(50, 100, 50)).toEqual(0);
+      expect(calculatePercent(80, 100, 60)).toEqual(-100);
+      expect(calculatePercent(80, 100, 100)).toEqual(100);
     });
   });
 });

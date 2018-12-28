@@ -10,12 +10,10 @@ import {
 } from '../utils';
 import throwError from '../error/throwError';
 import {
-  UNIT_DOES_NOT_MATCH_DEFAULT,
   UNKNOWN_PROPERTY_VALUE,
   KEYFRAMES_VALUE_NOT_SPECIFIED,
   INVALID_KEYFRAME_PERCENT,
   PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT,
-  DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT,
   KEYFRAME_TO_IS_NOT_SET,
 } from '../enum/errorEnum';
 
@@ -71,10 +69,8 @@ export default class Keyframes {
   ) {
     let from, to, unit;
     const value = keyframes[keyframePercent][property];
-    // console.log(keyframes[keyframePercent], keyframePercent, value);
     // {height: value}, value must be defined
     if (!value) throwError(KEYFRAMES_VALUE_NOT_SPECIFIED);
-
     // if the provided value is a number, we need to set `from` and `unit`
     if (isNumber(value)) {
       [from, to, unit] = this._normalizeNumberValue(
@@ -177,13 +173,14 @@ export default class Keyframes {
     const propertyValue = keyframes[previousKeyframePercent][property];
     // check if the value exists on the current keyframe
     if (propertyValue) {
-      // return an array [from, unit]
+      // if the value is an array return the array because it should also contain the unit, [value, unit]
       if (isArray(propertyValue.to)) {
         return propertyValue.to;
       }
+      // return an array [from, unit]
       return [propertyValue.to, propertyValue.unit];
     } else {
-      // get the previous keyframe property related to the previous keyframe percent
+      // get the previous keyframe property related to the previous keyframe percent, recursively
       return this._previousKeyframeProperty(
         property,
         previousKeyframePercent,

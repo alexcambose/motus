@@ -1,4 +1,7 @@
-
 export default class Animator {
-  calculate (min, max, current) {}
+  constructor (keyframes, $element) {
+    this.keyframes = keyframes;
+    this.$element = $element;
+  }
+  applyAnimations (percent) {}
 }

@@ -13,6 +13,12 @@ describe('keyframes', () => {
     it('throws error if the keyframe percent value is not a valid number', () => {
       expect(() => Keyframes.normalize({ '13a2': {} })).toThrow();
     });
+    it('throws error if the keyframe value is not an object / string / number', () => {
+      expect(() => Keyframes.normalize({ 0: { height: () => {} } })).toThrow();
+    });
+    it('throws error if the keyframe value is not defined', () => {
+      expect(() => Keyframes.normalize({ 0: { height: undefined } })).toThrow();
+    });
     describe('_arrayToObject', () => {
       it('converts an array of keyframes to an object', () => {
         expect(Keyframes._arrayToObject([{}, {}, {}])).toEqual({
@@ -66,8 +72,11 @@ describe('keyframes', () => {
     });
     describe('_previousKeyframeProperty', () => {
       const obj = {
-        0: { width: { from: 100, to: 200, unit: 'px' } },
-        50: { height: { from: 100, to: 100, unit: 'px' } },
+        0: {
+          width: { from: 100, to: 200, unit: 'px' },
+          translate: { to: ['30px'] },
+        },
+        50: { height: { from: 100, to: 100, unit: 'px' }, translate: ['40px'] },
         100: { width: 300 },
       };
       it('searces the property in the keyframes before', () => {
@@ -79,6 +88,11 @@ describe('keyframes', () => {
         expect(
           Keyframes._previousKeyframeProperty('height', 50, obj, $element)
         ).toEqual([10, 'px']);
+      });
+      it('returns only the `to` property if the searched value is an array', () => {
+        expect(
+          Keyframes._previousKeyframeProperty('translate', 50, obj, $element)
+        ).toEqual(['30px']);
       });
     });
     describe('_normalizeNumberValue', () => {
