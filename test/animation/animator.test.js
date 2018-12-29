@@ -15,8 +15,8 @@ describe('Animator', () => {
       expect(animator._getCurrentKeyframesPercent(0)).toEqual(['0', '0']);
       expect(animator._getCurrentKeyframesPercent(30)).toEqual(['0', '50']);
       expect(animator._getCurrentKeyframesPercent(50)).toEqual(['0', '50']);
-      expect(animator._getCurrentKeyframesPercent(70)).toEqual(['0', '100']);
-      expect(animator._getCurrentKeyframesPercent(100)).toEqual(['0', '100']);
+      expect(animator._getCurrentKeyframesPercent(70)).toEqual(['50', '100']);
+      expect(animator._getCurrentKeyframesPercent(100)).toEqual(['50', '100']);
     });
   });
 });

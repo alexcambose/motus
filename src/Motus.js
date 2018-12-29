@@ -15,6 +15,7 @@ class Motus {
    * @param  {boolean} autostart=true If thrue the scroll event listener will be automatically added
    */
   addAnimation (animation, autostart = true) {
+    // provided animation must be an instance of Motus.Animation
     if (animation instanceof this.Animation) {
       this._animations.push(animation);
       if (autostart) animation.start();
