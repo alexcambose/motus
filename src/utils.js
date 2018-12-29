@@ -61,9 +61,16 @@ export const previousArrayValue = (array, value) => {
   if (arrValue || arrValue === 0) return arrValue;
   return false;
 };
-
+/**
+ * @param  {number} min
+ * @param  {number} max
+ * @param  {number} current
+ */
 export const calculatePercent = (min, max, current) => {
   current -= min;
   max -= min;
   return (current / max) * 100;
 };
+
+export const calculateValueFromPercent = (min, max, percent) =>
+  min + ((max - min) * percent) / 100;

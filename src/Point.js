@@ -16,9 +16,9 @@ export default class Point {
     // let a;
     if (point instanceof window.HTMLElement) {
       if (horizontal) {
-        return point.offsetLeft - $scrollElement.offsetLeft || 0;
+        return point.offsetLeft - ($scrollElement.offsetLeft || 0);
       }
-      return point.offsetTop - $scrollElement.offsetTop || 0;
+      return point.offsetTop - ($scrollElement.offsetTop || 0);
     }
     return point;
   }

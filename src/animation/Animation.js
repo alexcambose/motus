@@ -59,9 +59,8 @@ export default class Animation {
     const scroll = this._getScrollPosition();
     const start = this.startPoint.getPxFromPoint();
     const end = this.endPoint.getPxFromPoint();
-
     if (scroll > start && scroll < end) {
-      Animator.applyAnimations(calculatePercent(start, end, scroll));
+      this._animator.applyAnimations(calculatePercent(start, end, scroll));
     }
   }
 }

@@ -8,6 +8,7 @@ import {
   isNumeric,
   previousArrayValue,
   calculatePercent,
+  calculateValueFromPercent,
 } from '../src/utils';
 import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
 
@@ -133,6 +134,14 @@ describe('utils', () => {
       expect(calculatePercent(50, 100, 50)).toEqual(0);
       expect(calculatePercent(80, 100, 60)).toEqual(-100);
       expect(calculatePercent(80, 100, 100)).toEqual(100);
+    });
+  });
+  describe('calculateValueFromPercent', () => {
+    it('returns the same value for min an max: 0 and 100', () => {
+      expect(calculateValueFromPercent(0, 100, 20)).toEqual(20);
+    });
+    it('calculates the difference if min and max are custom', () => {
+      expect(calculateValueFromPercent(10, 60, 50)).toEqual(35);
     });
   });
 });

@@ -15,6 +15,7 @@ import {
   INVALID_KEYFRAME_PERCENT,
   PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT,
   KEYFRAME_TO_IS_NOT_SET,
+  NO_KEYFRAMES,
 } from '../enum/errorEnum';
 
 export default class Keyframes {
@@ -26,6 +27,8 @@ export default class Keyframes {
     if (Array.isArray(keyframes)) {
       keyframes = this._arrayToObject(keyframes);
     }
+    // check if the user has specified keyframes
+    if (!Object.keys(keyframes).length) throwError(NO_KEYFRAMES);
 
     // loop through each keyframe values
     Object.keys(keyframes).forEach(keyframePercent => {
