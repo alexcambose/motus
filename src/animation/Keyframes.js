@@ -73,7 +73,7 @@ export default class Keyframes {
     let from, to, unit;
     const value = keyframes[keyframePercent][property];
     // {height: value}, value must be defined
-    if (!value) throwError(KEYFRAMES_VALUE_NOT_SPECIFIED);
+    if (!value && value !== 0) throwError(KEYFRAMES_VALUE_NOT_SPECIFIED);
     // if the provided value is a number, we need to set `from` and `unit`
     if (isNumber(value)) {
       [from, to, unit] = this._normalizeNumberValue(

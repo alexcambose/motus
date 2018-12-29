@@ -1,4 +1,4 @@
-import { isNumber } from '../utils';
+import { isNumber, isString } from '../utils';
 
 export default class Styler {
   /**
@@ -14,6 +14,7 @@ export default class Styler {
    */
   apply (name, value, unit) {
     if (isNumber(value)) this._applyNumber(name, value, unit);
+    if (isString(value)) this._applyString(name, value);
   }
   /**
    * Sets the property to the element style
@@ -23,6 +24,11 @@ export default class Styler {
    */
   _applyNumber (name, value, unit) {
     const { $element } = this;
-    $element.style[name] = value + unit;
+    console.log(name, value, unit);
+    if (unit) value += unit;
+    $element.style[name] = value;
+  }
+  _applyString (name, value) {
+    this._applyNumber(name, value);
   }
 }

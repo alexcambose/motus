@@ -54,9 +54,20 @@ describe('keyframes', () => {
           ).toThrow();
         });
         it('throws error if the property value is not a number, string or object', () => {
-          expect(() =>
-            Keyframes._normalizeKeyframeRule('width', [], 0, {}, $element)
+          expect(
+            () => Keyframes._normalizeKeyframeRule('width', 0, {}, $element) // when the property value does not exist
           ).toThrow();
+        });
+        it('does not throw error if property value is 0 (falsy)', () => {
+          expect(
+            () =>
+              Keyframes._normalizeKeyframeRule(
+                'width',
+                0,
+                { 0: { width: 0 } },
+                $element
+              ) // when the property value does exist but it's 0
+          ).not.toThrow();
         });
       });
     });

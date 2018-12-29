@@ -37,6 +37,9 @@ export default class Animation {
     this._animator = new Animator(this.keyframes, $element);
     // throttle the method that will be called on scroll
     this._compute = throttle(this.__compute, this.options.throttle);
+    // variables that are true if the scroll is before or after the animation start and end points
+    this.appliedAllBefore = false;
+    this.appliedAllAfter = false;
   }
   /**
    * Start listening to scroll events in order to enable animation
@@ -81,7 +84,7 @@ export default class Animation {
    */
   __compute () {
     // run only if the animation is started
-    const { started } = this;
+    const { started, appliedAllBefore, appliedAllAfter } = this;
     if (!started) return;
     // user scroll position
     const scroll = this._getScrollPosition();
@@ -91,8 +94,18 @@ export default class Animation {
     const end = this.endPoint.getPxFromPoint();
     // if scroll is between the start and the end position
     if (scroll > start && scroll < end) {
+      this.appliedAllBefore = false;
+      this.appliedAllAfter = false;
       // call Animator to apply animations
       this._animator.applyAnimations(calculatePercent(start, end, scroll));
+    } else if (scroll < start && !appliedAllBefore) {
+      this.appliedAllBefore = true;
+      this._animator.applyAnimations(0);
+      // console.log('a');
+    } else if (scroll > end && !appliedAllAfter) {
+      this.appliedAllAfter = true;
+      this._animator.applyAnimations(100);
+      // console.log('b');
     }
   }
 }
