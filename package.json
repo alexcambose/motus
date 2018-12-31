@@ -66,6 +66,8 @@
   },
   "dependencies": {
     "color-string": "^1.5.3",
+    "color-to-color": "^1.0.0",
+    "css-func": "^1.0.0",
     "lodash.throttle": "^4.1.1"
   }
 }

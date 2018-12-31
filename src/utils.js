@@ -2,7 +2,7 @@ import colorString from 'color-string';
 import { NO_UNIT, COLOR_UNIT } from './enum/specialUnitEnum';
 import { NO_VALUE_SPECIFIED } from './enum/errorEnum';
 import throwError from './error/throwError';
-import transformValuesEnums from './enum/functionValuesEnums';
+import transformValuesEnums from './enum/functionValuesEnum';
 export const camelToKebabCase = value =>
   value.replace(/([A-Z])/g, $1 => '-' + $1.toLowerCase());
 
@@ -71,6 +71,29 @@ export const calculatePercent = (min, max, current) => {
   max -= min;
   return (current / max) * 100;
 };
+/**
+ * @param  {number} min
+ * @param  {number} max
+ * @param  {number} percent
+ * @param  {number} precision
+ * @return {float}
+ */
+export const calculateValueFromPercent = (min, max, percent, precision) => {
+  const value = min + ((max - min) * percent) / 100;
+  if (precision) return value.toFixed(precision);
+  return value;
+};
 
-export const calculateValueFromPercent = (min, max, percent) =>
-  min + ((max - min) * percent) / 100;
+/**
+ * @param  {string} name
+ * @param  {array} parameters
+ */
+export const createFunctionString = (name, parameters) => {
+  const length = parameters.length;
+  let value = '';
+  for (let i = 0; i < length; i++) {
+    value += parameters[i].join('');
+    if (i < length - 1) value += ', ';
+  }
+  return `${name}(${value})`;
+};

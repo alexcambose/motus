@@ -56,6 +56,7 @@ export default class Keyframes {
         };
       });
     });
+
     return keyframes;
   }
 
@@ -98,6 +99,7 @@ export default class Keyframes {
         $element
       );
       from = previousKeyframe;
+
       to = getValue(value);
     } else if (isObject(value)) {
       // if value is an object

@@ -18,7 +18,7 @@ describe('Animation', () => {
     {
       scale: 1.1,
       color: 'red',
-      translate: ['30px', '30px'],
+      translate: ['30px', '30%'],
       width: 400,
       opacity: 0.2,
       height: {
@@ -58,7 +58,7 @@ describe('Animation', () => {
       },
       translate: {
         from: [[0, 'px'], [0, 'px']],
-        to: [[30, 'px'], [30, 'px']],
+        to: [[30, 'px'], [30, '%']],
         unit: undefined,
       },
       scale: {

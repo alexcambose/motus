@@ -4,33 +4,33 @@ import Animator from '../animation/Animator';
 import throttle from 'lodash.throttle';
 import { calculatePercent } from '../utils';
 export default class Animation {
-  constructor (startPoint, endPoint, $element, keyframes, options) {
+  static defaultOptions = {
+    precision: Animator.defaultOptions.precision,
+    throttle: 40,
+    $scrollElement: window,
+    horizontal: false,
+  };
+  constructor (startPoint, endPoint, $element, keyframes, options = {}) {
     // default options
-    options = Object.assign(
-      {
-        throttle: 40,
-        $scrollElement: window,
-        horizontal: false,
-      },
-      options
-    );
-    this.options = options;
+    this.options = { ...Animation.defaultOptions, ...options };
+
     // element that will be animated
     this.$element = $element;
     // start point
     this.startPoint = new Point(
       startPoint,
-      options.$scrollElement,
-      options.horizontal
+      this.options.$scrollElement,
+      this.options.horizontal
     );
     // end point
     this.endPoint = new Point(
       endPoint,
-      options.$scrollElement,
-      options.horizontal
+      this.options.$scrollElement,
+      this.options.horizontal
     );
     // normalized keyframes
     this.keyframes = Keyframes.normalize(keyframes, $element);
+
     // by default animations are not statrted
     this.started = false;
     // animator used to apply keyframes to the $element based on percent
@@ -52,6 +52,8 @@ export default class Animation {
       $scrollElement.addEventListener('scroll', this._compute.bind(this));
     }
     this.started = true;
+    // also call compute once for setting initial values
+    this._compute();
   }
   stop () {
     const { options, started } = this;
@@ -99,13 +101,13 @@ export default class Animation {
       // call Animator to apply animations
       this._animator.applyAnimations(calculatePercent(start, end, scroll));
     } else if (scroll < start && !appliedAllBefore) {
+      // if the scroll position is before the start point set element style to the initial keyframe rules with 0 percent
       this.appliedAllBefore = true;
-      this._animator.applyAnimations(0);
-      // console.log('a');
+      this._animator.applyNoAnimations();
     } else if (scroll > end && !appliedAllAfter) {
+      // if the scroll position if after the start set element style to all keyframes with 100 percent
       this.appliedAllAfter = true;
-      this._animator.applyAnimations(100);
-      // console.log('b');
+      this._animator.applyAllAnimations();
     }
   }
 }

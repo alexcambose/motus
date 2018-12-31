@@ -1,4 +1,4 @@
-const transforms = {
+let transforms = {
   matrix: {
     defaultValue: [0, 0, 0, 0, 0, 0],
   },
@@ -64,6 +64,11 @@ const transforms = {
   },
 };
 
+// add function name property to transforms object, will be useful later to know which function is the property from
+Object.keys(transforms).forEach(
+  prop =>
+    (transforms[prop] = { ...transforms[prop], functionName: 'transform' })
+);
 export default {
   ...transforms,
 };

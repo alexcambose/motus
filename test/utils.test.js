@@ -9,6 +9,7 @@ import {
   previousArrayValue,
   calculatePercent,
   calculateValueFromPercent,
+  createFunctionString,
 } from '../src/utils';
 import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
 
@@ -28,6 +29,7 @@ describe('utils', () => {
       });
       it('works for standard css units', () => {
         expect(getValue('20px')).toEqual([20, 'px']);
+        expect(getValue(['20px', '20px'])).toEqual([[20, 'px'], [20, 'px']]);
       });
       it('returns [value, NO_UNIT] if the unit is not specified', () => {
         expect(getValue(1)).toEqual([1, NO_UNIT]);
@@ -142,6 +144,16 @@ describe('utils', () => {
     });
     it('calculates the difference if min and max are custom', () => {
       expect(calculateValueFromPercent(10, 60, 50)).toEqual(35);
+    });
+  });
+  describe('createFunctionString', () => {
+    it('returns a string representing the function with specified parameters', () => {
+      expect(
+        createFunctionString('translate', [[10, 'px'], [90, 'px']])
+      ).toEqual('translate(10px, 90px)');
+    });
+    it('returns a function with no params if no parameters are specified', () => {
+      expect(createFunctionString('translate', [])).toEqual('translate()');
     });
   });
 });

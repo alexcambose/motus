@@ -11,10 +11,16 @@ import throwError from '../error/throwError';
 import { UNEXPECTED_ERROR } from '../enum/errorEnum';
 
 export default class Animator {
-  constructor (keyframes, $element) {
+  static defaultOptions = {
+    precision: 1,
+  };
+  constructor (keyframes, $element, options) {
+    this.options = { ...Animator.defaultOptions, ...options };
     this.keyframes = keyframes;
+
     this.elementStyles = new Styler($element);
   }
+
   /**
    * Returns a pair of two keyframe percentages, [previous, next]
    * @param  {number} percent
@@ -55,15 +61,28 @@ export default class Animator {
       currentKeyframePercent,
     ] = currentKeyframesPercent;
     // get the scrolled percent from the last keyframe to the previous
-    const currentKeyframeScrollPercent = calculatePercent(
-      previousKeyframePercent,
-      currentKeyframePercent,
-      percent
+    const currentKeyframeScrollPercent = Math.floor(
+      calculatePercent(previousKeyframePercent, currentKeyframePercent, percent)
     );
+
+    Object.keys(this.keyframes).forEach(percent => {
+      if (percent < currentKeyframePercent) {
+        this._applyKeyframe(this.keyframes[percent], 100);
+      }
+    });
     // modify dom element styled based on the keyframe rules
     this._applyKeyframe(
       this.keyframes[currentKeyframePercent],
       currentKeyframeScrollPercent
+    );
+  }
+  applyNoAnimations () {
+    this.elementStyles.removeAll();
+    if (this.keyframes[0]) this._applyKeyframe(this.keyframes[0], 100);
+  }
+  applyAllAnimations () {
+    Object.keys(this.keyframes).forEach(percent =>
+      this._applyKeyframe(this.keyframes[percent], 100)
     );
   }
 
@@ -100,9 +119,14 @@ export default class Animator {
    * @param  {number} percent The percent of the scrolling position from the previous keyframe to the next one
    */
   _applyNumberValues (property, from, to, unit, percent) {
-    const { elementStyles } = this;
+    const { elementStyles, options } = this;
     // the percent of the scrolling position from the previous keyframe to the next one
-    const value = calculateValueFromPercent(from, to, percent);
+    const value = calculateValueFromPercent(
+      from,
+      to,
+      percent,
+      options.precision
+    );
     // apply the values to the element style
     elementStyles.apply(property, value, unit);
   }
@@ -116,8 +140,28 @@ export default class Animator {
     // apply the values to the element style
     elementStyles.apply(property, value);
   }
+  /**
+   * @param  {string} property
+   * @param  {array} from - Shape: [[10, 'px'], [10, 'px]]
+   * @param  {array} to - Shape: [[10, 'px'], [10, 'px]]
+   * @param  {number} percent
+   */
   _applyArrayValues (property, from, to, percent) {
     const { elementStyles } = this;
-    console.log(arguments);
+
+    // value length, minimum from both of them
+    const length = Math.min(from.length, to.length);
+    let params = [];
+    for (let i = 0; i < length; i++) {
+      params[i] = [];
+      params[i][0] = calculateValueFromPercent(
+        from[i][0],
+        to[i][0],
+        percent,
+        this.options.precision
+      );
+      params[i][1] = to[i][1];
+    }
+    elementStyles.apply(property, params);
   }
 }
