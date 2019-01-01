@@ -10,6 +10,9 @@ $element.style.opacity = '1';
 
 describe('keyframes', () => {
   describe('normalize', () => {
+    it('throws error if no keyframes are specified', () => {
+      expect(() => Keyframes.normalize({})).toThrow();
+    });
     it('throws error if the keyframe percent value is not a valid number', () => {
       expect(() => Keyframes.normalize({ '13a2': {} })).toThrow();
     });

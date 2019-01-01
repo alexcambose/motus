@@ -98,6 +98,7 @@ export default class Animation {
     if (scroll > start && scroll < end) {
       this.appliedAllBefore = false;
       this.appliedAllAfter = false;
+
       // call Animator to apply animations
       this._animator.applyAnimations(calculatePercent(start, end, scroll));
     } else if (scroll < start && !appliedAllBefore) {

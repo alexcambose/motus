@@ -1,6 +1,7 @@
 import { isNumber, isString, isArray } from '../utils';
 import functionValuesEnum from '../enum/functionValuesEnum';
 import CssFunc from 'css-func';
+import { NO_UNIT } from '../enum/specialUnitEnum';
 
 export default class Styler {
   /**
@@ -12,7 +13,7 @@ export default class Styler {
   /**
    * @param  {string} name Property name
    * @param  {number|string|array} value Property value
-   * @param  {string} unit Property unit
+   * @param  {string} unit  Property unit
    */
   apply (name, value, unit) {
     if (isNumber(value)) this._applyNumber(name, value, unit);
@@ -47,7 +48,7 @@ export default class Styler {
    * @param  {string} unit Property unit
    */
   _applyNumber (name, value, unit) {
-    if (unit) value += unit;
+    if (unit && unit !== NO_UNIT) value += unit;
     this._setStyle(name, value);
   }
   /**

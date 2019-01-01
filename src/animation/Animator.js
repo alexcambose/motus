@@ -65,12 +65,14 @@ export default class Animator {
       calculatePercent(previousKeyframePercent, currentKeyframePercent, percent)
     );
 
+    // apply all keyframes at 100 with a lower berakpoint percent
     Object.keys(this.keyframes).forEach(percent => {
-      if (percent < currentKeyframePercent) {
+      // both of them are string so web aprseInt to compare them as numerals
+      if (parseInt(percent) < parseInt(currentKeyframePercent)) {
         this._applyKeyframe(this.keyframes[percent], 100);
       }
     });
-    // modify dom element styled based on the keyframe rules
+    // modify dom element styled based on the keyframe rules at current percent
     this._applyKeyframe(
       this.keyframes[currentKeyframePercent],
       currentKeyframeScrollPercent
@@ -95,13 +97,18 @@ export default class Animator {
     // loop through all keyframe rules
     Object.keys(keyframe).forEach(property => {
       const { from, to, unit } = keyframe[property];
+
       // if the keyfrme value is something like { width: { from: 10, to: 20, unit: 'px' } }
       if (isNumber(from) && isNumber(to)) {
-        this._applyNumberValues(property, from, to, unit, percent);
+        this._applyNumberValues(
+          property,
+          from,
+          to,
+          unit === NO_UNIT ? '' : unit,
+          percent
+        );
       } else if (unit === COLOR_UNIT) {
         this._applyColorValues(property, from, to, percent);
-      } else if (unit === NO_UNIT) {
-        this._applyNumberValues(property, from, to, '', percent);
       } else if (!unit && isArray(from) && isArray(to)) {
         this._applyArrayValues(property, from, to, percent);
       } else {
@@ -141,6 +148,7 @@ export default class Animator {
     elementStyles.apply(property, value);
   }
   /**
+   * Calculates the value of all function parameters based on the specified percent and then applies it to the dom element via Styler class
    * @param  {string} property
    * @param  {array} from - Shape: [[10, 'px'], [10, 'px]]
    * @param  {array} to - Shape: [[10, 'px'], [10, 'px]]

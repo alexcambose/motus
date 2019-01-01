@@ -4,7 +4,7 @@
   "description": "Animation library that mimics CSS keyframes when scrolling",
   "main": "js/index.js",
   "scripts": {
-    "test": "jest --coverage",
+    "test": "jest",
     "test:watch": "jest --watchAll",
     "test:coverage": "jest --coverage",
     "lint": "eslint src/*.js",

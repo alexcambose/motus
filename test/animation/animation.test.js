@@ -73,14 +73,57 @@ describe('Animation', () => {
       },
     },
   };
+  const animation = new Animation(0, 200, $element, keyframesArr);
   it('keyframe normalization', () => {
-    const animation = new Animation(0, 0, $element, keyframesArr);
     expect(animation.keyframes).toEqual(keyframesObj);
   });
-  describe('_getScrollPosition', () => {
+  describe('start()', () => {
+    it('sets the started parameter to true', () => {
+      expect(animation.started).toEqual(false);
+      animation.start();
+      expect(animation.started).toEqual(true);
+    });
+  });
+  describe('stop()', () => {
+    it('sets the started parameter to false', () => {
+      expect(animation.started).toEqual(true);
+      animation.stop();
+      expect(animation.started).toEqual(false);
+    });
+  });
+  describe('_getScrollPosition()', () => {
     it('returns the top scroll position', () => {
-      const animation = new Animation(0, 0, $element, keyframesArr);
       expect(animation._getScrollPosition()).toEqual(0);
+    });
+  });
+  describe('__compute()', () => {
+    it('does not work if the animation is not started', () => {
+      const style = $element.style._values;
+      animation.__compute();
+      expect($element.style._values).toEqual(style);
+    });
+    it('applies the animation that is matched with the scroll', () => {
+      animation.start();
+      window.scrollY = 100;
+      animation.__compute();
+      expect($element.style.width).toEqual('250px');
+      expect($element.style.height).toEqual('70px');
+    });
+    it('applies all the keyframes if the scroll is over the last keyframe', () => {
+      animation.start();
+
+      window.scrollY = 201;
+      animation.__compute();
+      expect($element.style.width).toEqual('400px');
+      expect($element.style.height).toEqual('40px');
+    });
+    it('erases all the styles and applies the 0 keyframe if exists if the scroll is before all keyframes', () => {
+      animation.start();
+
+      window.scrollY = -1;
+      animation.__compute();
+      expect($element.style.width).toEqual('100px');
+      expect($element.style.height).toEqual('20px');
     });
   });
 });

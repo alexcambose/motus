@@ -128,7 +128,7 @@ describe('utils', () => {
       expect(typeof previousArrayValue(Object.keys(obj), 1)).toEqual('boolean');
     });
   });
-  describe('calculate percent', () => {
+  describe('calculatePercent', () => {
     it('gets the percent with values starting from 0 to 100', () => {
       expect(calculatePercent(0, 100, 50)).toEqual(50);
     });
@@ -144,6 +144,9 @@ describe('utils', () => {
     });
     it('calculates the difference if min and max are custom', () => {
       expect(calculateValueFromPercent(10, 60, 50)).toEqual(35);
+    });
+    it('converts a number into a number fixed decimal length', () => {
+      expect(calculateValueFromPercent(0, 100, 50, 2)).toEqual(50);
     });
   });
   describe('createFunctionString', () => {

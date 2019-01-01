@@ -80,7 +80,11 @@ export const calculatePercent = (min, max, current) => {
  */
 export const calculateValueFromPercent = (min, max, percent, precision) => {
   const value = min + ((max - min) * percent) / 100;
-  if (precision) return value.toFixed(precision);
+  if (precision) {
+    return (
+      Math.floor(value * Math.pow(10, precision)) / Math.pow(10, precision)
+    );
+  }
   return value;
 };
 
