@@ -95,6 +95,11 @@ describe('Animation', () => {
     it('returns the top scroll position', () => {
       expect(animation._getScrollPosition()).toEqual(0);
     });
+    it('returns the left scroll position', () => {
+      animation.options.horizontal = true;
+      expect(animation._getScrollPosition()).toEqual(0);
+      animation.options.horizontal = false;
+    });
   });
   describe('__compute()', () => {
     it('does not work if the animation is not started', () => {

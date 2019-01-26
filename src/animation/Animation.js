@@ -70,6 +70,7 @@ export default class Animation {
   _getScrollPosition () {
     const { options } = this;
     const { horizontal, $scrollElement } = options;
+    // check for the horizontal config
     let scrollPosition = horizontal
       ? $scrollElement.scrollLeft
       : $scrollElement.scrollTop;
