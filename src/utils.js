@@ -61,6 +61,7 @@ export const previousArrayValue = (array, value) => {
   if (arrValue || arrValue === 0) return arrValue;
   return false;
 };
+
 /**
  * @param  {number} min
  * @param  {number} max
@@ -71,6 +72,15 @@ export const calculatePercent = (min, max, current) => {
   max -= min;
   return (current / max) * 100;
 };
+
+/**
+ * Rounds a number with a set precision
+ * @param  {number} number
+ * @param  {number} precision
+ * @return {float}
+ */
+export const floorWithPrecision = (number, precision) => !precision ? number : Math.floor(number * Math.pow(10, precision)) / Math.pow(10, precision);
+
 /**
  * @param  {number} min
  * @param  {number} max
@@ -81,9 +91,7 @@ export const calculatePercent = (min, max, current) => {
 export const calculateValueFromPercent = (min, max, percent, precision) => {
   const value = min + ((max - min) * percent) / 100;
   if (precision) {
-    return (
-      Math.floor(value * Math.pow(10, precision)) / Math.pow(10, precision)
-    );
+    return floorWithPrecision(value, precision);
   }
   return value;
 };

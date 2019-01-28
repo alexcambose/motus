@@ -10,6 +10,7 @@ import {
   calculatePercent,
   calculateValueFromPercent,
   createFunctionString,
+  floorWithPrecision,
 } from '../src/utils';
 import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
 
@@ -138,6 +139,21 @@ describe('utils', () => {
       expect(calculatePercent(80, 100, 100)).toEqual(100);
     });
   });
+  describe('floorWithPrecision()', () => {
+    it('returns the same number if precision is 0', () => {
+      expect(floorWithPrecision(123)).toEqual(123);
+      expect(floorWithPrecision(123.43)).toEqual(123.43);
+    });
+    it('returns the same number if precision is over the number of decimals of the number', () => {
+      expect(floorWithPrecision(123.3, 4)).toEqual(123.3);
+    });
+    it('trims the number of decimals to a specified count', () => {
+      expect(floorWithPrecision(123.123456, 1)).toEqual(123.1);
+      expect(floorWithPrecision(123.123456, 2)).toEqual(123.12);
+      expect(floorWithPrecision(123.123456, 5)).toEqual(123.12345);
+      expect(floorWithPrecision(123.123456, 6)).toEqual(123.123456);
+    });
+  });
   describe('calculateValueFromPercent', () => {
     it('returns the same value for min an max: 0 and 100', () => {
       expect(calculateValueFromPercent(0, 100, 20)).toEqual(20);
@@ -147,6 +163,11 @@ describe('utils', () => {
     });
     it('converts a number into a number fixed decimal length', () => {
       expect(calculateValueFromPercent(0, 100, 50, 2)).toEqual(50);
+    });
+    it('returns the value trimmed by precision', () => {
+      for (let i = 1; i <= 10; i++) {
+        expect(calculateValueFromPercent(0, 100, Math.PI, i)).toEqual(floorWithPrecision(Math.PI, i));
+      }
     });
   });
   describe('createFunctionString', () => {
