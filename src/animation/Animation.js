@@ -5,15 +5,32 @@ import throttle from 'lodash.throttle';
 import { calculatePercent } from '../utils';
 export default class Animation {
   static defaultOptions = {
+    // how many decimals should a css property have
     precision: Animator.defaultOptions.precision,
+    // interval of sleep
     throttle: 40,
+    // the element that will get the scroll listener and that will be used to calculate the scroll top and left
     $scrollElement: window,
+    // is true the left offset wil be used to calculate the animation evolution
     horizontal: false,
+    // invoked on scroll (throttle will be applied)
+    onScroll: null,
+    // invoked only if the top (or left if horizontal) is between the start and end position
+    onScrollBetween: null,
+    // invoked if the scroll is before the start position
+    onScrollBefore: null,
+    // invoked if the scroll is after the start position
+    onScrollAfter: null,
+    // invoked once when the scroll just passed start position
+    onHitTop: null,
+    // invoked once when the scroll just passed end position
+    onHitBottom: null,
+    // sets the default value of the started parmeter
+    started: false,
   };
   constructor (startPoint, endPoint, $element, keyframes, options = {}) {
     // default options
     this.options = { ...Animation.defaultOptions, ...options };
-
     // element that will be animated
     this.$element = $element;
     // start point
@@ -22,6 +39,7 @@ export default class Animation {
       this.options.$scrollElement,
       this.options.horizontal
     );
+
     // end point
     this.endPoint = new Point(
       endPoint,
@@ -30,9 +48,8 @@ export default class Animation {
     );
     // normalized keyframes
     this.keyframes = Keyframes.normalize(keyframes, $element);
-
-    // by default animations are not statrted
-    this.started = false;
+    // set the default started value
+    this.started = this.options.started;
     // animator used to apply keyframes to the $element based on percent
     this._animator = new Animator(this.keyframes, $element);
     // throttle the method that will be called on scroll
@@ -41,6 +58,7 @@ export default class Animation {
     this.appliedAllBefore = false;
     this.appliedAllAfter = false;
   }
+
   /**
    * Start listening to scroll events in order to enable animation
    */
@@ -86,30 +104,46 @@ export default class Animation {
    * Method called on throttled scroll
    */
   __compute () {
+    const { onScrollBefore, onScrollAfter, onScrollBetween, onScroll, onHitTop, onHitBottom } = this.options;
     // run only if the animation is started
-    const { started, appliedAllBefore, appliedAllAfter } = this;
-    if (!started) return;
+    if (!this.started) return;
     // user scroll position
     const scroll = this._getScrollPosition();
     // top position for the start point
     const start = this.startPoint.getPxFromPoint();
     // top position for the end point
     const end = this.endPoint.getPxFromPoint();
+
+    // call scroll animation hook
+    onScroll && onScroll(scroll);
+
     // if scroll is between the start and the end position
-    if (scroll > start && scroll < end) {
+    if (scroll > start && scroll < end) { // BETWEEN
       this.appliedAllBefore = false;
       this.appliedAllAfter = false;
-
+      const scrollPercent = calculatePercent(start, end, scroll);
       // call Animator to apply animations
-      this._animator.applyAnimations(calculatePercent(start, end, scroll));
-    } else if (scroll < start && !appliedAllBefore) {
-      // if the scroll position is before the start point set element style to the initial keyframe rules with 0 percent
-      this.appliedAllBefore = true;
-      this._animator.applyNoAnimations();
-    } else if (scroll > end && !appliedAllAfter) {
-      // if the scroll position if after the start set element style to all keyframes with 100 percent
-      this.appliedAllAfter = true;
-      this._animator.applyAllAnimations();
+      this._animator.applyAnimations(scrollPercent);
+      // call animation hook
+      onScrollBetween && onScrollBetween(scroll, scrollPercent);
+    } else if (scroll < start) { // BEFORE
+      onScrollBefore && onScrollBefore(scroll);
+      // apply only once
+      if (!this.appliedAllBefore) {
+        onHitTop && onHitTop();
+        // if the scroll position is before the start point set element style to the initial keyframe rules with 0 percent
+        this.appliedAllBefore = true;
+        this._animator.applyNoAnimations();
+      }
+    } else if (scroll > end) { // AFTER
+      onScrollAfter && onScrollAfter(scroll);
+      // apply only once
+      if (!this.appliedAllAfter) {
+        onHitBottom && onHitBottom();
+        // if the scroll position if after the start set element style to all keyframes with 100 percent
+        this.appliedAllAfter = true;
+        this._animator.applyAllAnimations();
+      }
     }
   }
 }

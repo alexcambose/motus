@@ -1,7 +1,8 @@
 module.exports = {
   env: {
-    mocha: true,
+    eslint: true,
   },
+  plugins: ['jest'],
   globals: {
     expect: true,
   },

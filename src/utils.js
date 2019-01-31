@@ -26,7 +26,6 @@ export const getValue = value => {
   if (match && match.length === 3) {
     return [parseFloat(match[1]), match[2] || NO_UNIT];
   }
-
   throwError(NO_VALUE_SPECIFIED);
 };
 

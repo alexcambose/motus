@@ -14,7 +14,7 @@ export default class Animator {
   static defaultOptions = {
     precision: 1,
   };
-  constructor (keyframes, $element, options) {
+  constructor (keyframes, $element, options = {}) {
     this.options = { ...Animator.defaultOptions, ...options };
     this.keyframes = keyframes;
 

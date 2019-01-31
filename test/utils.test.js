@@ -18,12 +18,12 @@ document.body.innerHTML = `<p>test</p>`;
 const element = document.querySelector('p');
 
 describe('utils', () => {
-  describe('camelToKebabCase', () => {
+  describe('camelToKebabCase()', () => {
     it('converts aaBcDe to aa-bc-de', () => {
       expect(camelToKebabCase('aaBcDe')).toEqual('aa-bc-de');
     });
   });
-  describe('getValue', () => {
+  describe('getValue()', () => {
     describe('returns an array with the value and unit', () => {
       it('return px as default is unit is not specified', () => {
         expect(getValue('20px')).toEqual([20, 'px']);
@@ -61,12 +61,12 @@ describe('utils', () => {
       expect(() => getValue('px')).toThrow();
     });
   });
-  describe('getElementDefaultProperty', () => {
+  describe('getElementDefaultProperty()', () => {
     it('gets a default property of a dom element', () => {
       expect(getElementDefaultProperty(element, 'width')).toEqual(0 || '');
     });
   });
-  describe('isNumber', () => {
+  describe('isNumber()', () => {
     it('returns true if the provided parameter is a number', () => {
       expect(isNumber(123)).toBeTruthy();
       expect(isNumber(4321)).toBeTruthy();
@@ -76,7 +76,7 @@ describe('utils', () => {
       expect(isNumber(true)).toBeFalsy();
     });
   });
-  describe('isString', () => {
+  describe('isString()', () => {
     it('returns true if the provided parameter is a string', () => {
       expect(isString('123')).toBeTruthy();
     });
@@ -84,7 +84,7 @@ describe('utils', () => {
       expect(isString(123)).toBeFalsy();
     });
   });
-  describe('isObject', () => {
+  describe('isObject()', () => {
     it('returns true if the provided parameter is an object', () => {
       expect(isObject({})).toBeTruthy();
     });
@@ -92,7 +92,7 @@ describe('utils', () => {
       expect(isObject(213)).toBeFalsy();
     });
   });
-  describe('isArray', () => {
+  describe('isArray()', () => {
     it('returns true if the provided parameter is an array', () => {
       expect(isObject([])).toBeTruthy();
     });
@@ -100,7 +100,7 @@ describe('utils', () => {
       expect(isObject('')).toBeFalsy();
     });
   });
-  describe('isNumeric', () => {
+  describe('isNumeric()', () => {
     it('returns true if the provided parameter is a numeric value', () => {
       expect(isNumeric('123')).toBeTruthy();
       expect(isNumeric(123)).toBeTruthy();
@@ -110,7 +110,7 @@ describe('utils', () => {
       expect(isNumeric([])).toBeFalsy();
     });
   });
-  describe('previousArrayValue', () => {
+  describe('previousArrayValue()', () => {
     const obj = {
       1: {},
       4: {},
@@ -154,7 +154,7 @@ describe('utils', () => {
       expect(floorWithPrecision(123.123456, 6)).toEqual(123.123456);
     });
   });
-  describe('calculateValueFromPercent', () => {
+  describe('calculateValueFromPercent()', () => {
     it('returns the same value for min an max: 0 and 100', () => {
       expect(calculateValueFromPercent(0, 100, 20)).toEqual(20);
     });
@@ -170,7 +170,7 @@ describe('utils', () => {
       }
     });
   });
-  describe('createFunctionString', () => {
+  describe('createFunctionString()', () => {
     it('returns a string representing the function with specified parameters', () => {
       expect(
         createFunctionString('translate', [[10, 'px'], [90, 'px']])
