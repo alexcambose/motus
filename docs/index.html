@@ -1,29 +1,24 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-    <title>Documentation</title>
-  </head>
-
-  <body>
-    <div id="app">dsa</div>
-    <script>
-      const configURL =
-        'https://gist.githubusercontent.com/alexcambose/5362705e4b6d076bbd82563c6b3c9a7d/raw/3dd12e3f342a9565f88dc85465c4361299f8338b/config.json';
-      const vue = new Vue({
-        el: '#app',
-        mounted() {
-          document.title = 'Loading...';
-          fetch(configURL)
-            .then(res => res.json())
-            .then(res => {
-              console.log(res);
-            });
-        },
-      });
-    </script>
-  </body>
+<head>
+  <meta charset="UTF-8">
+  <title>motus - Animation library that mimics CSS keyframes when scrolling</title>
+  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+  <meta name="description" content="Animation library that mimics CSS keyframes when scrolling">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <link rel="stylesheet" href="//unpkg.com/docsify/lib/themes/vue.css">
+  <!-- <link rel="stylesheet" href="//unpkg.com/docsify/themes/pure.css"> -->
+</head>
+<body>
+  <div id="app"></div>
+  <script>
+    window.$docsify = {
+      name: 'motus',
+       coverpage: true,
+       disqus: 'motus-3',
+      repo: 'https://github.com/alexcambose/motus'
+    }
+  </script>
+  <script src="//unpkg.com/docsify/lib/docsify.min.js"></script>
+</body>
 </html>
