@@ -15,5 +15,6 @@ module.exports = env => {
         { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
       ],
     },
+    stats: 'verbose',
   };
 };
