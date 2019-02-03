@@ -33,19 +33,6 @@ export default class Animation {
     this.options = { ...Animation.defaultOptions, ...options };
     // element that will be animated
     this.$element = $element;
-    // start point
-    this.startPoint = new Point(
-      startPoint,
-      this.options.$scrollElement,
-      this.options.horizontal
-    );
-
-    // end point
-    this.endPoint = new Point(
-      endPoint,
-      this.options.$scrollElement,
-      this.options.horizontal
-    );
     // normalized keyframes
     this.keyframes = Keyframes.normalize(keyframes, $element);
     // set the default started value
@@ -57,6 +44,9 @@ export default class Animation {
     // variables that are true if the scroll is before or after the animation start and end points
     this.appliedAllBefore = false;
     this.appliedAllAfter = false;
+    this._computePositions(startPoint, endPoint);
+    const handleResize = throttle(() => this._computePositions(startPoint, endPoint), this.options.throttle);
+    window.addEventListener('onResize', handleResize);
   }
 
   /**
@@ -99,6 +89,24 @@ export default class Animation {
         : $scrollElement.scrollY;
     }
     return scrollPosition;
+  }
+  _computePositions (startPoint, endPoint) {
+    // start point
+    if (startPoint || startPoint === 0) {
+      this.startPoint = new Point(
+        startPoint,
+        this.options.$scrollElement,
+        this.options.horizontal
+      );
+    }
+    if (endPoint || endPoint === 0) {
+      // end point
+      this.endPoint = new Point(
+        endPoint,
+        this.options.$scrollElement,
+        this.options.horizontal
+      );
+    }
   }
   /**
    * Method called on throttled scroll

@@ -11,6 +11,7 @@ import {
   calculateValueFromPercent,
   createFunctionString,
   floorWithPrecision,
+  isHtmlElement,
 } from '../src/utils';
 import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
 
@@ -180,4 +181,10 @@ describe('utils', () => {
       expect(createFunctionString('translate', [])).toEqual('translate()');
     });
   });
+  describe('isHtmlElement()', () => {
+    it('returns true if the value is an instance of an html element', () => {
+      expect(isHtmlElement(document.body)).toBeTruthy();
+      expect(isHtmlElement('123')).toBeFalsy();
+    })
+  })
 });
