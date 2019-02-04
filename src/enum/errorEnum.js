@@ -18,3 +18,4 @@ export const KEYFRAME_TO_IS_NOT_SET = `Keyframe property 'to' must be set`;
 export const ANIMATION_NOT_INSTANCE_OF_ANIMATION = `The provided animation object is not an instance of Motus.Animation`;
 export const NO_KEYFRAMES = () => `No keyframes specified`;
 export const UNEXPECTED_ERROR = () => `Unexpected error`;
+export const VALUE_IS_NOT_HTML_ELEMENT = val => `${val} is not a valid html element`;

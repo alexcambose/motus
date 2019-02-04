@@ -79,6 +79,11 @@ describe('Animation', () => {
   it('keyframe normalization', () => {
     expect(animation.keyframes).toEqual(keyframesObj);
   });
+  it('throws error if the specified element is not a valid html element', () => {
+    expect(() => {
+      new Animation(0, 200, false, keyframesArr);
+    }).toThrow();
+  });
   describe('animation hooks', () => {
     afterEach(() => {
       window.scrollY = 0;

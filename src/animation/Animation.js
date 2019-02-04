@@ -2,7 +2,9 @@ import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
 import throttle from 'lodash.throttle';
-import { calculatePercent } from '../utils';
+import { calculatePercent, isHtmlElement } from '../utils';
+import throwError from '../error/throwError';
+import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
 export default class Animation {
   static defaultOptions = {
     // how many decimals should a css property have
@@ -31,6 +33,9 @@ export default class Animation {
   constructor (startPoint, endPoint, $element, keyframes, options = {}) {
     // default options
     this.options = { ...Animation.defaultOptions, ...options };
+    if (!isHtmlElement($element)) {
+      throwError(VALUE_IS_NOT_HTML_ELEMENT, $element);
+    }
     // element that will be animated
     this.$element = $element;
     // normalized keyframes

@@ -1,3 +1,5 @@
+import { isHtmlElement } from './utils';
+
 export default class Point {
   constructor (point, $scrollElement, horizontal) {
     this.point = point;
@@ -14,7 +16,7 @@ export default class Point {
   getPxFromPoint () {
     const { point, $scrollElement, horizontal } = this;
     // let a;
-    if (point instanceof window.HTMLElement) {
+    if (isHtmlElement(point)) {
       if (horizontal) {
         return point.offsetLeft - ($scrollElement.offsetLeft || 0);
       }
