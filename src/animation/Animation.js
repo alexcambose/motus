@@ -2,7 +2,7 @@ import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
 import throttle from 'lodash.throttle';
-import { calculatePercent, isHtmlElement } from '../utils';
+import { calculatePercent, isHtmlElement, getElementScroll } from '../utils';
 import throwError from '../error/throwError';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
 export default class Animation {
@@ -50,8 +50,8 @@ export default class Animation {
     this.appliedAllBefore = false;
     this.appliedAllAfter = false;
     this._computePositions(startPoint, endPoint);
-    const handleResize = throttle(() => this._computePositions(startPoint, endPoint), this.options.throttle);
-    window.addEventListener('onResize', handleResize);
+    const handleResize = throttle(this._computePositions.bind(this), this.options.throttle);
+    window.addEventListener('resize', () => handleResize(startPoint, endPoint));
   }
 
   /**
@@ -77,25 +77,21 @@ export default class Animation {
     }
     this.started = false;
   }
+  
   /**
    * Get user scroll position based on $scrollElement
    */
   _getScrollPosition () {
-    const { options } = this;
-    const { horizontal, $scrollElement } = options;
-    // check for the horizontal config
-    let scrollPosition = horizontal
-      ? $scrollElement.scrollLeft
-      : $scrollElement.scrollTop;
-    // window uses scrollX, scrollY instead of scrollLeft, scrollTop
-    if ($scrollElement === window) {
-      scrollPosition = horizontal
-        ? $scrollElement.scrollX
-        : $scrollElement.scrollY;
-    }
-    return scrollPosition;
+    const { horizontal, $scrollElement } = this.options;
+    return getElementScroll($scrollElement, horizontal);
   }
+
+  /** Method that sets the start and end point to the class properties to be used later when animating, also called on every resize
+   * @param  {} startPoint
+   * @param  {} endPoint
+   */
   _computePositions (startPoint, endPoint) {
+    console.log('a')
     // start point
     if (startPoint || startPoint === 0) {
       this.startPoint = new Point(
@@ -126,7 +122,9 @@ export default class Animation {
     const start = this.startPoint.getPxFromPoint();
     // top position for the end point
     const end = this.endPoint.getPxFromPoint();
-
+    const p = new Point(this.$element, this.options.$scrollElement,
+      this.options.horizontal);
+console.log(p.getRelativeOffset)
     // call scroll animation hook
     onScroll && onScroll(scroll);
 

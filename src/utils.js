@@ -108,3 +108,15 @@ export const createFunctionString = (name, parameters) => {
   }
   return `${name}(${value})`;
 };
+
+export const getElementScroll = ($element, horizontal = false) => {
+  // window uses scrollX, scrollY instead of scrollLeft, scrollTop
+  if ($element === window) {
+    return horizontal
+      ? $element.scrollX
+      : $element.scrollY;
+  }
+  return horizontal
+    ? $element.scrollLeft
+    : $element.scrollTop;
+};

@@ -12,11 +12,12 @@ import {
   createFunctionString,
   floorWithPrecision,
   isHtmlElement,
+  getElementScroll,
 } from '../src/utils';
 import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
 
 document.body.innerHTML = `<p>test</p>`;
-const element = document.querySelector('p');
+const $element = document.querySelector('p');
 
 describe('utils', () => {
   describe('camelToKebabCase()', () => {
@@ -64,7 +65,7 @@ describe('utils', () => {
   });
   describe('getElementDefaultProperty()', () => {
     it('gets a default property of a dom element', () => {
-      expect(getElementDefaultProperty(element, 'width')).toEqual(0 || '');
+      expect(getElementDefaultProperty($element, 'width')).toEqual(0 || '');
     });
   });
   describe('isNumber()', () => {
@@ -186,5 +187,27 @@ describe('utils', () => {
       expect(isHtmlElement(document.body)).toBeTruthy();
       expect(isHtmlElement('123')).toBeFalsy();
     })
-  })
+  });
+  describe('getElementScroll()', () => {
+    describe('works for html elements', () => {
+      // TODO define a custom getter to set the values
+      it('returns the vertical scroll position', () => {
+        expect(getElementScroll($element)).toEqual(0);
+      });
+      it('returns the horizontal scroll position if horizontal parameter is true', () => {
+      // $element.offsetLeft= 100;
+      expect(getElementScroll($element, true)).toEqual(0);
+      });
+    });
+    describe('works for window element', () => {
+      it('returns the vertical scroll position', () => {
+        window.scrollY = 100;
+        expect(getElementScroll(window)).toEqual(100);
+      });
+      it('returns the horizontal scroll position if horizontal parameter is true', () => {
+      window.scrollX = 100;
+      expect(getElementScroll(window, true)).toEqual(100);
+      });
+    });
+  });
 });
