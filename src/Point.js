@@ -1,4 +1,6 @@
-import { isHtmlElement } from './utils';
+import { isHtmlElement } from './helpers/type';
+import throwError from './error/throwError';
+import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
 export default class Point {
   constructor (point, $scrollElement, horizontal) {

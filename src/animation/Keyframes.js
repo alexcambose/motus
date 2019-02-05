@@ -1,13 +1,14 @@
 import {
   isNumber,
-  getElementDefaultProperty,
-  getValue,
   isString,
   isObject,
   isArray,
-  previousArrayValue,
   isNumeric,
-} from '../utils';
+  getElementDefaultProperty,
+  getValue,
+  previousArrayValue,
+} from '../helpers/index';
+
 import throwError from '../error/throwError';
 import {
   UNKNOWN_PROPERTY_VALUE,

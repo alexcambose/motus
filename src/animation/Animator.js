@@ -1,9 +1,9 @@
 import {
   calculatePercent,
-  isNumber,
   calculateValueFromPercent,
+  isNumber,
   isArray,
-} from '../utils';
+} from '../helpers/';
 import Styler from './Styler';
 import c2c from 'color-to-color';
 import { COLOR_UNIT, NO_UNIT } from '../enum/specialUnitEnum';

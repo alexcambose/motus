@@ -2,9 +2,11 @@ import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
 import throttle from 'lodash.throttle';
-import { calculatePercent, isHtmlElement, getElementScroll } from '../utils';
+import { calculatePercent, getElementScroll, getElementDimensions } from '../helpers/';
+import { isHtmlElement } from '../helpers/type';
 import throwError from '../error/throwError';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
+
 export default class Animation {
   static defaultOptions = {
     // how many decimals should a css property have
@@ -91,21 +93,27 @@ export default class Animation {
    * @param  {} endPoint
    */
   _computePositions (startPoint, endPoint) {
-    console.log('a')
+    const { $scrollElement, horizontal } = this.options;
     // start point
     if (startPoint || startPoint === 0) {
       this.startPoint = new Point(
         startPoint,
-        this.options.$scrollElement,
-        this.options.horizontal
+        $scrollElement,
+        horizontal
+      );
+    } else {
+      this.startPoint = new Point(
+        this.$element.offsetTop - this.options.$scrollElement.offsetTop - getElementDimensions($scrollElement.clientHeight).width,
+        $scrollElement,
+        horizontal
       );
     }
     if (endPoint || endPoint === 0) {
       // end point
       this.endPoint = new Point(
         endPoint,
-        this.options.$scrollElement,
-        this.options.horizontal
+        $scrollElement,
+        horizontal
       );
     }
   }
@@ -122,9 +130,7 @@ export default class Animation {
     const start = this.startPoint.getPxFromPoint();
     // top position for the end point
     const end = this.endPoint.getPxFromPoint();
-    const p = new Point(this.$element, this.options.$scrollElement,
-      this.options.horizontal);
-console.log(p.getRelativeOffset)
+    // console.log(start, end, scroll, )
     // call scroll animation hook
     onScroll && onScroll(scroll);
 
