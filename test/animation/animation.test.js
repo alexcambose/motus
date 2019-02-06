@@ -84,6 +84,17 @@ describe('Animation', () => {
       new Animation(0, 200, false, keyframesArr);
     }).toThrow();
   });
+  describe('points not being defined', () => {
+    it('start point is not defined or falsy', () => {
+      const anim = new Animation(false, 200, $element, keyframesArr);
+      // for some reason window height is 768
+      expect(anim.startPoint).toEqual(-768);
+    });
+    it('end point is not defined or falsy', () => {
+      const anim = new Animation(200, false, $element, keyframesArr);
+      expect(anim.endPoint).toEqual(0);
+    });
+  });
   describe('animation hooks', () => {
     afterEach(() => {
       window.scrollY = 0;

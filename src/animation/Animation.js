@@ -78,7 +78,6 @@ export default class Animation {
     }
     this.started = false;
   }
-  
   /**
    * Get user scroll position based on $scrollElement
    */
@@ -95,25 +94,25 @@ export default class Animation {
     const { $scrollElement, horizontal } = this.options;
     // start point
     if (startPoint || startPoint === 0) {
-      this.startPoint = new Point(
+      this.startPoint = Point.getPxFromPoint(
         startPoint,
         $scrollElement,
         horizontal
       );
     } else {
-      this.startPoint = new Point(
-        this.$element.offsetTop - this.options.$scrollElement.offsetTop - getElementDimensions($scrollElement.clientHeight).width,
-        $scrollElement,
-        horizontal
-      );
+      // if point is not defined get the distance to it
+      this.startPoint = Point.getDistanceFromParent(this.$element, $scrollElement, horizontal) - getElementDimensions($scrollElement)[horizontal ? 'width' : 'height'];
     }
     if (endPoint || endPoint === 0) {
       // end point
-      this.endPoint = new Point(
+      this.endPoint = Point.getPxFromPoint(
         endPoint,
         $scrollElement,
         horizontal
       );
+    } else {
+      // if point is not defined get the distance to it
+      this.endPoint = Point.getDistanceFromParent(this.$element, $scrollElement, horizontal);
     }
   }
   /**
@@ -121,28 +120,26 @@ export default class Animation {
    */
   __compute () {
     const { onScrollBefore, onScrollAfter, onScrollBetween, onScroll, onHitTop, onHitBottom } = this.options;
+    // top position for the start and end point
+    const { startPoint, endPoint } = this;
     // run only if the animation is started
     if (!this.started) return;
     // user scroll position
     const scroll = this._getScrollPosition();
-    // top position for the start point
-    const start = this.startPoint.getPxFromPoint();
-    // top position for the end point
-    const end = this.endPoint.getPxFromPoint();
     // console.log(start, end, scroll, )
     // call scroll animation hook
     onScroll && onScroll(scroll);
 
     // if scroll is between the start and the end position
-    if (scroll > start && scroll < end) { // BETWEEN
+    if (scroll > startPoint && scroll < endPoint) { // BETWEEN
       this.appliedAllBefore = false;
       this.appliedAllAfter = false;
-      const scrollPercent = calculatePercent(start, end, scroll);
+      const scrollPercent = calculatePercent(startPoint, endPoint, scroll);
       // call Animator to apply animations
       this._animator.applyAnimations(scrollPercent);
       // call animation hook
       onScrollBetween && onScrollBetween(scroll, scrollPercent);
-    } else if (scroll < start) { // BEFORE
+    } else if (scroll < startPoint) { // BEFORE
       onScrollBefore && onScrollBefore(scroll);
       // apply only once
       if (!this.appliedAllBefore) {
@@ -151,7 +148,7 @@ export default class Animation {
         this.appliedAllBefore = true;
         this._animator.applyNoAnimations();
       }
-    } else if (scroll > end) { // AFTER
+    } else if (scroll > endPoint) { // AFTER
       onScrollAfter && onScrollAfter(scroll);
       // apply only once
       if (!this.appliedAllAfter) {

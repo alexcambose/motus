@@ -23,6 +23,7 @@ export const getElementScroll = ($element, horizontal = false) => {
     ? $element.scrollLeft
     : $element.scrollTop;
 };
+
 export const getValue = value => {
   /// call getValue recursively for each item in the array
   if (isArray(value)) {
