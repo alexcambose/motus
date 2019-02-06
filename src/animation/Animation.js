@@ -2,8 +2,7 @@ import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
 import throttle from 'lodash.throttle';
-import { calculatePercent, getElementScroll, getElementDimensions } from '../helpers/';
-import { isHtmlElement } from '../helpers/type';
+import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement } from '../helpers/';
 import throwError from '../error/throwError';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
 

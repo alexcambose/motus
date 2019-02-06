@@ -1,4 +1,4 @@
-import { isNumber, isString, isArray } from '../helpers/type';
+import { isNumber, isString, isArray } from '../helpers/';
 import functionValuesEnum from '../enum/functionValuesEnum';
 import CssFunc from 'css-func';
 import { NO_UNIT } from '../enum/specialUnitEnum';

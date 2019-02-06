@@ -7,7 +7,7 @@ import {
   getElementDefaultProperty,
   getValue,
   previousArrayValue,
-} from '../helpers/index';
+} from '../helpers/';
 
 import throwError from '../error/throwError';
 import {
