@@ -1566,35 +1566,30 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var _helpers___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers/ */ "./src/helpers/index.js");
 
 
+ // import throwError from './error/throwError';
+// import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
 var Point =
 /*#__PURE__*/
 function () {
-  function Point(point, $scrollElement, horizontal) {
+  function Point() {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default()(this, Point);
-
-    this.point = point;
-    this.$scrollElement = $scrollElement;
-    this.horizontal = horizontal;
   }
-  /**
-   * Gets the pixels from a given number or dom element
-   *
-   * @param  {number|HTMLElement} point
-   * @returns number
-   */
 
-
-  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Point, [{
+  _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Point, null, [{
     key: "getPxFromPoint",
-    value: function getPxFromPoint() {
-      var point = this.point,
-          $scrollElement = this.$scrollElement,
-          horizontal = this.horizontal; // let a;
 
-      if (point instanceof window.HTMLElement) {
+    /**
+     * Gets the pixels from a given number or dom element
+     *
+     * @param  {number|HTMLElement} point
+     * @returns number
+     */
+    value: function getPxFromPoint(point, $scrollElement, horizontal) {
+      if (Object(_helpers___WEBPACK_IMPORTED_MODULE_2__["isHtmlElement"])(point)) {
         if (horizontal) {
           return point.offsetLeft - ($scrollElement.offsetLeft || 0);
         }
@@ -1603,6 +1598,13 @@ function () {
       }
 
       return point;
+    }
+  }, {
+    key: "getDistanceFromParent",
+    value: function getDistanceFromParent($element, $parent, horizontal) {
+      var parentOffset = $parent === window ? 0 : horizontal ? $parent.offsetLeft : $parent.offsetTop;
+      var elementOffset = horizontal ? $element.offsetLeft : $element.offsetTop;
+      return elementOffset - parentOffset;
     }
   }]);
 
@@ -1636,7 +1638,11 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _animation_Animator__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../animation/Animator */ "./src/animation/Animator.js");
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! lodash.throttle */ "./node_modules/lodash.throttle/index.js");
 /* harmony import */ var lodash_throttle__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(lodash_throttle__WEBPACK_IMPORTED_MODULE_7__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../utils */ "./src/utils.js");
+/* harmony import */ var _helpers___WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../helpers/ */ "./src/helpers/index.js");
+/* harmony import */ var _error_throwError__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../error/throwError */ "./src/error/throwError.js");
+/* harmony import */ var _enum_errorEnum__WEBPACK_IMPORTED_MODULE_10__ = __webpack_require__(/*! ../enum/errorEnum */ "./src/enum/errorEnum.js");
+
+
 
 
 
@@ -1656,13 +1662,14 @@ function () {
     _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_1___default()(this, Animation);
 
     // default options
-    this.options = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, Animation.defaultOptions, options); // element that will be animated
+    this.options = _babel_runtime_helpers_objectSpread__WEBPACK_IMPORTED_MODULE_0___default()({}, Animation.defaultOptions, options);
 
-    this.$element = $element; // start point
+    if (!Object(_helpers___WEBPACK_IMPORTED_MODULE_8__["isHtmlElement"])($element)) {
+      Object(_error_throwError__WEBPACK_IMPORTED_MODULE_9__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_10__["VALUE_IS_NOT_HTML_ELEMENT"], $element);
+    } // element that will be animated
 
-    this.startPoint = new _Point__WEBPACK_IMPORTED_MODULE_5__["default"](startPoint, this.options.$scrollElement, this.options.horizontal); // end point
 
-    this.endPoint = new _Point__WEBPACK_IMPORTED_MODULE_5__["default"](endPoint, this.options.$scrollElement, this.options.horizontal); // normalized keyframes
+    this.$element = $element; // normalized keyframes
 
     this.keyframes = _Keyframes__WEBPACK_IMPORTED_MODULE_4__["default"].normalize(keyframes, $element); // set the default started value
 
@@ -1674,6 +1681,13 @@ function () {
 
     this.appliedAllBefore = false;
     this.appliedAllAfter = false;
+
+    this._computePositions(startPoint, endPoint);
+
+    var handleResize = lodash_throttle__WEBPACK_IMPORTED_MODULE_7___default()(this._computePositions.bind(this), this.options.throttle);
+    window.addEventListener('resize', function () {
+      return handleResize(startPoint, endPoint);
+    });
   }
   /**
    * Start listening to scroll events in order to enable animation
@@ -1717,17 +1731,37 @@ function () {
   }, {
     key: "_getScrollPosition",
     value: function _getScrollPosition() {
-      var options = this.options;
-      var horizontal = options.horizontal,
-          $scrollElement = options.$scrollElement; // check for the horizontal config
+      var _this$options = this.options,
+          horizontal = _this$options.horizontal,
+          $scrollElement = _this$options.$scrollElement;
+      return Object(_helpers___WEBPACK_IMPORTED_MODULE_8__["getElementScroll"])($scrollElement, horizontal);
+    }
+    /** Method that sets the start and end point to the class properties to be used later when animating, also called on every resize
+     * @param  {} startPoint
+     * @param  {} endPoint
+     */
 
-      var scrollPosition = horizontal ? $scrollElement.scrollLeft : $scrollElement.scrollTop; // window uses scrollX, scrollY instead of scrollLeft, scrollTop
+  }, {
+    key: "_computePositions",
+    value: function _computePositions(startPoint, endPoint) {
+      var _this$options2 = this.options,
+          $scrollElement = _this$options2.$scrollElement,
+          horizontal = _this$options2.horizontal; // start point
 
-      if ($scrollElement === window) {
-        scrollPosition = horizontal ? $scrollElement.scrollX : $scrollElement.scrollY;
+      if (startPoint || startPoint === 0) {
+        this.startPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getPxFromPoint(startPoint, $scrollElement, horizontal);
+      } else {
+        // if point is not defined get the distance to it
+        this.startPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getDistanceFromParent(this.$element, $scrollElement, horizontal) - Object(_helpers___WEBPACK_IMPORTED_MODULE_8__["getElementDimensions"])($scrollElement)[horizontal ? 'width' : 'height'];
       }
 
-      return scrollPosition;
+      if (endPoint || endPoint === 0) {
+        // end point
+        this.endPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getPxFromPoint(endPoint, $scrollElement, horizontal);
+      } else {
+        // if point is not defined get the distance to it
+        this.endPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getDistanceFromParent(this.$element, $scrollElement, horizontal);
+      }
     }
     /**
      * Method called on throttled scroll
@@ -1736,36 +1770,36 @@ function () {
   }, {
     key: "__compute",
     value: function __compute() {
-      var _this$options = this.options,
-          onScrollBefore = _this$options.onScrollBefore,
-          onScrollAfter = _this$options.onScrollAfter,
-          onScrollBetween = _this$options.onScrollBetween,
-          onScroll = _this$options.onScroll,
-          onHitTop = _this$options.onHitTop,
-          onHitBottom = _this$options.onHitBottom; // run only if the animation is started
+      var _this$options3 = this.options,
+          onScrollBefore = _this$options3.onScrollBefore,
+          onScrollAfter = _this$options3.onScrollAfter,
+          onScrollBetween = _this$options3.onScrollBetween,
+          onScroll = _this$options3.onScroll,
+          onHitTop = _this$options3.onHitTop,
+          onHitBottom = _this$options3.onHitBottom; // top position for the start and end point
+
+      var startPoint = this.startPoint,
+          endPoint = this.endPoint; // run only if the animation is started
 
       if (!this.started) return; // user scroll position
 
-      var scroll = this._getScrollPosition(); // top position for the start point
+      var scroll = this._getScrollPosition(); // console.log(start, end, scroll, )
+      // call scroll animation hook
 
-
-      var start = this.startPoint.getPxFromPoint(); // top position for the end point
-
-      var end = this.endPoint.getPxFromPoint(); // call scroll animation hook
 
       onScroll && onScroll(scroll); // if scroll is between the start and the end position
 
-      if (scroll > start && scroll < end) {
+      if (scroll > startPoint && scroll < endPoint) {
         // BETWEEN
         this.appliedAllBefore = false;
         this.appliedAllAfter = false;
-        var scrollPercent = Object(_utils__WEBPACK_IMPORTED_MODULE_8__["calculatePercent"])(start, end, scroll); // call Animator to apply animations
+        var scrollPercent = Object(_helpers___WEBPACK_IMPORTED_MODULE_8__["calculatePercent"])(startPoint, endPoint, scroll); // call Animator to apply animations
 
         this._animator.applyAnimations(scrollPercent); // call animation hook
 
 
         onScrollBetween && onScrollBetween(scroll, scrollPercent);
-      } else if (scroll < start) {
+      } else if (scroll < startPoint) {
         // BEFORE
         onScrollBefore && onScrollBefore(scroll); // apply only once
 
@@ -1776,7 +1810,7 @@ function () {
 
           this._animator.applyNoAnimations();
         }
-      } else if (scroll > end) {
+      } else if (scroll > endPoint) {
         // AFTER
         onScrollAfter && onScrollAfter(scroll); // apply only once
 
@@ -1843,7 +1877,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/defineProperty */ "./node_modules/@babel/runtime/helpers/defineProperty.js");
 /* harmony import */ var _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/utils.js");
+/* harmony import */ var _helpers___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../helpers/ */ "./src/helpers/index.js");
 /* harmony import */ var _Styler__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./Styler */ "./src/animation/Styler.js");
 /* harmony import */ var color_to_color__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! color-to-color */ "./node_modules/color-to-color/index.js");
 /* harmony import */ var color_to_color__WEBPACK_IMPORTED_MODULE_7___default = /*#__PURE__*/__webpack_require__.n(color_to_color__WEBPACK_IMPORTED_MODULE_7__);
@@ -1925,7 +1959,7 @@ function () {
           currentKeyframePercent = _currentKeyframesPerc[1]; // get the scrolled percent from the last keyframe to the previous
 
 
-      var currentKeyframeScrollPercent = Math.floor(Object(_utils__WEBPACK_IMPORTED_MODULE_5__["calculatePercent"])(previousKeyframePercent, currentKeyframePercent, percent)); // apply all keyframes at 100 with a lower berakpoint percent
+      var currentKeyframeScrollPercent = Math.floor(Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["calculatePercent"])(previousKeyframePercent, currentKeyframePercent, percent)); // apply all keyframes at 100 with a lower berakpoint percent
 
       Object.keys(this.keyframes).forEach(function (percent) {
         // both of them are string so web aprseInt to compare them as numerals
@@ -1969,11 +2003,11 @@ function () {
             to = _keyframe$property.to,
             unit = _keyframe$property.unit; // if the keyfrme value is something like { width: { from: 10, to: 20, unit: 'px' } }
 
-        if (Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isNumber"])(from) && Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isNumber"])(to)) {
+        if (Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isNumber"])(from) && Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isNumber"])(to)) {
           _this3._applyNumberValues(property, from, to, unit === _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_8__["NO_UNIT"] ? '' : unit, percent);
         } else if (unit === _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_8__["COLOR_UNIT"]) {
           _this3._applyColorValues(property, from, to, percent);
-        } else if (!unit && Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isArray"])(from) && Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isArray"])(to)) {
+        } else if (!unit && Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isArray"])(from) && Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isArray"])(to)) {
           _this3._applyArrayValues(property, from, to, percent);
         } else {
           Object(_error_throwError__WEBPACK_IMPORTED_MODULE_9__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_10__["UNEXPECTED_ERROR"]);
@@ -1995,7 +2029,7 @@ function () {
       var elementStyles = this.elementStyles,
           options = this.options; // the percent of the scrolling position from the previous keyframe to the next one
 
-      var value = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["calculateValueFromPercent"])(from, to, percent, options.precision); // apply the values to the element style
+      var value = Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["calculateValueFromPercent"])(from, to, percent, options.precision); // apply the values to the element style
 
       elementStyles.apply(property, value, unit);
     }
@@ -2026,7 +2060,7 @@ function () {
 
       for (var i = 0; i < length; i++) {
         params[i] = [];
-        params[i][0] = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["calculateValueFromPercent"])(from[i][0], to[i][0], percent, this.options.precision);
+        params[i][0] = Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["calculateValueFromPercent"])(from[i][0], to[i][0], percent, this.options.precision);
         params[i][1] = to[i][1];
       }
 
@@ -2065,7 +2099,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_3__);
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_4__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../utils */ "./src/utils.js");
+/* harmony import */ var _helpers___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../helpers/ */ "./src/helpers/index.js");
 /* harmony import */ var _error_throwError__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../error/throwError */ "./src/error/throwError.js");
 /* harmony import */ var _enum_errorEnum__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../enum/errorEnum */ "./src/enum/errorEnum.js");
 
@@ -2103,7 +2137,7 @@ function () {
 
       Object.keys(keyframes).forEach(function (keyframePercent) {
         // check if the percent is a number or a string
-        if (!Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isNumeric"])(keyframePercent)) {
+        if (!Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isNumeric"])(keyframePercent)) {
           Object(_error_throwError__WEBPACK_IMPORTED_MODULE_6__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_7__["INVALID_KEYFRAME_PERCENT"], keyframePercent);
         } // get the keyframe associated with the percent
 
@@ -2133,7 +2167,7 @@ function () {
 
       if (!value && value !== 0) Object(_error_throwError__WEBPACK_IMPORTED_MODULE_6__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_7__["KEYFRAMES_VALUE_NOT_SPECIFIED"]); // if the provided value is a number, we need to set `from` and `unit`
 
-      if (Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isNumber"])(value)) {
+      if (Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isNumber"])(value)) {
         var _this$_normalizeNumbe = this._normalizeNumberValue(property, keyframePercent, keyframes, $element);
 
         var _this$_normalizeNumbe2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_this$_normalizeNumbe, 3);
@@ -2141,7 +2175,7 @@ function () {
         from = _this$_normalizeNumbe2[0];
         to = _this$_normalizeNumbe2[1];
         unit = _this$_normalizeNumbe2[2];
-      } else if (Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isString"])(value)) {
+      } else if (Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isString"])(value)) {
         // if value is a string
         var _this$_normalizeStrin = this._normalizeStringValue(property, keyframePercent, keyframes, $element);
 
@@ -2150,12 +2184,12 @@ function () {
         from = _this$_normalizeStrin2[0];
         to = _this$_normalizeStrin2[1];
         unit = _this$_normalizeStrin2[2];
-      } else if (Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isArray"])(value)) {
+      } else if (Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isArray"])(value)) {
         var previousKeyframe = this._previousKeyframeProperty(property, keyframePercent, keyframes, $element);
 
         from = previousKeyframe;
-        to = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getValue"])(value);
-      } else if (Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isObject"])(value)) {
+        to = Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["getValue"])(value);
+      } else if (Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isObject"])(value)) {
         // if value is an object
         var _this$_normalizeObjec = this._normalizeObjectValue(property, keyframePercent, keyframes, $element);
 
@@ -2207,7 +2241,7 @@ function () {
     key: "_getPreviousKeyframe",
     value: function _getPreviousKeyframe(keyframes, percent) {
       var points = Object.keys(keyframes);
-      return Object(_utils__WEBPACK_IMPORTED_MODULE_5__["previousArrayValue"])(points, percent);
+      return Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["previousArrayValue"])(points, percent);
     }
     /** Get the previous keyframe property, if the property
      * is not present that it will return the default style taken from the dom
@@ -2226,7 +2260,7 @@ function () {
 
       if (previousKeyframePercent === false) {
         // if there are no keyframes before the `currentPercent`, get the default value taken from the dom
-        return Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getValue"])(Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getElementDefaultProperty"])($element, property));
+        return Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["getValue"])(Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["getElementDefaultProperty"])($element, property));
       } // if there exists a previous keyframe
       // get keyframe value
 
@@ -2235,7 +2269,7 @@ function () {
 
       if (propertyValue) {
         // if the value is an array return the array because it should also contain the unit, [value, unit]
-        if (Object(_utils__WEBPACK_IMPORTED_MODULE_5__["isArray"])(propertyValue.to)) {
+        if (Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isArray"])(propertyValue.to)) {
           return propertyValue.to;
         } // return an array [from, unit]
 
@@ -2272,7 +2306,7 @@ function () {
     value: function _normalizeStringValue(property, currentKeyframePercent, keyframes, $element) {
       var value = keyframes[currentKeyframePercent][property];
 
-      var _getValue = Object(_utils__WEBPACK_IMPORTED_MODULE_5__["getValue"])(value),
+      var _getValue = Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["getValue"])(value),
           _getValue2 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_getValue, 2),
           to = _getValue2[0],
           unit = _getValue2[1];
@@ -2340,7 +2374,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_classCallCheck__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _utils__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../utils */ "./src/utils.js");
+/* harmony import */ var _helpers___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../helpers/ */ "./src/helpers/index.js");
 /* harmony import */ var _enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../enum/functionValuesEnum */ "./src/enum/functionValuesEnum.js");
 /* harmony import */ var css_func__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! css-func */ "./node_modules/css-func/index.js");
 /* harmony import */ var css_func__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(css_func__WEBPACK_IMPORTED_MODULE_4__);
@@ -2373,9 +2407,9 @@ function () {
   _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default()(Styler, [{
     key: "apply",
     value: function apply(name, value, unit) {
-      if (Object(_utils__WEBPACK_IMPORTED_MODULE_2__["isNumber"])(value)) this._applyNumber(name, value, unit);
-      if (Object(_utils__WEBPACK_IMPORTED_MODULE_2__["isString"])(value)) this._applyString(name, value);
-      if (Object(_utils__WEBPACK_IMPORTED_MODULE_2__["isArray"])(value)) this._applyArray(name, value);
+      if (Object(_helpers___WEBPACK_IMPORTED_MODULE_2__["isNumber"])(value)) this._applyNumber(name, value, unit);
+      if (Object(_helpers___WEBPACK_IMPORTED_MODULE_2__["isString"])(value)) this._applyString(name, value);
+      if (Object(_helpers___WEBPACK_IMPORTED_MODULE_2__["isArray"])(value)) this._applyArray(name, value);
     }
     /**
      * Gets element style property
@@ -2443,7 +2477,7 @@ function () {
       var functionName = _enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_3__["default"][name].functionName; // if value is an array of arrays convert it into an arrat of arguments string
 
       value = value.map(function (e) {
-        return Object(_utils__WEBPACK_IMPORTED_MODULE_2__["isArray"])(e) ? e.join('') : e;
+        return Object(_helpers___WEBPACK_IMPORTED_MODULE_2__["isArray"])(e) ? e.join('') : e;
       });
       css_func__WEBPACK_IMPORTED_MODULE_4___default()(this.$element, functionName).add(name, value);
     }
@@ -2460,7 +2494,7 @@ function () {
 /*!*******************************!*\
   !*** ./src/enum/errorEnum.js ***!
   \*******************************/
-/*! exports provided: UNKNOWN_PROPERTY_VALUE, KEYFRAMES_VALUE_NOT_SPECIFIED, INVALID_KEYFRAME_PERCENT, NO_VALUE_SPECIFIED, PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT, KEYFRAME_TO_IS_NOT_SET, ANIMATION_NOT_INSTANCE_OF_ANIMATION, NO_KEYFRAMES, UNEXPECTED_ERROR */
+/*! exports provided: UNKNOWN_PROPERTY_VALUE, KEYFRAMES_VALUE_NOT_SPECIFIED, INVALID_KEYFRAME_PERCENT, NO_VALUE_SPECIFIED, PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT, KEYFRAME_TO_IS_NOT_SET, ANIMATION_NOT_INSTANCE_OF_ANIMATION, NO_KEYFRAMES, UNEXPECTED_ERROR, VALUE_IS_NOT_HTML_ELEMENT */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2474,6 +2508,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "ANIMATION_NOT_INSTANCE_OF_ANIMATION", function() { return ANIMATION_NOT_INSTANCE_OF_ANIMATION; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "NO_KEYFRAMES", function() { return NO_KEYFRAMES; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "UNEXPECTED_ERROR", function() { return UNEXPECTED_ERROR; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "VALUE_IS_NOT_HTML_ELEMENT", function() { return VALUE_IS_NOT_HTML_ELEMENT; });
 // export const UNIT_DOES_NOT_MATCH_DEFAULT = (unit, defaultUnit) =>
 //   `The specified unit ('${unit}') does not match the default unit ('${defaultUnit}')`;
 var UNKNOWN_PROPERTY_VALUE = function UNKNOWN_PROPERTY_VALUE(property) {
@@ -2500,6 +2535,9 @@ var NO_KEYFRAMES = function NO_KEYFRAMES() {
 };
 var UNEXPECTED_ERROR = function UNEXPECTED_ERROR() {
   return "Unexpected error";
+};
+var VALUE_IS_NOT_HTML_ELEMENT = function VALUE_IS_NOT_HTML_ELEMENT(val) {
+  return "".concat(val, " is not a valid html element");
 };
 
 /***/ }),
@@ -2626,123 +2664,175 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
-/***/ "./src/index.js":
-/*!**********************!*\
-  !*** ./src/index.js ***!
-  \**********************/
-/*! exports provided: default */
+/***/ "./src/helpers/dom.js":
+/*!****************************!*\
+  !*** ./src/helpers/dom.js ***!
+  \****************************/
+/*! exports provided: getElementDimensions, getElementScroll, getValue, getElementDefaultProperty */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _Motus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Motus */ "./src/Motus.js");
-
-
-if (typeof window !== 'undefined') {
-  window.Motus = _Motus__WEBPACK_IMPORTED_MODULE_0__["default"];
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (_Motus__WEBPACK_IMPORTED_MODULE_0__["default"]);
-
-/***/ }),
-
-/***/ "./src/utils.js":
-/*!**********************!*\
-  !*** ./src/utils.js ***!
-  \**********************/
-/*! exports provided: camelToKebabCase, getValue, getElementDefaultProperty, isNumber, isString, isObject, isArray, isNumeric, previousArrayValue, calculatePercent, floorWithPrecision, calculateValueFromPercent, createFunctionString */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "camelToKebabCase", function() { return camelToKebabCase; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getElementDimensions", function() { return getElementDimensions; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getElementScroll", function() { return getElementScroll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return getValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getElementDefaultProperty", function() { return getElementDefaultProperty; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumber", function() { return isNumber; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isString", function() { return isString; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isObject", function() { return isObject; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isArray", function() { return isArray; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumeric", function() { return isNumeric; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "previousArrayValue", function() { return previousArrayValue; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculatePercent", function() { return calculatePercent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "floorWithPrecision", function() { return floorWithPrecision; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateValueFromPercent", function() { return calculateValueFromPercent; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createFunctionString", function() { return createFunctionString; });
-/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js");
-/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var color_string__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! color-string */ "./node_modules/color-string/index.js");
-/* harmony import */ var color_string__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(color_string__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./enum/specialUnitEnum */ "./src/enum/specialUnitEnum.js");
-/* harmony import */ var _enum_errorEnum__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./enum/errorEnum */ "./src/enum/errorEnum.js");
-/* harmony import */ var _error_throwError__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./error/throwError */ "./src/error/throwError.js");
-/* harmony import */ var _enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./enum/functionValuesEnum */ "./src/enum/functionValuesEnum.js");
+/* harmony import */ var color_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-string */ "./node_modules/color-string/index.js");
+/* harmony import */ var color_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(color_string__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enum/specialUnitEnum */ "./src/enum/specialUnitEnum.js");
+/* harmony import */ var _enum_errorEnum__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../enum/errorEnum */ "./src/enum/errorEnum.js");
+/* harmony import */ var _error_throwError__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../error/throwError */ "./src/error/throwError.js");
+/* harmony import */ var _enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../enum/functionValuesEnum */ "./src/enum/functionValuesEnum.js");
+/* harmony import */ var ___WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./ */ "./src/helpers/index.js");
 
 
 
 
 
 
-var camelToKebabCase = function camelToKebabCase(value) {
-  return value.replace(/([A-Z])/g, function ($1) {
-    return '-' + $1.toLowerCase();
-  });
+var getElementDimensions = function getElementDimensions($element) {
+  if ($element === window) {
+    return {
+      width: window.innerWidth,
+      height: window.innerHeight
+    };
+  }
+
+  return {
+    width: $element.clientWidth,
+    height: $element.clientHeight
+  };
+};
+var getElementScroll = function getElementScroll($element) {
+  var horizontal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+
+  // window uses scrollX, scrollY instead of scrollLeft, scrollTop
+  if ($element === window) {
+    return horizontal ? $element.scrollX : $element.scrollY;
+  }
+
+  return horizontal ? $element.scrollLeft : $element.scrollTop;
 };
 var getValue = function getValue(value) {
   /// call getValue recursively for each item in the array
-  if (isArray(value)) {
+  if (Object(___WEBPACK_IMPORTED_MODULE_5__["isArray"])(value)) {
     return value.map(getValue);
   }
 
   value = String(value); // check if it is a color
 
-  if (color_string__WEBPACK_IMPORTED_MODULE_1___default.a.get(value)) {
+  if (color_string__WEBPACK_IMPORTED_MODULE_0___default.a.get(value)) {
     // returns a rgb array that needs to be further converted into rgb string
-    var rgbArr = color_string__WEBPACK_IMPORTED_MODULE_1___default.a.get.rgb(value); // convert array to rgb/rgba
+    var rgbArr = color_string__WEBPACK_IMPORTED_MODULE_0___default.a.get.rgb(value); // convert array to rgb/rgba
 
-    var color = color_string__WEBPACK_IMPORTED_MODULE_1___default.a.to.rgb(rgbArr);
-    return [color, _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_2__["COLOR_UNIT"]];
+    var color = color_string__WEBPACK_IMPORTED_MODULE_0___default.a.to.rgb(rgbArr);
+    return [color, _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_1__["COLOR_UNIT"]];
   }
 
   var unitReg = /([0-9.]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax|deg)*/;
   var match = value.match(unitReg);
 
   if (match && match.length === 3) {
-    return [parseFloat(match[1]), match[2] || _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_2__["NO_UNIT"]];
+    return [parseFloat(match[1]), match[2] || _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_1__["NO_UNIT"]];
   }
 
-  Object(_error_throwError__WEBPACK_IMPORTED_MODULE_4__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_3__["NO_VALUE_SPECIFIED"]);
+  Object(_error_throwError__WEBPACK_IMPORTED_MODULE_3__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_2__["NO_VALUE_SPECIFIED"]);
 };
 var getElementDefaultProperty = function getElementDefaultProperty($element, property) {
   var _window = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : window;
 
-  if (_enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_5__["default"][property]) {
-    return _enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_5__["default"][property].defaultValue;
+  if (_enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_4__["default"][property]) {
+    return _enum_functionValuesEnum__WEBPACK_IMPORTED_MODULE_4__["default"][property].defaultValue;
   }
 
-  return _window.getComputedStyle($element, null).getPropertyValue(camelToKebabCase(property));
+  return _window.getComputedStyle($element, null).getPropertyValue(Object(___WEBPACK_IMPORTED_MODULE_5__["camelToKebabCase"])(property));
 };
-var isNumber = function isNumber(val) {
-  return typeof val === 'number';
-};
-var isString = function isString(val) {
-  return typeof val === 'string';
-};
-var isObject = function isObject(val) {
-  return _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(val) === 'object';
-};
-var isArray = function isArray(val) {
-  return Array.isArray(val);
-};
-var isNumeric = function isNumeric(val) {
-  return (isNumber(val) || isString(val)) && !isNaN(val);
-};
+
+/***/ }),
+
+/***/ "./src/helpers/index.js":
+/*!******************************!*\
+  !*** ./src/helpers/index.js ***!
+  \******************************/
+/*! exports provided: previousArrayValue, calculatePercent, floorWithPrecision, calculateValueFromPercent, getElementDimensions, getElementScroll, getValue, getElementDefaultProperty, createFunctionString, camelToKebabCase, isNumber, isString, isObject, isArray, isNumeric, isHtmlElement */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _math_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./math.js */ "./src/helpers/math.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "previousArrayValue", function() { return _math_js__WEBPACK_IMPORTED_MODULE_0__["previousArrayValue"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "calculatePercent", function() { return _math_js__WEBPACK_IMPORTED_MODULE_0__["calculatePercent"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "floorWithPrecision", function() { return _math_js__WEBPACK_IMPORTED_MODULE_0__["floorWithPrecision"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "calculateValueFromPercent", function() { return _math_js__WEBPACK_IMPORTED_MODULE_0__["calculateValueFromPercent"]; });
+
+/* harmony import */ var _dom_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./dom.js */ "./src/helpers/dom.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getElementDimensions", function() { return _dom_js__WEBPACK_IMPORTED_MODULE_1__["getElementDimensions"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getElementScroll", function() { return _dom_js__WEBPACK_IMPORTED_MODULE_1__["getElementScroll"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return _dom_js__WEBPACK_IMPORTED_MODULE_1__["getValue"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "getElementDefaultProperty", function() { return _dom_js__WEBPACK_IMPORTED_MODULE_1__["getElementDefaultProperty"]; });
+
+/* harmony import */ var _string_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./string.js */ "./src/helpers/string.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "createFunctionString", function() { return _string_js__WEBPACK_IMPORTED_MODULE_2__["createFunctionString"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "camelToKebabCase", function() { return _string_js__WEBPACK_IMPORTED_MODULE_2__["camelToKebabCase"]; });
+
+/* harmony import */ var _type_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./type.js */ "./src/helpers/type.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isNumber", function() { return _type_js__WEBPACK_IMPORTED_MODULE_3__["isNumber"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isString", function() { return _type_js__WEBPACK_IMPORTED_MODULE_3__["isString"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isObject", function() { return _type_js__WEBPACK_IMPORTED_MODULE_3__["isObject"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isArray", function() { return _type_js__WEBPACK_IMPORTED_MODULE_3__["isArray"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isNumeric", function() { return _type_js__WEBPACK_IMPORTED_MODULE_3__["isNumeric"]; });
+
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isHtmlElement", function() { return _type_js__WEBPACK_IMPORTED_MODULE_3__["isHtmlElement"]; });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/***/ }),
+
+/***/ "./src/helpers/math.js":
+/*!*****************************!*\
+  !*** ./src/helpers/math.js ***!
+  \*****************************/
+/*! exports provided: previousArrayValue, calculatePercent, floorWithPrecision, calculateValueFromPercent */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "previousArrayValue", function() { return previousArrayValue; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculatePercent", function() { return calculatePercent; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "floorWithPrecision", function() { return floorWithPrecision; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calculateValueFromPercent", function() { return calculateValueFromPercent; });
 /**
  * Returns the previous closest number found aftar the `value`
  * ``` array = [1,5,3,7,6] and value = 3 => returns 1 ```
  * @param  {array} array
  * @param  {number|string} value Must be a number or an array that represents a number
  */
-
 var previousArrayValue = function previousArrayValue(array, value) {
   array = array.map(function (e) {
     return parseInt(e);
@@ -2789,11 +2879,24 @@ var calculateValueFromPercent = function calculateValueFromPercent(min, max, per
 
   return value;
 };
+
+/***/ }),
+
+/***/ "./src/helpers/string.js":
+/*!*******************************!*\
+  !*** ./src/helpers/string.js ***!
+  \*******************************/
+/*! exports provided: createFunctionString, camelToKebabCase */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createFunctionString", function() { return createFunctionString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "camelToKebabCase", function() { return camelToKebabCase; });
 /**
  * @param  {string} name
  * @param  {array} parameters
  */
-
 var createFunctionString = function createFunctionString(name, parameters) {
   var length = parameters.length;
   var value = '';
@@ -2805,6 +2908,70 @@ var createFunctionString = function createFunctionString(name, parameters) {
 
   return "".concat(name, "(").concat(value, ")");
 };
+var camelToKebabCase = function camelToKebabCase(value) {
+  return value.replace(/([A-Z])/g, function ($1) {
+    return '-' + $1.toLowerCase();
+  });
+};
+
+/***/ }),
+
+/***/ "./src/helpers/type.js":
+/*!*****************************!*\
+  !*** ./src/helpers/type.js ***!
+  \*****************************/
+/*! exports provided: isNumber, isString, isObject, isArray, isNumeric, isHtmlElement */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumber", function() { return isNumber; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isString", function() { return isString; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isObject", function() { return isObject; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isArray", function() { return isArray; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isNumeric", function() { return isNumeric; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isHtmlElement", function() { return isHtmlElement; });
+/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/typeof */ "./node_modules/@babel/runtime/helpers/typeof.js");
+/* harmony import */ var _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0__);
+
+var isNumber = function isNumber(val) {
+  return typeof val === 'number';
+};
+var isString = function isString(val) {
+  return typeof val === 'string';
+};
+var isObject = function isObject(val) {
+  return _babel_runtime_helpers_typeof__WEBPACK_IMPORTED_MODULE_0___default()(val) === 'object';
+};
+var isArray = function isArray(val) {
+  return Array.isArray(val);
+};
+var isNumeric = function isNumeric(val) {
+  return (isNumber(val) || isString(val)) && !isNaN(val);
+};
+var isHtmlElement = function isHtmlElement(val) {
+  return val instanceof window.HTMLElement;
+};
+
+/***/ }),
+
+/***/ "./src/index.js":
+/*!**********************!*\
+  !*** ./src/index.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _Motus__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./Motus */ "./src/Motus.js");
+
+
+if (typeof window !== 'undefined') {
+  window.Motus = _Motus__WEBPACK_IMPORTED_MODULE_0__["default"];
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (_Motus__WEBPACK_IMPORTED_MODULE_0__["default"]);
 
 /***/ })
 

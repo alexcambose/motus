@@ -1,4 +1,4 @@
-import { isHtmlElement, getElementDimensions } from './helpers/';
+import { isHtmlElement } from './helpers/';
 // import throwError from './error/throwError';
 // import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
