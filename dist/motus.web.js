@@ -1567,6 +1567,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! @babel/runtime/helpers/createClass */ "./node_modules/@babel/runtime/helpers/createClass.js");
 /* harmony import */ var _babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_helpers_createClass__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _helpers___WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./helpers/ */ "./src/helpers/index.js");
+/* harmony import */ var _helpers_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./helpers/dom */ "./src/helpers/dom.js");
+
 
 
  // import throwError from './error/throwError';
@@ -1602,8 +1604,8 @@ function () {
   }, {
     key: "getDistanceFromParent",
     value: function getDistanceFromParent($element, $parent, horizontal) {
-      var parentOffset = $parent === window ? 0 : horizontal ? $parent.offsetLeft : $parent.offsetTop;
-      var elementOffset = horizontal ? $element.offsetLeft : $element.offsetTop;
+      var parentOffset = $parent === window ? 0 : Object(_helpers_dom__WEBPACK_IMPORTED_MODULE_3__["getOffset"])($parent, horizontal);
+      var elementOffset = Object(_helpers_dom__WEBPACK_IMPORTED_MODULE_3__["getOffset"])($element, horizontal);
       return elementOffset - parentOffset;
     }
   }]);
@@ -2668,7 +2670,7 @@ __webpack_require__.r(__webpack_exports__);
 /*!****************************!*\
   !*** ./src/helpers/dom.js ***!
   \****************************/
-/*! exports provided: getElementDimensions, getElementScroll, getValue, getElementDefaultProperty */
+/*! exports provided: getElementDimensions, getElementScroll, getValue, getElementDefaultProperty, getOffset */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2677,6 +2679,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getElementScroll", function() { return getElementScroll; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getValue", function() { return getValue; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getElementDefaultProperty", function() { return getElementDefaultProperty; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "getOffset", function() { return getOffset; });
 /* harmony import */ var color_string__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! color-string */ "./node_modules/color-string/index.js");
 /* harmony import */ var color_string__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(color_string__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _enum_specialUnitEnum__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../enum/specialUnitEnum */ "./src/enum/specialUnitEnum.js");
@@ -2746,6 +2749,11 @@ var getElementDefaultProperty = function getElementDefaultProperty($element, pro
   }
 
   return _window.getComputedStyle($element, null).getPropertyValue(Object(___WEBPACK_IMPORTED_MODULE_5__["camelToKebabCase"])(property));
+};
+var getOffset = function getOffset(element) {
+  var horizontal = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : false;
+  if (!element) return 0;
+  return getOffset(element.offsetParent, horizontal) + (horizontal ? element.offsetLeft : element.offsetTop);
 };
 
 /***/ }),

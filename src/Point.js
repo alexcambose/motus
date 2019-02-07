@@ -1,4 +1,5 @@
 import { isHtmlElement } from './helpers/';
+import { getOffset } from './helpers/dom';
 // import throwError from './error/throwError';
 // import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
@@ -19,8 +20,8 @@ export default class Point {
     return point;
   }
   static getDistanceFromParent ($element, $parent, horizontal) {
-    const parentOffset = $parent === window ? 0 : (horizontal ? $parent.offsetLeft : $parent.offsetTop);
-    const elementOffset = horizontal ? $element.offsetLeft : $element.offsetTop;
+    const parentOffset = $parent === window ? 0 : getOffset($parent, horizontal);
+    const elementOffset = getOffset($element, horizontal);
 
     return elementOffset - parentOffset;
   }

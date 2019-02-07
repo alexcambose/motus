@@ -102,6 +102,7 @@ export default class Animation {
     } else {
       // if point is not defined get the distance to it
       this.startPoint = Point.getDistanceFromParent(this.$element, $scrollElement, horizontal) - getElementDimensions($scrollElement)[horizontal ? 'width' : 'height'];
+
     }
     if (endPoint || endPoint === 0) {
       // end point

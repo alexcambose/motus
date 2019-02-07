@@ -1743,7 +1743,7 @@ function () {
         this.startPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getPxFromPoint(startPoint, $scrollElement, horizontal);
       } else {
         // if point is not defined get the distance to it
-        this.startPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getDistanceFromParent(this.$element, $scrollElement, horizontal) - Object(_helpers___WEBPACK_IMPORTED_MODULE_8__["getElementDimensions"])($scrollElement)[horizontal ? 'width' : 'height'];
+        this.endPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getDistanceFromParent(this.$element, $scrollElement, horizontal);
       }
 
       if (endPoint || endPoint === 0) {
@@ -1751,7 +1751,7 @@ function () {
         this.endPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getPxFromPoint(endPoint, $scrollElement, horizontal);
       } else {
         // if point is not defined get the distance to it
-        this.endPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getDistanceFromParent(this.$element, $scrollElement, horizontal);
+        this.startPoint = _Point__WEBPACK_IMPORTED_MODULE_5__["default"].getDistanceFromParent(this.$element, $scrollElement, horizontal) - Object(_helpers___WEBPACK_IMPORTED_MODULE_8__["getElementDimensions"])($scrollElement)[horizontal ? 'width' : 'height'];
       }
     }
     /**

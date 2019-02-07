@@ -5,6 +5,7 @@ import {
   getElementDimensions,
 } from '../../src/helpers/';
 import { NO_UNIT, COLOR_UNIT } from '../../src/enum/specialUnitEnum';
+import { getOffset } from '../../src/helpers/dom';
 document.body.innerHTML = `<p>test</p>`;
 const $element = document.querySelector('p');
 
@@ -83,5 +84,11 @@ describe('helpers', () => {
       window.innerWidth = 200;
       expect(getElementDimensions(window)).toEqual({ width: 200, height: 100 });
     })
+  });
+  describe('getOffset()', () => {
+    it('returns 0 if no element is specified', () => {
+      expect(getOffset()).toEqual(0);
+    });
+    // todo testing offset properties
   });
 });

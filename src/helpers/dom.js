@@ -59,3 +59,7 @@ export const getElementDefaultProperty = (
     .getComputedStyle($element, null)
     .getPropertyValue(camelToKebabCase(property));
 };
+export const getOffset = (element, horizontal = false) => {
+  if (!element) return 0;
+  return getOffset(element.offsetParent, horizontal) + (horizontal ? element.offsetLeft : element.offsetTop);
+} 
