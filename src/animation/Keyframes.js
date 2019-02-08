@@ -129,6 +129,10 @@ export default class Keyframes {
    */
   static _arrayToObject (keyframes) {
     // create a new object and set it's properties
+    // if the animation has only one keyframe consider it as the last one (100)
+    if (keyframes.length === 1) {
+      return { 100: keyframes[0] };
+    }
     // convert arrays like: [{}, {}, {}] to {0:{}, 50: {}, 100: {}}
     return keyframes.reduce((carry, e, i) => {
       carry[i ? 100 / (keyframes.length - i) : 0] = e;
@@ -217,7 +221,6 @@ export default class Keyframes {
       keyframes,
       $element
     );
-
     return [from, value, unit]; // [from, to, unit]
   }
 

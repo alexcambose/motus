@@ -33,6 +33,9 @@ describe('keyframes', () => {
       it('returns empty object if array is empty', () => {
         expect(Keyframes._arrayToObject([])).toEqual({});
       });
+      it('sets 100 percent if in the animation is just one keyframe', () => {
+        expect(Keyframes._arrayToObject([{}])).toEqual({100:{}});
+      })
     });
 
     describe('_normalizeKeyframeRule', () => {
