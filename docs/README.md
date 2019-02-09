@@ -1,11 +1,11 @@
 # motus
 ![Motus Logo](logo.png "Motus logo")
 
-
+<!-- 
 [![Build Status](https://travis-ci.com/alexcambose/motus.svg?token=zpfhtmtiyLf5iVSdDrUd&branch=master)](https://travis-ci.com/alexcambose/motus) [![install size](https://packagephobia.now.sh/badge?p=motus@1.0.1)](https://packagephobia.now.sh/result?p=motus@1.0.1)
 ![version](https://img.shields.io/npm/v/motus.svg?style=flat)
 
-[![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com) -->
 
 Animation library that mimics CSS keyframes when scrolling.
 
@@ -34,8 +34,8 @@ As [npm](https://www.npmjs.com/package/motus) package
 npm i -S motus
 ```
 Standalone script file
-```js
-<script src="dist/motus.js"></script>
+```html
+<script src="dist/motus.web.js"></script>
 ```
 
 ## Usage
@@ -43,8 +43,16 @@ Standalone script file
 ### Quick start 
 Basic usage
 ```js 
-
+let newAnimation = new Motus.Animation(false, false, document.getElementById('1'), [
+  {width: 100},
+  {width: 200}
+]);
+Motus.addAnimation(newAnimation);
 ```
+
+<!--- [start code] -->
+<div class="box" id="1"></div>
+<!--- [end code] -->
 
 ## Road map
 - Support for multiple unit rules like: `padding: 10px 20px 30px`

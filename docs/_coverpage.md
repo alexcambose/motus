@@ -1,9 +1,8 @@
 <!-- _coverpage.md -->
 
-![logo](_media/logo.png)
 # Mouts
 
-> A magical documentation site generator.
+> Animation library that mimics CSS keyframes when scrolling.
 
 - Simple and lightweight (~21kB gzipped)
 - No statically built html files
@@ -11,3 +10,7 @@
 
 [GitHub](https://github.com/docsifyjs/docsify/)
 [Get Started](#docsify)
+
+<!-- background color -->
+
+<!-- ![color](#242424) -->

@@ -16,6 +16,13 @@
     "prod:node": "webpack --mode=production --env.TARGET_ENV=NODE",
     "prod": "npm run prod:web && npm run prod:node"
   },
+  "jest": {
+    "collectCoverageFrom": [
+      "src/**/*",
+      "!<rootDir>/node_modules/",
+      "!<rootDir>/dist"
+    ]
+  },
   "pre-commit": "lint",
   "repository": {
     "type": "git",

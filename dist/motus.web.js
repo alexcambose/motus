@@ -1834,7 +1834,7 @@ _babel_runtime_helpers_defineProperty__WEBPACK_IMPORTED_MODULE_3___default()(Ani
   // how many decimals should a css property have
   precision: _animation_Animator__WEBPACK_IMPORTED_MODULE_6__["default"].defaultOptions.precision,
   // interval of sleep
-  throttle: 40,
+  throttle: 10,
   // the element that will get the scroll listener and that will be used to calculate the scroll top and left
   $scrollElement: window,
   // is true the left offset wil be used to calculate the animation evolution
@@ -2167,7 +2167,7 @@ function () {
       var from, to, unit;
       var value = keyframes[keyframePercent][property]; // {height: value}, value must be defined
 
-      if (!value && value !== 0) Object(_error_throwError__WEBPACK_IMPORTED_MODULE_6__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_7__["KEYFRAMES_VALUE_NOT_SPECIFIED"]); // if the provided value is a number, we need to set `from` and `unit`
+      if (!Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isSet"])(value)) Object(_error_throwError__WEBPACK_IMPORTED_MODULE_6__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_7__["KEYFRAMES_VALUE_NOT_SPECIFIED"]); // if the provided value is a number, we need to set `from` and `unit`
 
       if (Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isNumber"])(value)) {
         var _this$_normalizeNumbe = this._normalizeNumberValue(property, keyframePercent, keyframes, $element);
@@ -2222,7 +2222,14 @@ function () {
     key: "_arrayToObject",
     value: function _arrayToObject(keyframes) {
       // create a new object and set it's properties
-      // convert arrays like: [{}, {}, {}] to {0:{}, 50: {}, 100: {}}
+      // if the animation has only one keyframe consider it as the last one (100)
+      if (keyframes.length === 1) {
+        return {
+          100: keyframes[0]
+        };
+      } // convert arrays like: [{}, {}, {}] to {0:{}, 50: {}, 100: {}}
+
+
       return keyframes.reduce(function (carry, e, i) {
         carry[i ? 100 / (keyframes.length - i) : 0] = e;
         return carry;
@@ -2331,23 +2338,25 @@ function () {
           from = _keyframes$currentKey.from,
           to = _keyframes$currentKey.to,
           unit = _keyframes$currentKey.unit;
+      console.log(keyframes[currentKeyframePercent][property]);
 
       var _this$_previousKeyfra5 = this._previousKeyframeProperty(property, currentKeyframePercent, keyframes, $element),
           _this$_previousKeyfra6 = _babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_0___default()(_this$_previousKeyfra5, 2),
           previousFrom = _this$_previousKeyfra6[0],
-          previousUnit = _this$_previousKeyfra6[1]; // if `from` is not specified
+          previousUnit = _this$_previousKeyfra6[1]; // if `from` is not specified, inherit it from the previous keyframe from
 
 
-      if (!from) {
+      if (!Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isSet"])(from)) {
         from = previousFrom;
-      }
+      } // if `unit` is not specified inherit it from the previous keyframe `from`
 
-      if (!unit) {
+
+      if (!Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isSet"])(unit)) {
         unit = previousUnit;
       } // throw error if `to` is not defined
 
 
-      if (!to) {
+      if (!Object(_helpers___WEBPACK_IMPORTED_MODULE_5__["isSet"])(to)) {
         Object(_error_throwError__WEBPACK_IMPORTED_MODULE_6__["default"])(_enum_errorEnum__WEBPACK_IMPORTED_MODULE_7__["KEYFRAME_TO_IS_NOT_SET"]);
       }
 
@@ -2530,8 +2539,12 @@ var PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT = function PREVIOUS_UNIT_DOES_NOT_MATCH
 }; // export const DEFAULT_UNIT_DOES_NOT_MATCH_CURRENT = (defaultUnit, currentUnit) =>
 //   `Previous unit '${defaultUnit}' does not match current unit '${currentUnit}'`;
 
-var KEYFRAME_TO_IS_NOT_SET = "Keyframe property 'to' must be set";
-var ANIMATION_NOT_INSTANCE_OF_ANIMATION = "The provided animation object is not an instance of Motus.Animation";
+var KEYFRAME_TO_IS_NOT_SET = function KEYFRAME_TO_IS_NOT_SET() {
+  return "Keyframe property 'to' must be set";
+};
+var ANIMATION_NOT_INSTANCE_OF_ANIMATION = function ANIMATION_NOT_INSTANCE_OF_ANIMATION() {
+  return "The provided animation object is not an instance of Motus.Animation";
+};
 var NO_KEYFRAMES = function NO_KEYFRAMES() {
   return "No keyframes specified";
 };
@@ -2762,7 +2775,7 @@ var getOffset = function getOffset(element) {
 /*!******************************!*\
   !*** ./src/helpers/index.js ***!
   \******************************/
-/*! exports provided: previousArrayValue, calculatePercent, floorWithPrecision, calculateValueFromPercent, getElementDimensions, getElementScroll, getValue, getElementDefaultProperty, createFunctionString, camelToKebabCase, isNumber, isString, isObject, isArray, isNumeric, isHtmlElement */
+/*! exports provided: previousArrayValue, calculatePercent, floorWithPrecision, calculateValueFromPercent, getElementDimensions, getElementScroll, getValue, getElementDefaultProperty, createFunctionString, camelToKebabCase, isNumber, isString, isObject, isArray, isNumeric, isHtmlElement, isSet */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -2803,20 +2816,29 @@ __webpack_require__.r(__webpack_exports__);
 
 /* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isHtmlElement", function() { return _type_js__WEBPACK_IMPORTED_MODULE_3__["isHtmlElement"]; });
 
+/* harmony import */ var _validation_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./validation.js */ "./src/helpers/validation.js");
+/* harmony reexport (safe) */ __webpack_require__.d(__webpack_exports__, "isSet", function() { return _validation_js__WEBPACK_IMPORTED_MODULE_4__["isSet"]; });
+
+// math
+
+
+
+ // DOM
+
+
+
+
+ // string
+
+
+ // type
 
 
 
 
 
 
-
-
-
-
-
-
-
-
+ // validation
 
 
 
@@ -2959,6 +2981,22 @@ var isNumeric = function isNumeric(val) {
 };
 var isHtmlElement = function isHtmlElement(val) {
   return val instanceof window.HTMLElement;
+};
+
+/***/ }),
+
+/***/ "./src/helpers/validation.js":
+/*!***********************************!*\
+  !*** ./src/helpers/validation.js ***!
+  \***********************************/
+/*! exports provided: isSet */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "isSet", function() { return isSet; });
+var isSet = function isSet(value) {
+  return value === 0 ? true : !!value;
 };
 
 /***/ }),

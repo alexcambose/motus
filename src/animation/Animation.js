@@ -11,7 +11,7 @@ export default class Animation {
     // how many decimals should a css property have
     precision: Animator.defaultOptions.precision,
     // interval of sleep
-    throttle: 20,
+    throttle: 10,
     // the element that will get the scroll listener and that will be used to calculate the scroll top and left
     $scrollElement: window,
     // is true the left offset wil be used to calculate the animation evolution
