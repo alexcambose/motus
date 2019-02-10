@@ -11,7 +11,7 @@ describe('Motus', () => {
   });
 
   describe('addAnimation', () => {
-    const animation = new Motus.Animation(0, 0, document.body, { 0: {} });
+    const animation = new Motus.Animation({ $el: document.body, keyframes: { 0: {} } });
     beforeEach(() => {
       Motus.clearAnimations();
     });
@@ -35,7 +35,7 @@ describe('Motus', () => {
     });
   });
   describe('clearAnimations', () => {
-    const animation = new Motus.Animation(0, 0, document.body, { 0: {} });
+    const animation = new Motus.Animation({ $el: document.body, keyframes: { 0: {} } });
     it('empties the _animations array', () => {
       Motus.addAnimation(animation);
       Motus.clearAnimations();

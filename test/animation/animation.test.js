@@ -75,23 +75,23 @@ describe('Animation', () => {
       },
     },
   };
-  const animation = new Animation(0, 200, $element, keyframesArr);
+  const animation = new Animation({ startPoint: 0, endPoint: 200, $el: $element, keyframes: keyframesArr });
   it('keyframe normalization', () => {
     expect(animation.keyframes).toEqual(keyframesObj);
   });
   it('throws error if the specified element is not a valid html element', () => {
     expect(() => {
-      new Animation(0, 200, false, keyframesArr);
+      new Animation({ startPoint: 0, endPoint: 200, $el: false, keyframes: keyframesArr });
     }).toThrow();
   });
   describe('points not being defined', () => {
     it('start point is not defined or falsy', () => {
-      const anim = new Animation(false, 200, $element, keyframesArr);
+      const anim = new Animation({ endPoint: 200, $el: $element, keyframes: keyframesArr });
       // for some reason window height is 768
       expect(anim.startPoint).toEqual(-768);
     });
     it('end point is not defined or falsy', () => {
-      const anim = new Animation(200, false, $element, keyframesArr);
+      const anim = new Animation({ startPoint: 200, $el: $element, keyframes: keyframesArr });
       expect(anim.endPoint).toEqual(0);
     });
   });
@@ -107,7 +107,7 @@ describe('Animation', () => {
     describe('onScroll()', () => {
       const scrollMock = jest.fn();
       beforeEach(jest.resetAllMocks);
-      const newAnimation = new Animation(100, 200, $element, keyframesArr, {
+      const newAnimation = new Animation({ startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
         onScroll: scrollMock,
         ...defaultConfig,
       });
@@ -137,7 +137,11 @@ describe('Animation', () => {
     describe('onScrollBetween()', () => {
       const scrollMock = jest.fn()
       beforeEach(jest.resetAllMocks);
-      const newAnimation = new Animation(100, 200, $element, keyframesArr, { onScrollBetween: scrollMock, ...defaultConfig });
+      const newAnimation = new Animation({
+        startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
+        onScrollBetween: scrollMock,
+        ...defaultConfig,
+      });
       
       it('contains the scroll position and scroll percent as parameters', () => {
         window.scrollY = 190;
@@ -163,7 +167,11 @@ describe('Animation', () => {
       const scrollMock = jest.fn();
       beforeEach(jest.resetAllMocks);
 
-      const newAnimation = new Animation(100, 200, $element, keyframesArr, { onScrollBefore: scrollMock, ...defaultConfig });
+      const newAnimation = new Animation({
+        startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
+        onScrollBefore: scrollMock,
+        ...defaultConfig,
+      });
 
       it('contains the scroll position as parameter', () => {
         window.scrollY = 90;
@@ -188,7 +196,11 @@ describe('Animation', () => {
       const scrollMock = jest.fn();
       beforeEach(jest.resetAllMocks);
 
-      const newAnimation = new Animation(100, 200, $element, keyframesArr, { onScrollAfter: scrollMock, ...defaultConfig });
+      const newAnimation = new Animation({
+        startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
+        onScrollAfter: scrollMock,
+        ...defaultConfig,
+      });
 
       it('contains the scroll position as parameter', () => {
         window.scrollY = 290;
@@ -210,7 +222,11 @@ describe('Animation', () => {
     });
     describe('onHitBottom()', () => {
       const scrollMock = jest.fn();
-      const newAnimation = new Animation(100, 200, $element, keyframesArr, { onHitBottom: scrollMock, ...defaultConfig });
+      const newAnimation = new Animation({
+        startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
+        onHitBottom: scrollMock,
+        ...defaultConfig,
+      });
       beforeEach(() => {
         jest.resetAllMocks();
         window.scrollY = 150;
@@ -241,7 +257,11 @@ describe('Animation', () => {
     });
     describe('onHitTop()', () => {
       const scrollMock = jest.fn();
-      const newAnimation = new Animation(100, 200, $element, keyframesArr, { onHitTop: scrollMock, ...defaultConfig });
+      const newAnimation = new Animation({
+        startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
+        onHitTop: scrollMock,
+        ...defaultConfig,
+      });
       beforeEach(() => {
         jest.resetAllMocks();
         window.scrollY = 150;

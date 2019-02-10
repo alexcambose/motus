@@ -25,7 +25,7 @@ export default class Keyframes {
    * Convert the keyframes to a standard form
    * @param  {Object|Array} keyframes
    */
-  static normalize (keyframes, $element) {
+  static normalize (keyframes, $el) {
     if (Array.isArray(keyframes)) {
       keyframes = this._arrayToObject(keyframes);
     }
@@ -49,7 +49,7 @@ export default class Keyframes {
           keyframeProperty,
           keyframePercent,
           keyframes,
-          $element
+          $el
         );
         // rewrite the current property and keep the old ones to be normalized
         keyframes[keyframePercent] = {
@@ -71,7 +71,7 @@ export default class Keyframes {
     property,
     keyframePercent,
     keyframes,
-    $element
+    $el
   ) {
     let from, to, unit;
     const value = keyframes[keyframePercent][property];
@@ -83,7 +83,7 @@ export default class Keyframes {
         property,
         keyframePercent,
         keyframes,
-        $element
+        $el
       );
     } else if (isString(value)) {
       // if value is a string
@@ -91,14 +91,14 @@ export default class Keyframes {
         property,
         keyframePercent,
         keyframes,
-        $element
+        $el
       );
     } else if (isArray(value)) {
       const previousKeyframe = this._previousKeyframeProperty(
         property,
         keyframePercent,
         keyframes,
-        $element
+        $el
       );
       from = previousKeyframe;
 
@@ -109,7 +109,7 @@ export default class Keyframes {
         property,
         keyframePercent,
         keyframes,
-        $element
+        $el
       );
     } else {
       throwError(UNKNOWN_PROPERTY_VALUE, property);
@@ -166,7 +166,7 @@ export default class Keyframes {
     property,
     currentPercent,
     keyframes,
-    $element
+    $el
   ) {
     // get previous keyframe percent
     const previousKeyframePercent = this._getPreviousKeyframe(
@@ -176,7 +176,7 @@ export default class Keyframes {
 
     if (previousKeyframePercent === false) {
       // if there are no keyframes before the `currentPercent`, get the default value taken from the dom
-      return getValue(getElementDefaultProperty($element, property));
+      return getValue(getElementDefaultProperty($el, property));
     }
 
     // if there exists a previous keyframe
@@ -196,7 +196,7 @@ export default class Keyframes {
         property,
         previousKeyframePercent,
         keyframes,
-        $element
+        $el
       );
     }
   }
@@ -207,20 +207,20 @@ export default class Keyframes {
    * @param  {number|string} value
    * @param  {number} currentKeyframePercent
    * @param  {object} keyframes
-   * @param  {HTMLElement} $element
+   * @param  {HTMLElement} $el
    */
   static _normalizeNumberValue (
     property,
     currentKeyframePercent,
     keyframes,
-    $element
+    $el
   ) {
     const value = keyframes[currentKeyframePercent][property];
     let [from, unit] = this._previousKeyframeProperty(
       property,
       currentKeyframePercent,
       keyframes,
-      $element
+      $el
     );
     return [from, value, unit]; // [from, to, unit]
   }
@@ -229,7 +229,7 @@ export default class Keyframes {
     property,
     currentKeyframePercent,
     keyframes,
-    $element
+    $el
   ) {
     const value = keyframes[currentKeyframePercent][property];
     let [to, unit] = getValue(value);
@@ -238,7 +238,7 @@ export default class Keyframes {
       property,
       currentKeyframePercent,
       keyframes,
-      $element
+      $el
     );
     if (previousUnit !== unit) {
       throwError(PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT, previousUnit, unit);
@@ -250,15 +250,14 @@ export default class Keyframes {
     property,
     currentKeyframePercent,
     keyframes,
-    $element
+    $el
   ) {
     let { from, to, unit } = keyframes[currentKeyframePercent][property];
-    console.log(keyframes[currentKeyframePercent][property]);
     const [previousFrom, previousUnit] = this._previousKeyframeProperty(
       property,
       currentKeyframePercent,
       keyframes,
-      $element
+      $el
     );
 
     // if `from` is not specified, inherit it from the previous keyframe from

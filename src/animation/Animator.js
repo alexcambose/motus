@@ -14,11 +14,11 @@ export default class Animator {
   static defaultOptions = {
     precision: 1,
   };
-  constructor (keyframes, $element, options = {}) {
+  constructor (keyframes, $el, options = {}) {
     this.options = { ...Animator.defaultOptions, ...options };
     this.keyframes = keyframes;
 
-    this.elementStyles = new Styler($element);
+    this.elementStyles = new Styler($el);
   }
 
   /**

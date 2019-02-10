@@ -5,10 +5,10 @@ import { NO_UNIT } from '../enum/specialUnitEnum';
 
 export default class Styler {
   /**
-   * @param  {HTMLElement} $element
+   * @param  {HTMLElement} $el
    */
-  constructor ($element) {
-    this.$element = $element;
+  constructor ($el) {
+    this.$el = $el;
   }
   /**
    * @param  {string} name Property name
@@ -25,7 +25,7 @@ export default class Styler {
    * @param  {string} property
    */
   _getStyle (property) {
-    return this.$element.style[property];
+    return this.$el.style[property];
   }
   /**
    * Sets element style property
@@ -33,13 +33,13 @@ export default class Styler {
    * @param  {string|number} value
    */
   _setStyle (property, value) {
-    this.$element.style[property] = value;
+    this.$el.style[property] = value;
   }
   /**
    * Remove all element styles
    */
   removeAll () {
-    this.$element.style = '';
+    this.$el.style = '';
   }
   /**
    * Sets the property to the element style
@@ -67,6 +67,6 @@ export default class Styler {
     const functionName = functionValuesEnum[name].functionName;
     // if value is an array of arrays convert it into an arrat of arguments string
     value = value.map(e => (isArray(e) ? e.join('') : e));
-    CssFunc(this.$element, functionName).add(name, value);
+    CssFunc(this.$el, functionName).add(name, value);
   }
 }

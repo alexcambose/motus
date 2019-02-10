@@ -19,9 +19,9 @@ export default class Point {
     }
     return point;
   }
-  static getDistanceFromParent ($element, $parent, horizontal) {
+  static getDistanceFromParent ($el, $parent, horizontal) {
     const parentOffset = $parent === window ? 0 : getOffset($parent, horizontal);
-    const elementOffset = getOffset($element, horizontal);
+    const elementOffset = getOffset($el, horizontal);
 
     return elementOffset - parentOffset;
   }

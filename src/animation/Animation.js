@@ -8,6 +8,14 @@ import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
 
 export default class Animation {
   static defaultOptions = {
+    // where animation starts
+    startPoint: null,
+    // where animaiton ends
+    endPoint: null,
+    // element that will be animated
+    $el: null,
+    // the keyframe used to specify the properties to animate $el
+    keyframes: [],
     // how many decimals should a css property have
     precision: Animator.defaultOptions.precision,
     // interval of sleep
@@ -31,28 +39,28 @@ export default class Animation {
     // sets the default value of the started parmeter
     started: false,
   };
-  constructor (startPoint, endPoint, $element, keyframes, options = {}) {
+  constructor (options) {
     // default options
     this.options = { ...Animation.defaultOptions, ...options };
-    if (!isHtmlElement($element)) {
-      throwError(VALUE_IS_NOT_HTML_ELEMENT, $element);
+    if (!isHtmlElement(this.options.$el)) {
+      throwError(VALUE_IS_NOT_HTML_ELEMENT, this.options.$el);
     }
     // element that will be animated
-    this.$element = $element;
+    this.$el = this.options.$el;
     // normalized keyframes
-    this.keyframes = Keyframes.normalize(keyframes, $element);
+    this.keyframes = Keyframes.normalize(this.options.keyframes, this.options.$el);
     // set the default started value
     this.started = this.options.started;
-    // animator used to apply keyframes to the $element based on percent
-    this._animator = new Animator(this.keyframes, $element);
+    // animator used to apply keyframes to the $el based on percent
+    this._animator = new Animator(this.keyframes, this.options.$el);
     // throttle the method that will be called on scroll
     this._compute = throttle(this.__compute, this.options.throttle);
     // variables that are true if the scroll is before or after the animation start and end points
     this.appliedAllBefore = false;
     this.appliedAllAfter = false;
-    this._computePositions(startPoint, endPoint);
+    this._computePositions(this.options.startPoint, this.options.endPoint);
     const handleResize = throttle(this._computePositions.bind(this), this.options.throttle);
-    window.addEventListener('resize', () => handleResize(startPoint, endPoint));
+    window.addEventListener('resize', () => handleResize(this.options.startPoint, this.options.endPoint));
   }
 
   /**
@@ -101,8 +109,7 @@ export default class Animation {
       );
     } else {
       // if point is not defined get the distance to it
-      this.startPoint = Point.getDistanceFromParent(this.$element, $scrollElement, horizontal) - getElementDimensions($scrollElement)[horizontal ? 'width' : 'height'];
-
+      this.startPoint = Point.getDistanceFromParent(this.$el, $scrollElement, horizontal) - getElementDimensions($scrollElement)[horizontal ? 'width' : 'height'];
     }
     if (endPoint || endPoint === 0) {
       // end point
@@ -113,7 +120,7 @@ export default class Animation {
       );
     } else {
       // if point is not defined get the distance to it
-      this.endPoint = Point.getDistanceFromParent(this.$element, $scrollElement, horizontal);
+      this.endPoint = Point.getDistanceFromParent(this.$el, $scrollElement, horizontal);
     }
   }
   /**

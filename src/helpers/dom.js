@@ -5,23 +5,23 @@ import throwError from '../error/throwError';
 import transformValuesEnums from '../enum/functionValuesEnum';
 import { isArray, camelToKebabCase } from './';
 
-export const getElementDimensions = $element => {
-  if ($element === window) {
+export const getElementDimensions = $el => {
+  if ($el === window) {
     return { width: window.innerWidth, height: window.innerHeight };
   }
-  return { width: $element.clientWidth, height: $element.clientHeight };
+  return { width: $el.clientWidth, height: $el.clientHeight };
 };
 
-export const getElementScroll = ($element, horizontal = false) => {
+export const getElementScroll = ($el, horizontal = false) => {
   // window uses scrollX, scrollY instead of scrollLeft, scrollTop
-  if ($element === window) {
+  if ($el === window) {
     return horizontal
-      ? $element.scrollX
-      : $element.scrollY;
+      ? $el.scrollX
+      : $el.scrollY;
   }
   return horizontal
-    ? $element.scrollLeft
-    : $element.scrollTop;
+    ? $el.scrollLeft
+    : $el.scrollTop;
 };
 
 export const getValue = value => {
@@ -48,7 +48,7 @@ export const getValue = value => {
 };
 
 export const getElementDefaultProperty = (
-  $element,
+  $el,
   property,
   _window = window
 ) => {
@@ -56,7 +56,7 @@ export const getElementDefaultProperty = (
     return transformValuesEnums[property].defaultValue;
   }
   return _window
-    .getComputedStyle($element, null)
+    .getComputedStyle($el, null)
     .getPropertyValue(camelToKebabCase(property));
 };
 export const getOffset = (element, horizontal = false) => {
