@@ -40,24 +40,25 @@ export default class Animation {
     started: false,
   };
   constructor (options) {
-    // default options
     this.options = { ...Animation.defaultOptions, ...options };
-    if (!isHtmlElement(this.options.$el)) {
-      throwError(VALUE_IS_NOT_HTML_ELEMENT, this.options.$el);
-    }
     // element that will be animated
     this.$el = this.options.$el;
+    if (!isHtmlElement(this.$el)) {
+      throwError(VALUE_IS_NOT_HTML_ELEMENT, this.$el);
+    }
     // normalized keyframes
     this.keyframes = Keyframes.normalize(this.options.keyframes, this.options.$el);
     // set the default started value
     this.started = this.options.started;
+    // default options
+    // variables that are true if the scroll is before or after the animation start and end points
+    this.appliedAllBefore = false;
+    this.appliedAllAfter = false;
+
     // animator used to apply keyframes to the $el based on percent
     this._animator = new Animator(this.keyframes, this.options.$el);
     // throttle the method that will be called on scroll
     this._compute = throttle(this.__compute, this.options.throttle);
-    // variables that are true if the scroll is before or after the animation start and end points
-    this.appliedAllBefore = false;
-    this.appliedAllAfter = false;
     this._computePositions(this.options.startPoint, this.options.endPoint);
     const handleResize = throttle(this._computePositions.bind(this), this.options.throttle);
     window.addEventListener('resize', () => handleResize(this.options.startPoint, this.options.endPoint));
