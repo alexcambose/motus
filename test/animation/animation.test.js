@@ -289,6 +289,42 @@ describe('Animation', () => {
         expect(scrollMock.mock.calls.length).toEqual(0);
       });
     });
+    describe('onStart()', () => {
+      const scrollMock = jest.fn();
+      const newAnimation = new Animation({
+        startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
+        onStart: scrollMock,
+        ...defaultConfig,
+        started: false,
+      });
+      beforeEach(() => {
+        jest.resetAllMocks();
+      });
+
+      it('triggers when animation is started', () => {
+        newAnimation.start();
+        newAnimation.start();
+        expect(scrollMock.mock.calls.length).toEqual(1);
+      });
+    });
+    describe('onStop()', () => {
+      const scrollMock = jest.fn();
+      const newAnimation = new Animation({
+        startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
+        onStop: scrollMock,
+        ...defaultConfig,
+        started: true,
+      });
+      beforeEach(() => {
+        jest.resetAllMocks();
+      });
+
+      it('triggers when animation is stopped', () => {
+        newAnimation.stop();
+        newAnimation.stop();
+        expect(scrollMock.mock.calls.length).toEqual(1);
+      });
+    });
   });
   describe('start()', () => {
     it('sets the started parameter to true', () => {

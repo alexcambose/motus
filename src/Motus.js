@@ -12,7 +12,7 @@ class Motus {
 
   /** Adds an animation
    * @param  {Motus.Animation} animation The animation class
-   * @param  {boolean} autostart=true If thrue the scroll event listener will be automatically added
+   * @param  {boolean} autostart [true] If thrue the scroll event listener will be automatically added
    */
   addAnimation (animation, autostart = true) {
     // provided animation must be an instance of Motus.Animation
@@ -24,7 +24,7 @@ class Motus {
     }
   }
   /** Removes all registered animations
-   * @param  {boolean} autostop=true If true the registered animations will be automatically stopped
+   * @param  {boolean} autostop [true] If true the registered animations will be automatically stopped
    */
   clearAnimations (autostop = true) {
     if (autostop) {

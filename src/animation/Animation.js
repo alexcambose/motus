@@ -36,9 +36,33 @@ export default class Animation {
     onHitTop: null,
     // invoked once when the scroll just passed end position
     onHitBottom: null,
+    // invoked when animation is started
+    onStart: null,
+    // invoked when animation is stopped
+    onStop: null,
     // sets the default value of the started parmeter
     started: false,
   };
+
+  /**
+   * Create a new animation
+   * @param  {object} options - Options object
+   * @param {HTMLElement} options.$el - The html element that will be animated
+   * @param {HTMLElement|number} options.startPoint - The position where the animation will start, if not defined, it will be calculated by the $el when it enters the viewport
+   * @param {HTMLElement|number} options.endPoint - The position where the animation will end, if not defined, it will be calculated by the $el when it leaves the viewport
+   * @param {object} options.keyframes - Keyframes
+   * @param {object} options.throttle [10]- Limit the amount of times the function that calclates element properties is invoked
+   * @param {HTMLElement|object} options.scrollElement [window] - The element that is scrollable and contains $el
+   * @param {boolean} options.horizontal [false] - If true the whole animation will run on horizontal scroll
+   * @param {function} options.onScroll [false] - Callback called on scroll
+   * @param {function} options.onScrollBetween - Callback called on scroll between start and end point
+   * @param {function} options.onScrollBefore - Callback called on scroll before the start point
+   * @param {function} options.onScrollAfter - Callback called on scroll after the end point
+   * @param {function} options.onHitTop - Callback called on the top of the window reaches the start point.
+   * @param {function} options.onHitBottom - Callback called on the top of the window reaches the end point.
+   * @param {boolean} options.horizontal [false] - If true the whole animation will run on horizontal scroll
+   * @param {boolean} options.started [false] - If true the animation will be started without manually calling start method
+   */
   constructor (options) {
     this.options = { ...Animation.defaultOptions, ...options };
     // element that will be animated
@@ -59,32 +83,34 @@ export default class Animation {
     this._animator = new Animator(this.keyframes, this.options.$el);
     // throttle the method that will be called on scroll
     this._compute = throttle(this.__compute, this.options.throttle);
+    // throttle the method that will be called on on resize to update start and end point
     this._computePositions(this.options.startPoint, this.options.endPoint);
     const handleResize = throttle(this._computePositions.bind(this), this.options.throttle);
     window.addEventListener('resize', () => handleResize(this.options.startPoint, this.options.endPoint));
   }
 
   /**
-   * Start listening to scroll events in order to enable animation
+   * Start animation. Listen to scroll events in order to enable animation.
    */
   start () {
     const { options, started } = this;
-    const { $scrollElement } = options;
-    if (!started) {
-      // add event listener if not started
-      $scrollElement.addEventListener('scroll', this._compute.bind(this));
-    }
+    if (started) return;
+    // add event listener if not started
+    options.$scrollElement.addEventListener('scroll', this._compute.bind(this));
+    this.options.onStart && this.options.onStart();
     this.started = true;
     // also call compute once for setting initial values
     this._compute();
   }
+  /**
+   * Stop animation. Stop listening to scroll events.
+   */
   stop () {
-    const { options, started } = this;
-    const { $scrollElement } = options;
-    if (started) {
-      // remove event listener if started
-      $scrollElement.removeEventListener('scroll', this._compute);
-    }
+    const { started, options } = this;
+    if (!started) return;
+    // remove event listener if started
+    options.$scrollElement.removeEventListener('scroll', this._compute);
+    this.options.onStop && this.options.onStop();
     this.started = false;
   }
   /**
@@ -96,8 +122,8 @@ export default class Animation {
   }
 
   /** Method that sets the start and end point to the class properties to be used later when animating, also called on every resize
-   * @param  {} startPoint
-   * @param  {} endPoint
+   * @param  {HTMLElement|object} startPoint
+   * @param  {HTMLElement|object} endPoint
    */
   _computePositions (startPoint, endPoint) {
     const { $scrollElement, horizontal } = this.options;
@@ -126,6 +152,7 @@ export default class Animation {
   }
   /**
    * Method called on throttled scroll
+   * Calls animator to apply keyframe properties
    */
   __compute () {
     const { onScrollBefore, onScrollAfter, onScrollBetween, onScroll, onHitTop, onHitBottom } = this.options;
