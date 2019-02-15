@@ -1,6 +1,6 @@
 import Animation from './animation/Animation';
 import Point from './Point';
-import throwError from './error/throwError';
+import throwError from './helpers/throwError.js';
 import { ANIMATION_NOT_INSTANCE_OF_ANIMATION } from './enum/errorEnum';
 
 class Motus {

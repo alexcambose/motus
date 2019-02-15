@@ -10,7 +10,7 @@ import {
   isSet,
 } from '../helpers/';
 
-import throwError from '../error/throwError';
+import throwError from '../helpers/throwError.js';
 import {
   UNKNOWN_PROPERTY_VALUE,
   KEYFRAMES_VALUE_NOT_SPECIFIED,

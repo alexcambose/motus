@@ -7,7 +7,7 @@ import {
 import Styler from './Styler';
 import c2c from 'color-to-color';
 import { COLOR_UNIT, NO_UNIT } from '../enum/specialUnitEnum';
-import throwError from '../error/throwError';
+import throwError from '../helpers/throwError.js';
 import { UNEXPECTED_ERROR } from '../enum/errorEnum';
 
 export default class Animator {

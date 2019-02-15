@@ -1,7 +1,7 @@
 import colorString from 'color-string';
 import { NO_UNIT, COLOR_UNIT } from '../enum/specialUnitEnum';
 import { NO_VALUE_SPECIFIED } from '../enum/errorEnum';
-import throwError from '../error/throwError';
+import throwError from '../helpers/throwError.js';
 import transformValuesEnums from '../enum/functionValuesEnum';
 import { isArray, camelToKebabCase } from './';
 

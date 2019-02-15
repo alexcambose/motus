@@ -24,3 +24,6 @@ export { isHtmlElement } from './type.js';
 
 // validation
 export { isSet } from './validation.js';
+
+// error
+export { default as throwError } from './throwError';

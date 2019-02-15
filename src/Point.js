@@ -1,6 +1,6 @@
 import { isHtmlElement } from './helpers/';
 import { getOffset } from './helpers/dom';
-// import throwError from './error/throwError';
+// import throwError from './helpers/throwError.js';
 // import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
 export default class Point {
