@@ -3,6 +3,7 @@ import Point from './Point';
 import throwError from './helpers/throwError.js';
 import { ANIMATION_NOT_INSTANCE_OF_ANIMATION } from './enum/errorEnum';
 
+/** Main motus object, contains all animations */
 class Motus {
   constructor () {
     this.Animation = Animation;

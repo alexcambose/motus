@@ -3,6 +3,7 @@ import { getOffset } from './helpers/dom';
 // import throwError from './helpers/throwError.js';
 // import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
+/** Class used to get start and end point, contains only static methods  */
 export default class Point {
   /**
    * Gets the pixels from a given number or dom element
@@ -12,7 +13,7 @@ export default class Point {
    */
   static getPxFromPoint (point, $scrollElement, horizontal) {
     if (isHtmlElement(point)) {
-      if (horizontal) {
+      if (horizontal) { // TODO replace with getOffset()
         return point.offsetLeft - ($scrollElement.offsetLeft || 0);
       }
       return point.offsetTop - ($scrollElement.offsetTop || 0);

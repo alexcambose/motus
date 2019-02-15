@@ -69,6 +69,18 @@ Object.keys(transforms).forEach(
   prop =>
     (transforms[prop] = { ...transforms[prop], functionName: 'transform' })
 );
+
+/*
+transforms = {
+  ...
+  rotate: {
+    defaultValue: 0,
+    functionName: 'transform',
+  }
+  ...
+}
+*/
+
 export default {
   ...transforms,
 };

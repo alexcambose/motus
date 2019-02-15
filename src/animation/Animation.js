@@ -5,7 +5,7 @@ import { throttle } from 'lodash';
 import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement } from '../helpers/';
 import throwError from '../helpers/throwError.js';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
-
+/** Class representing a new animation, here are set all the animation's opitons and triggered element calculations based on the scroll percent */
 export default class Animation {
   static defaultOptions = {
     // where animation starts

@@ -19,7 +19,7 @@ import {
   KEYFRAME_TO_IS_NOT_SET,
   NO_KEYFRAMES,
 } from '../enum/errorEnum';
-
+/** Handles keyframe normalization */
 export default class Keyframes {
   /**
    * Convert the keyframes to a standard form

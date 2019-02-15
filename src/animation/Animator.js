@@ -9,12 +9,12 @@ import c2c from 'color-to-color';
 import { COLOR_UNIT, NO_UNIT } from '../enum/specialUnitEnum';
 import throwError from '../helpers/throwError.js';
 import { UNEXPECTED_ERROR } from '../enum/errorEnum';
-
+/** Each animation has an animator class. Handles getting the current keyframe that needs to be applied and also the percent of current keyframe. */
 export default class Animator {
   static defaultOptions = {
     precision: 1,
   };
-  constructor (keyframes, $el, options = {}) {
+  constructor (keyframes, $el, options = {}) { // todo the options object is not currently used
     this.options = { ...Animator.defaultOptions, ...options };
     this.keyframes = keyframes;
 
@@ -78,10 +78,16 @@ export default class Animator {
       currentKeyframeScrollPercent
     );
   }
+  /**
+   * Removes all animation styles from the element and applies only the 0% keyframe if specified
+   */
   applyNoAnimations () {
     this.elementStyles.removeAll();
     if (this.keyframes[0]) this._applyKeyframe(this.keyframes[0], 100);
   }
+  /**
+   * Applies all the animation stiling
+   */
   applyAllAnimations () {
     Object.keys(this.keyframes).forEach(percent =>
       this._applyKeyframe(this.keyframes[percent], 100)

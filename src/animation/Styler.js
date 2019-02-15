@@ -3,6 +3,7 @@ import functionValuesEnum from '../enum/functionValuesEnum';
 import CssFunc from 'css-func';
 import { NO_UNIT } from '../enum/specialUnitEnum';
 
+/** Handles applying stiling to the dom element */
 export default class Styler {
   /**
    * @param  {HTMLElement} $el
