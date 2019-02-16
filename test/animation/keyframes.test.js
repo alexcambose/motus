@@ -205,7 +205,6 @@ describe('keyframes', () => {
         ).toThrow();
       });
       it('throws error `to` is not defined', () => {
-        console.log('a')
         expect(() =>
           Keyframes._normalizeObjectValue(
             'width',

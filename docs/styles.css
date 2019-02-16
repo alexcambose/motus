@@ -157,5 +157,8 @@
  }
 
  .docsify-copy-code-button {
-   border-bottom-left-radius: 10px !important;
+   border-radius: 10px !important;
+   top: 8px !important;
+   right: 8px !important;
+   padding: 6px !important;
  }

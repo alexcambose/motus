@@ -37,11 +37,22 @@
 // TODO change in production
   </script>
   <!-- <script src="https://rawcdn.githack.com/alexcambose/motus/ecd6eaea25b7bc849d21567e3d65447d75e3326c/dist/motus.web.js"></script> -->
-  <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
+
+  <!-- Development purposes -->
+  <script src="http://127.0.0.1:3001/motus.web.js"></script>
+
+
+
+<!-- Docsify stuff -->
+<script src="https://unpkg.com/docsify/lib/docsify.min.js"></script>
+<script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
+<script src="https://unpkg.com/docsify-copy-code@2"></script>
+<script src="//unpkg.com/docsify/lib/plugins/disqus.min.js"></script>
   <script>
     window.$docsify = {
       name: 'motus',
       coverpage: true,
+      maxLevel: 3,
       repo: 'https://github.com/alexcambose/motus',
       copyCode: {
         buttonText: 'Copy',
@@ -55,6 +66,7 @@
       disqus: 'motusjs',
       executeScript: true,
       plugins: [
+        // TODO replace with actual link
         EditOnGithubPlugin.create('aa', 'a', 'Edit on Github'),
         function (hook) {
           hook.beforeEach(function (content) {
@@ -62,11 +74,13 @@
             setTimeout(() => {
               const regex = /```js([\s\S]*?)```/gmu;
               var match = regex.exec(content);
+              console.log(document.getElementById('element1').tagName)
+              
               while (match != null) {
                 eval(match[1]);
                 match = regex.exec(content);
               }
-            }, 200);
+            }, 400);
             
             return content;
           });
@@ -77,11 +91,8 @@
     //     navigator.serviceWorker.register('sw.js')
     //   }
   </script>
-  <script src="http://127.0.0.1:5500/dist/motus.web.js"></script>
-  <script src="https://unpkg.com/docsify/lib/docsify.min.js"></script>
   <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-  <script src="https://unpkg.com/docsify-copy-code@2"></script>
-  <script src="//unpkg.com/docsify/lib/plugins/disqus.min.js"></script>
+
 </body>
 
 </html>

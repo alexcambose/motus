@@ -4,9 +4,9 @@
 
 > Animation library that mimics CSS keyframes when scrolling.
 
-- Simple and lightweight (~21kB gzipped)
-- No statically built html files
-- Multiple themes
+- Simple and lightweight
+- Css like syntax
+
 
 [GitHub](https://github.com/docsifyjs/docsify/)
 [Get Started](#docsify)
