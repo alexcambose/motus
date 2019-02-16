@@ -194,6 +194,27 @@ describe('keyframes', () => {
           )
         ).not.toThrow();
       });
+      it('throws error if the `from` and `to` property have different units', () => {
+        expect(() =>
+          Keyframes._normalizeObjectValue(
+            'width',
+            0,
+            { 0: { width: { from: '10px', to: '30%' } } },
+            $element
+          )
+        ).toThrow();
+      });
+      it('throws error `to` is not defined', () => {
+        console.log('a')
+        expect(() =>
+          Keyframes._normalizeObjectValue(
+            'width',
+            0,
+            { 0: { width: { from: '10px'} } },
+            $element
+          )
+        ).toThrow();
+      });
       it('inherits the unit from the default property', () => {
         const k = {
           0: {
@@ -205,9 +226,11 @@ describe('keyframes', () => {
         expect(
           Keyframes._normalizeObjectValue('width', 0, k, $element)
         ).toEqual([10, 100, 'px']);
+
         expect(
           Keyframes._normalizeObjectValue('color', 0, k, $element)
-        ).toEqual(['rgb(255, 255, 255)', 'red', COLOR_UNIT]);
+        ).toEqual(['rgb(255, 255, 255)', 'rgb(255, 0, 0)', COLOR_UNIT]);
+
         expect(
           Keyframes._normalizeObjectValue('opacity', 0, k, $element)
         ).toEqual([1, 0.5, NO_UNIT]);
@@ -221,6 +244,7 @@ describe('keyframes', () => {
           Keyframes._normalizeObjectValue('width', 100, k, $element)
         ).toEqual([100, 200, '%']);
       });
+
       it('thorws error if property `to` is not defined', () => {
         expect(() =>
           Keyframes._normalizeObjectValue(

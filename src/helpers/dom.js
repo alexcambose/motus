@@ -42,7 +42,9 @@ export const getValue = value => {
 
   const match = value.match(unitReg);
   if (match && match.length === 3) {
-    return [parseFloat(match[1]), match[2] || NO_UNIT];
+    const value = parseFloat(match[1]);
+    const unit = match[2] || NO_UNIT;
+    return [value, unit];
   }
   throwError(NO_VALUE_SPECIFIED);
 };

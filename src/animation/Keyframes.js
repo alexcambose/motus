@@ -18,6 +18,7 @@ import {
   PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT,
   KEYFRAME_TO_IS_NOT_SET,
   NO_KEYFRAMES,
+  TO_UNIT_DOES_NOT_MATCH_FROM,
 } from '../enum/errorEnum';
 /** Handles keyframe normalization */
 export default class Keyframes {
@@ -253,25 +254,37 @@ export default class Keyframes {
     $el
   ) {
     let { from, to, unit } = keyframes[currentKeyframePercent][property];
+    // const [fromValue, fromUnit]
     const [previousFrom, previousUnit] = this._previousKeyframeProperty(
       property,
       currentKeyframePercent,
       keyframes,
       $el
     );
-
-    // if `from` is not specified, inherit it from the previous keyframe from
-    if (!isSet(from)) {
-      from = previousFrom;
-    }
-    // if `unit` is not specified inherit it from the previous keyframe `from`
-    if (!isSet(unit)) {
-      unit = previousUnit;
-    }
     // throw error if `to` is not defined
     if (!isSet(to)) {
       throwError(KEYFRAME_TO_IS_NOT_SET);
     }
-    return [from, to, unit];
+    // if `from` is not specified, inherit it from the previous keyframe from
+    if (!isSet(from)) {
+      from = previousFrom;
+    }
+
+    const [fromValue, fromUnit] = getValue(from);
+    const [toValue, toUnit] = getValue(to);
+    // check `from` and `to` units only if unit is not set
+    if (!unit) {
+      // throw error if the to and from units are different
+      if (fromUnit !== toUnit) {
+        throwError(TO_UNIT_DOES_NOT_MATCH_FROM, toUnit, fromUnit);
+      }
+    }
+
+    // if `unit` is not specified inherit it from the previous keyframe `from`
+    if (!isSet(unit)) {
+      unit = previousUnit;
+    }
+
+    return [fromValue, toValue, unit];
   }
 }

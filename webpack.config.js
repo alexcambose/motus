@@ -1,7 +1,8 @@
 const path = require('path');
 
-module.exports = env => {
-  const targetNode = env.TARGET_ENV === 'NODE';
+module.exports = (env, argv) => {
+  const targetNode = env && env.TARGET_ENV === 'NODE';
+  const mode = argv.mode || 'development';
   return {
     entry: './src/index.js',
     output: {
@@ -9,6 +10,7 @@ module.exports = env => {
       filename: targetNode ? 'motus.node.js' : 'motus.web.js',
       libraryTarget: targetNode ? 'commonjs2' : 'umd',
     },
+    mode,
     devtool: 'sourcemaps',
     module: {
       rules: [
@@ -16,5 +18,10 @@ module.exports = env => {
       ],
     },
     stats: 'verbose',
+    devServer: {
+      contentBase: path.join(__dirname, 'dist'),
+      compress: true,
+      port: 3001,
+    },
   };
 };
