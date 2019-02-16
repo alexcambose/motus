@@ -1,7 +1,7 @@
 import Animation from './animation/Animation';
 import Point from './Point';
 import throwError from './helpers/throwError.js';
-import { ANIMATION_NOT_INSTANCE_OF_ANIMATION } from './enum/errorEnum';
+import { ANIMATION_NOT_INSTANCE_OF_ANIMATION, NO_ANIMATION_FOUND } from './enum/errorEnum';
 
 /** Main motus object, contains all animations */
 class Motus {
@@ -12,8 +12,11 @@ class Motus {
   }
 
   /** Adds an animation
+   * @example
+   * const newAnimation = new Motus.Animation({...});
+   * Motus.addAnimation(newAnimation);
    * @param  {Motus.Animation} animation The animation class
-   * @param  {boolean} autostart [true] If thrue the scroll event listener will be automatically added
+   * @param  {boolean} autostart=true If true the scroll event listener will be automatically added
    */
   addAnimation (animation, autostart = true) {
     // provided animation must be an instance of Motus.Animation
@@ -24,8 +27,32 @@ class Motus {
       throwError(ANIMATION_NOT_INSTANCE_OF_ANIMATION);
     }
   }
-  /** Removes all registered animations
-   * @param  {boolean} autostop [true] If true the registered animations will be automatically stopped
+  /**
+   * Removes a registered animation
+   * @example
+   * const newAnimation = new Motus.Animation({...});
+   * Motus.addAnimation(newAnimation);
+   * Motus.clearAnimation(newAnimation);
+   * @param  {Motus.Animation} animation The animation that will be cleared
+   * @param  {boolean} autostop=true If true the animation will be automatically stopped
+   */
+  clearAnimation (animation, autostop = true) {
+    // check if animation parameter is a valid animation
+    if (!(animation instanceof this.Animation)) throwError(ANIMATION_NOT_INSTANCE_OF_ANIMATION);
+    const foundAnimationIndex = this._animations.findIndex(e => animation.getUid() === e.getUid());
+    // if there is no found animation
+    if (foundAnimationIndex === -1) throwError(NO_ANIMATION_FOUND);
+
+    if (autostop) {
+      this._animations[foundAnimationIndex].stop();
+    }
+    this._animations.splice(foundAnimationIndex, 1);
+  }
+  /**
+   * Removes all registered animations
+   * @example
+   * Motus.clearAnimations();
+   * @param  {boolean} autostop=true If true the registered animations will be automatically stopped
    */
   clearAnimations (autostop = true) {
     if (autostop) {

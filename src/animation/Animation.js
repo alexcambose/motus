@@ -5,6 +5,8 @@ import { throttle } from 'lodash';
 import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement } from '../helpers/';
 import throwError from '../helpers/throwError.js';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
+import uniqid from 'uniqid';
+
 /** Class representing a new animation, here are set all the animation's opitons and triggered element calculations based on the scroll percent */
 export default class Animation {
   static defaultOptions = {
@@ -64,6 +66,8 @@ export default class Animation {
    * @param {boolean} options.started [false] - If true the animation will be started without manually calling start method
    */
   constructor (options) {
+    // generate unique identifier
+    this.uid = uniqid();
     this.options = { ...Animation.defaultOptions, ...options };
     // element that will be animated
     this.$el = this.options.$el;
@@ -88,7 +92,12 @@ export default class Animation {
     const handleResize = throttle(this._computePositions.bind(this), this.options.throttle);
     window.addEventListener('resize', () => handleResize(this.options.startPoint, this.options.endPoint));
   }
-
+  /**
+   * Returns the unique identifier
+   */
+  getUid () {
+    return this.uid;
+  }
   /**
    * Start animation. Listen to scroll events in order to enable animation.
    */

@@ -79,6 +79,9 @@ describe('Animation', () => {
   it('keyframe normalization', () => {
     expect(animation.keyframes).toEqual(keyframesObj);
   });
+  it ('getUid()', () => {
+    expect(animation.getUid()).toBeTruthy();
+  })
   it('throws error if the specified element is not a valid html element', () => {
     expect(() => {
       new Animation({ startPoint: 0, endPoint: 200, $el: false, keyframes: keyframesArr });

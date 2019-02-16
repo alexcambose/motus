@@ -79,6 +79,7 @@
     "color-string": "^1.5.3",
     "color-to-color": "^1.0.0",
     "css-func": "^1.0.0",
-    "lodash": ">=4.17.11"
+    "lodash": ">=4.17.11",
+    "uniqid": "^5.0.3"
   }
 }

@@ -20,3 +20,4 @@ export const ANIMATION_NOT_INSTANCE_OF_ANIMATION = () => `The provided animation
 export const NO_KEYFRAMES = () => `No keyframes specified`;
 export const UNEXPECTED_ERROR = () => `Unexpected error`;
 export const VALUE_IS_NOT_HTML_ELEMENT = val => `${val} is not a valid html element`;
+export const NO_ANIMATION_FOUND = () => `No animation found. Have you attached the animation with Motus.addAnimation ?`;
