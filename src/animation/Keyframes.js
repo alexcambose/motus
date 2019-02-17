@@ -253,6 +253,7 @@ export default class Keyframes {
     keyframes,
     $el
   ) {
+    // TODO this method needs more in depth testing
     let { from, to, unit } = keyframes[currentKeyframePercent][property];
     // const [fromValue, fromUnit]
     const [previousFrom, previousUnit] = this._previousKeyframeProperty(
@@ -265,13 +266,11 @@ export default class Keyframes {
     if (!isSet(to)) {
       throwError(KEYFRAME_TO_IS_NOT_SET);
     }
-    // if `from` is not specified, inherit it from the previous keyframe from
-    if (!isSet(from)) {
-      from = previousFrom;
-    }
 
-    const [fromValue, fromUnit] = getValue(from);
+    // if `from` is not specified, inherit it from the previous keyframe from
+    const [fromValue, fromUnit] = isSet(from) ? getValue(from) : [previousFrom, previousUnit];
     const [toValue, toUnit] = getValue(to);
+
     // check `from` and `to` units only if unit is not set
     if (!unit) {
       // throw error if the to and from units are different

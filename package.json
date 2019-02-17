@@ -16,7 +16,8 @@
     "prod:web": "webpack --mode=production --env.TARGET_ENV=WEB",
     "prod:node": "webpack --mode=production --env.TARGET_ENV=NODE",
     "prod": "npm run prod:web && npm run prod:node",
-    "servedocs": "docsify serve ./docs --open"
+    "servedocs": "docsify serve ./docs --open",
+    "start": "npm run servedocs | npm run start:dev"
   },
   "jest": {
     "collectCoverageFrom": [
