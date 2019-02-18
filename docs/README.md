@@ -71,18 +71,18 @@ this way of defining keyframes is very similar to the one used in css:
 
 ### Defining keyframes
 
-Motus offeres a wide range of ways in wich you can define keyframes. Internally it converts any type of keyframe into a standardize form.
+Motus offers a wide range of ways in wich you can define keyframes. Internally it converts any type of keyframe into a standardized form.
 
 
 #### Standard definition
 
-This is the normalized form in wich Motus transforms any type
+This is the standardized form in wich Motus transforms any type
 
 ```js
-let newAnimation = new Motus.Animation({
+const newAnimation = new Motus.Animation({
   $el: document.getElementById('element2'),
   keyframes: {
-      0: {
+      50: {
         width: {
           from: 50,
           to: 100,
@@ -97,7 +97,6 @@ let newAnimation = new Motus.Animation({
         }
       }
     }
-  
 });
 Motus.addAnimation(newAnimation);
 ```
@@ -110,10 +109,10 @@ Motus.addAnimation(newAnimation);
 The unit can be specified either by setting the `unit` key inside each property or writing the value of the property as a string containing the unit like `from: '100px'`.
 
 ```js
-let newAnimation = new Motus.Animation({
+const newAnimation = new Motus.Animation({
   $el: document.getElementById('element3'),
   keyframes: {
-      0: {
+      50: {
         width: {
           from: '50px',
           to: '100px',
@@ -133,9 +132,249 @@ Motus.addAnimation(newAnimation);
 <div class="box" id="element3"></div>
 <!--- [end code] -->
 
+#### Skipping *from*
+
+To skip the `from` property you need to take these things into consideration:
+
+- the first keyframe will consider the `from` property the element property that is currently has
+- next keyframes will get the `from` property its previous keyframe `to`
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element4'),
+  keyframes: {
+      50: {
+        width: { // #element4 has an initial width property of 50px so `from` is equal to '50px'
+          to: '100px',
+        }
+      },
+      100: {
+        width: { // `from` is equal to `100px` from the previous keyframe
+          to: '300px',
+        }
+      }
+    }
+});
+Motus.addAnimation(newAnimation);
+```
+
+<!--- [start code] -->
+<div class="box" id="element4"></div>
+<!--- [end code] -->
+
+#### Inline definition
+
+You may write directly the `to` property as a value of the css key
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element5'),
+  keyframes: {
+      50: {
+        width: '100px',
+      },
+      100: {
+        width: '300px',
+      }
+    }
+});
+Motus.addAnimation(newAnimation);
+```
+
+<!--- [start code] -->
+<div class="box" id="element5"></div>
+<!--- [end code] -->
+
+#### Array definition
+Settings keyframes can be shortened using an array instead of an object. Note that **you will not be able to have full control over the animation percentages**, therefore you should only use an array only to create animations that do not need to have exact breakpoints.
+
+| Array                          | Object                                      |
+|--------------------------------|---------------------------------------------|
+| `[{...}]`                      | `{100:{...}}`                               |
+| `[{...}, {...}]`               | `{0:{...}, 100: {...}}`                     |
+| `[{...}, {...}, {...}]`        | `{0:{...}, 50:{...}, 100: {...}}`           |
+| `[{...}, {...}, {...}, {...}]` | `{0:{...}, 33:{...}, 66:{...}, 100: {...}}` |
+
+and so on...
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element6'),
+  keyframes: [
+    {width: '10px'}, // 0
+    {width: '300px'}, // 33
+    {width: '200px'}, // 66
+    {width: '300px'} // 100
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+<!--- [start code] -->
+<div class="box" id="element6"></div>
+<!--- [end code] -->
+
+Alternatively you may set the first array value to an emplty object `{}` to start the animation from a non zero percent
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element7'),
+  keyframes: [
+    {}, // 0
+    {width: '300px'}, // 33
+    {width: '200px'}, // 66
+    {width: '300px'} // 100
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+<!--- [start code] -->
+<div class="box" id="element7"></div>
+<!--- [end code] -->
+
+### Specifing start and end points
+Motus supports custom start and end points. These points can be either a number representing the position from the top of the document or an HTML elment.
+
+- if no start point is defined, it will be considered as the point in which the element that is animated (`#el`) enters the viewport
+- same as start point but when `$el` leaves the viewport
+
+#### Ways of specifing points
+
+- as a number(ex. `100`, `500`): represents the position from the top of the document (or `$scrollElement`)
+Examples: 
+```js
+const newAnimation = new Motus.Animation({
+  //...
+  startPoint: 100,
+  //...
+});
+```
+```js
+const newAnimation = new Motus.Animation({
+  //...
+  startPoint: 100,
+  //...
+});
+```
+- as a number and `relativeStart`/`` set to true
+
+#### Start point
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element8'),
+  startPoint: 100,
+  keyframes: [
+    {}, // 0
+    {width: '300px'}, // 33
+    {width: '200px'}, // 66
+    {width: '300px'} // 100
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+<!--- [start code] -->
+<div class="box" id="element8"></div>
+<!--- [end code] -->
+
+#### End point
+add example
+
+### Scroll element
+Motus can change the element on wich the scroll and calculations are applied. The `$scrollElement` property is by default set to `window`. This feature is useful when the element that is animated is in a scrollable container.
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element10'),
+  $scrollElement: document.getElementById('container-element10'),
+  keyframes: [
+    {width: '100px'},
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+<!--- [start code] -->
+<div class="vertical-container" id="container-element10">
+  S<br>o<br>m<br>e<br> <br>m<br>o<br>r<br>e<br> <br>c<br>o<br>n<br>t<br>e<br>n<br>t<br>
+  <div class="box" id="element10"></div>
+  S<br>o<br>m<br>e<br> <br>m<br>o<br>r<br>e<br> <br>c<br>o<br>n<br>t<br>e<br>n<br>t<br>
+</div>
+<!--- [end code] -->
+
+
+### Horizontal mode
+Motus supports the same config (startPoint, endPoint, keyframes, etc...) for horizontal scrolling.
+Horizontal mode can be activated by setting `horizontal` value to *true*.
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element11'),
+  horizontal: true,
+  $scrollElement: document.getElementById('container-element11'),
+  keyframes: [
+    {width: '100px'},
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+
+<!--- [start code] -->
+<div class="horizontal-container" id="container-element11">
+  <div style="width: 100vw; height: 1px;"></div>
+  <div class="box" id="element11"></div>
+</div>
+<!--- [end code] -->
+
+### Working with colors
+Working with colors is no more different that with any other property. Motus supports any way of defining colors.
+
+Ex. `green` == `rgb(0,255,0)` == `#00FF00` == `#0F0`
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element12'),
+  keyframes: [
+    {},
+    {backgroundColor: '#0F0'},
+    {backgroundColor: 'red'},
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+<!--- [start code] -->
+<div class="box" id="element12"></div>
+<!--- [end code] -->
+
+### Working with functions
+
+### Hooks 
+
+### Throttle
+The **throttle** parameter give us control over the rate at which the function that calculates current scroll percentage and applies stiling on the element.
+By default **throttle** is set to *10*.
+
+```js
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element99'),
+  throttle: 100, // ms
+  keyframes: [
+    {marginLeft: '200px'},
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+
+The animation is looks very laggy but is saves cpu cycles.
+
+<!--- [start code] -->
+<div class="box" id="element99"></div>
+<!--- [end code] -->
+
+## API
+API here
+
 ## Development
 
 ### Scripts
+
 These scripts are available in the `package.json` file and can be executed with `npm run <script>`.
 
 - `test`: Test command that calls [jest](https://jestjs.io)
@@ -151,8 +390,10 @@ These scripts are available in the `package.json` file and can be executed with 
 - `prod:node`: Build in production mode as a [umd](https://webpack.js.org/configuration/output/#module-definition-systems) module, used for web
 - `prod`: Runs `prod:node` `prod:web` together in watch mode
 - `servedocs`: Opens [docsify](https://docsify.js.org) server with the documentation
+- `start`: Runs `servedocs` and `start:dev`
 
 ### Overview of the project
+
 ```
 src/
 ├── animation
@@ -161,7 +402,7 @@ src/
 │   ├── Keyframes.js // Handles keyframe normalization
 │   └── Styler.js // Handles applying stiling to the dom element
 ├── enum
-│   ├── errorEnum.js // Contains all possible errors
+│   ├── errorEnum.js // Contains all possible error messages as functions
 │   ├── functionValuesEnum.js // Specifies the ralationship between custom css functions and also the default parameters
 │   └── specialUnitEnum.js // 
 ├── helpers
@@ -177,8 +418,14 @@ src/
 └── Point.js // Class used to get start and end point, contains only static methods
 ```
 
+### Contributing
 
-
+- Fork it
+- Create your feature branch
+- *Do something awesome*
+- Commit what you have done `git commit -am 'Some changes'`
+- Push to the branch `git push origin my-new-feature`
+- Submit a pull request
 
 ## Road map
 
@@ -186,6 +433,8 @@ src/
 - [ ] Modularity, users can add, swap, and remove custom modules that handle custom functionality
 - [ ] Create a React version
 - [ ] Split Keyframes.js into smaller files
+- [ ] Improve testing
+- [ ] Improve docs
 
 ## License
 

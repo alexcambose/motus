@@ -52,7 +52,9 @@
     window.$docsify = {
       name: 'motus',
       coverpage: true,
-      maxLevel: 3,
+      // maxLevel: 3,
+      
+      subMaxLevel: 2,
       repo: 'https://github.com/alexcambose/motus',
       copyCode: {
         buttonText: 'Copy',
@@ -74,7 +76,6 @@
             setTimeout(() => {
               const regex = /```js([\s\S]*?)```/gmu;
               var match = regex.exec(content);
-              console.log(document.getElementById('element1').tagName)
               
               while (match != null) {
                 eval(match[1]);

@@ -137,7 +137,7 @@ export default class Keyframes {
     }
     // convert arrays like: [{}, {}, {}] to {0:{}, 50: {}, 100: {}}
     return keyframes.reduce((carry, e, i) => {
-      carry[i ? 100 / (keyframes.length - i) : 0] = e;
+      carry[Math.floor(100 * (i / (keyframes.length - 1)))] = e;
       return carry;
     }, {});
   }

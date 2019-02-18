@@ -156,6 +156,15 @@
    background-color: var(--bg1)
  }
 
+ .horizontal-container, .vertical-container {
+   width: 100%;
+   height: 300px;
+   background-color: #fff;
+   padding: 10px;
+   overflow: auto;
+   border: 1px solid var(--bg1);
+ }
+
  .docsify-copy-code-button {
    border-radius: 10px !important;
    top: 8px !important;

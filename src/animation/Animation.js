@@ -54,7 +54,7 @@ export default class Animation {
    * @param {HTMLElement|number} options.endPoint - The position where the animation will end, if not defined, it will be calculated by the $el when it leaves the viewport
    * @param {object} options.keyframes - Keyframes
    * @param {object} options.throttle [10]- Limit the amount of times the function that calclates element properties is invoked
-   * @param {HTMLElement|object} options.scrollElement [window] - The element that is scrollable and contains $el
+   * @param {HTMLElement|object} options.$scrollElement [window] - The element that is scrollable and contains $el
    * @param {boolean} options.horizontal [false] - If true the whole animation will run on horizontal scroll
    * @param {function} options.onScroll [false] - Callback called on scroll
    * @param {function} options.onScrollBetween - Callback called on scroll between start and end point
