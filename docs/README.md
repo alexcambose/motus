@@ -234,45 +234,88 @@ Motus.addAnimation(newAnimation);
 ### Specifing start and end points
 Motus supports custom start and end points. These points can be either a number representing the position from the top of the document or an HTML elment.
 
-- if no start point is defined, it will be considered as the point in which the element that is animated (`#el`) enters the viewport
-- same as start point but when `$el` leaves the viewport
+- if no start point is defined, it will be considered as the point in which the element that is animated (`#el`) enters the viewport, the end point is similar to the start point but when `$el` leaves the viewport
 
 #### Ways of specifing points
 
 - as a number(ex. `100`, `500`): represents the position from the top of the document (or `$scrollElement`)
 Examples: 
 ```js
+{ignore}// animation runs when scroll is at 100 and ends when scroll passes $el
 const newAnimation = new Motus.Animation({
   //...
   startPoint: 100,
   //...
 });
 ```
-```js
+```js {ignore}
+// animation runs when scroll is between 100 and 300
 const newAnimation = new Motus.Animation({
   //...
   startPoint: 100,
+  endPoint: 300,
   //...
 });
 ```
-- as a number and `relativeStart`/`` set to true
+- as an array with a number inside (ex: `[145]`, `[-210]`) : represents the position relative from the element that is animated (`$el`)
+```js {ignore}
+// animation runs with 100 px before the element enters the viewport
+const newAnimation = new Motus.Animation({
+  //...
+  startPoint: [100],
+  //...
+});
+```
+```js {ignore}
+// animation runs between 100 px after the element enters the viewport and 200 px before element leaves the viewport
+const newAnimation = new Motus.Animation({
+  //...
+  startPoint: [-100],
+  endPoint: [200]
+  //...
+});
+```
+- as an HTML element
+```js {ignore}
+// animation runs between the two HTML elements
+const newAnimation = new Motus.Animation({
+  //...
+  startPoint: document.getElementbyId('#startElement'),
+  endPoint: document.getElementbyId('#endElement')
+  //...
+});
+```
 
 #### Start point
+
 ```js
+// the animation starts at 100px from the top of the document
 const newAnimation = new Motus.Animation({
   $el: document.getElementById('element8'),
   startPoint: 100,
   keyframes: [
-    {}, // 0
-    {width: '300px'}, // 33
-    {width: '200px'}, // 66
-    {width: '300px'} // 100
+    {width: '300px'}
   ]
 });
 Motus.addAnimation(newAnimation);
 ```
 <!--- [start code] -->
 <div class="box" id="element8"></div>
+<!--- [end code] -->
+
+```js
+// the animation starts at 100px after $el enters the viewport
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element9'),
+  startPoint: [100],
+  keyframes: [
+    {width: '300px'}
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+<!--- [start code] -->
+<div class="box" id="element9"></div>
 <!--- [end code] -->
 
 #### End point
@@ -362,7 +405,7 @@ const newAnimation = new Motus.Animation({
 Motus.addAnimation(newAnimation);
 ```
 
-The animation is looks very laggy but is saves cpu cycles.
+The animation is looks very laggy but saves cpu cycles.
 
 <!--- [start code] -->
 <div class="box" id="element99"></div>

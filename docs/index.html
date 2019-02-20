@@ -73,16 +73,18 @@
         function (hook) {
           hook.beforeEach(function (content) {
             // timeout is needed to delay the script execution so that the page is fully loaded
+            const thecontent = content;
             setTimeout(() => {
               const regex = /```js([\s\S]*?)```/gmu;
-              var match = regex.exec(content);
+              var match = regex.exec(thecontent);
               
               while (match != null) {
-                eval(match[1]);
-                match = regex.exec(content);
+                if(!/{ignore}/.test(match[1]))
+                  eval(match[1]);
+                match = regex.exec(thecontent);
               }
             }, 400);
-            
+            content = content.replace(/{ignore}/g, '');
             return content;
           });
         }
