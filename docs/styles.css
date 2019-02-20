@@ -1,173 +1,179 @@
- /* .cover-main h1 span {
-      color: red;
-    } */
+/* .cover-main h1 span {
+    color: red;
+  } */
 
- :root {
-   --bg1: #242424;
-   --bg2: #FAA916;
-   --bg3: #4D7EA8;
-   --bg4: #E3170A;
-   --bg5: #395756;
-   --purple: #694873;
- }
+:root {
+  --bg1: #242424;
+  --bg2: #FAA916;
+  --bg3: #4D7EA8;
+  --bg4: #E3170A;
+  --bg5: #395756;
+  --purple: #694873;
+}
 
- .cover-main .title {
-   display: inline-block;
-   font-size: 200px;
-   position: relative;
- }
+.cover-main .title {
+  display: inline-block;
+  font-size: 200px;
+  position: relative;
+}
 
- .cover-main .fancy-letter-1 {
-   color: var(--bg2);
-   text-shadow: 3px 3px 6px var(--bg2);
- }
+.cover-main .fancy-letter-1 {
+  color: var(--bg2);
+  text-shadow: 3px 3px 6px var(--bg2);
+}
 
- .cover-main .fancy-letter-2 {
-   color: var(--bg3);
-   text-shadow: 3px 3px 6px var(--bg3);
- }
+.cover-main .fancy-letter-2 {
+  color: var(--bg3);
+  text-shadow: 3px 3px 6px var(--bg3);
+}
 
- .cover-main .fancy-letter-3 {
-   color: var(--bg4);
-   text-shadow: 3px 3px 6px var(--bg4);
- }
+.cover-main .fancy-letter-3 {
+  color: var(--bg4);
+  text-shadow: 3px 3px 6px var(--bg4);
+}
 
- .cover-main .fancy-letter-4 {
-   color: var(--bg5);
-   text-shadow: 3px 3px 6px var(--bg5);
- }
+.cover-main .fancy-letter-4 {
+  color: var(--bg5);
+  text-shadow: 3px 3px 6px var(--bg5);
+}
 
- .cover-main .fancy-letter-5 {
-   color: var(--purple);
-   text-shadow: 3px 3px 6px var(--purple);
- }
+.cover-main .fancy-letter-5 {
+  color: var(--purple);
+  text-shadow: 3px 3px 6px var(--purple);
+}
 
- .cover-main .fancy-version {
-   color: var(--purple);
-   text-shadow: 3px 3px 6px var(--purple);
-   font-size: 16%;
-   position: absolute;
-   right: -6%;
-   bottom: 16%;
- }
+.cover-main .fancy-version {
+  color: var(--purple);
+  text-shadow: 3px 3px 6px var(--purple);
+  font-size: 16%;
+  position: absolute;
+  right: -6%;
+  bottom: 16%;
+}
 
- #loading {
-   position: fixed;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
-   background-color: #fff;
-   z-index: 9999;
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
- a:not([href]) {
-   cursor: auto;
-   pointer-events: none;
- }
+a:not([href]) {
+  cursor: auto;
+  pointer-events: none;
+}
 
- /* readme related styles*/
+/* readme related styles*/
 
- .box {
-   width: 50px;
-   height: 50px;
-   background-color: var(--bg1)
- }
+.box {
+  width: 50px;
+  height: 50px;
+  background-color: var(--bg1)
+}
 
- /* .cover-main h1 span {
-      color: red;
-    } */
+/* .cover-main h1 span {
+    color: red;
+  } */
 
- :root {
-   --bg1: #242424;
-   --bg2: #FAA916;
-   --bg3: #4D7EA8;
-   --bg4: #E3170A;
-   --bg5: #395756;
-   --purple: #694873;
- }
+:root {
+  --bg1: #242424;
+  --bg2: #FAA916;
+  --bg3: #4D7EA8;
+  --bg4: #E3170A;
+  --bg5: #395756;
+  --purple: #694873;
+}
 
- .cover-main .title {
-   display: inline-block;
-   font-size: 200px;
-   position: relative;
- }
+.cover-main .title {
+  display: inline-block;
+  font-size: 200px;
+  position: relative;
+}
 
- .cover-main .fancy-letter-1 {
-   color: var(--bg2);
-   text-shadow: 3px 3px 6px var(--bg2);
- }
+.cover-main .fancy-letter-1 {
+  color: var(--bg2);
+  text-shadow: 3px 3px 6px var(--bg2);
+}
 
- .cover-main .fancy-letter-2 {
-   color: var(--bg3);
-   text-shadow: 3px 3px 6px var(--bg3);
- }
+.cover-main .fancy-letter-2 {
+  color: var(--bg3);
+  text-shadow: 3px 3px 6px var(--bg3);
+}
 
- .cover-main .fancy-letter-3 {
-   color: var(--bg4);
-   text-shadow: 3px 3px 6px var(--bg4);
- }
+.cover-main .fancy-letter-3 {
+  color: var(--bg4);
+  text-shadow: 3px 3px 6px var(--bg4);
+}
 
- .cover-main .fancy-letter-4 {
-   color: var(--bg5);
-   text-shadow: 3px 3px 6px var(--bg5);
- }
+.cover-main .fancy-letter-4 {
+  color: var(--bg5);
+  text-shadow: 3px 3px 6px var(--bg5);
+}
 
- .cover-main .fancy-letter-5 {
-   color: var(--purple);
-   text-shadow: 3px 3px 6px var(--purple);
- }
+.cover-main .fancy-letter-5 {
+  color: var(--purple);
+  text-shadow: 3px 3px 6px var(--purple);
+}
 
- .cover-main .fancy-version {
-   color: var(--purple);
-   text-shadow: 3px 3px 6px var(--purple);
-   font-size: 16%;
-   position: absolute;
-   right: -6%;
-   bottom: 16%;
- }
+.cover-main .fancy-version {
+  color: var(--purple);
+  text-shadow: 3px 3px 6px var(--purple);
+  font-size: 16%;
+  position: absolute;
+  right: -6%;
+  bottom: 16%;
+}
 
- #loading {
-   position: fixed;
-   top: 0;
-   left: 0;
-   bottom: 0;
-   right: 0;
-   background-color: #fff;
-   z-index: 9999;
-   display: flex;
-   justify-content: center;
-   align-items: center;
- }
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 9999;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
- a:not([href]) {
-   cursor: auto;
-   pointer-events: none;
- }
+a:not([href]) {
+  cursor: auto;
+  pointer-events: none;
+}
 
- /* readme related styles*/
+/* readme related styles*/
 
- .box {
-   width: 50px;
-   height: 50px;
-   background-color: var(--bg1)
- }
+.box {
+  width: 50px;
+  height: 50px;
+  background-color: var(--bg1)
+}
 
- .horizontal-container, .vertical-container {
-   width: 100%;
-   height: 300px;
-   background-color: #fff;
-   padding: 10px;
-   overflow: auto;
-   border: 1px solid var(--bg1);
- }
+.horizontal-container, .vertical-container {
+  width: 100%;
+  height: 300px;
+  background-color: #fff;
+  padding: 10px;
+  overflow: auto;
+  border: 1px solid var(--bg1);
+}
 
- .docsify-copy-code-button {
-   border-radius: 10px !important;
-   top: 8px !important;
-   right: 8px !important;
-   padding: 6px !important;
- }
+.docsify-copy-code-button {
+  border-radius: 10px !important;
+  top: 8px !important;
+  right: 8px !important;
+  padding: 6px !important;
+}
+
+.box-horizontal {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}

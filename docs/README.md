@@ -318,66 +318,50 @@ Motus.addAnimation(newAnimation);
 <div class="box" id="element9"></div>
 <!--- [end code] -->
 
-#### End point
-add example
-
-### Scroll element
-Motus can change the element on wich the scroll and calculations are applied. The `$scrollElement` property is by default set to `window`. This feature is useful when the element that is animated is in a scrollable container.
-
 ```js
+// the animation starts at 100px before $el enters the viewport
 const newAnimation = new Motus.Animation({
   $el: document.getElementById('element10'),
-  $scrollElement: document.getElementById('container-element10'),
+  startPoint: [-100],
   keyframes: [
-    {width: '100px'},
+    {width: '300px'}
   ]
 });
 Motus.addAnimation(newAnimation);
 ```
 <!--- [start code] -->
-<div class="vertical-container" id="container-element10">
-  S<br>o<br>m<br>e<br> <br>m<br>o<br>r<br>e<br> <br>c<br>o<br>n<br>t<br>e<br>n<br>t<br>
-  <div class="box" id="element10"></div>
-  S<br>o<br>m<br>e<br> <br>m<br>o<br>r<br>e<br> <br>c<br>o<br>n<br>t<br>e<br>n<br>t<br>
-</div>
+<div class="box" id="element10"></div>
 <!--- [end code] -->
 
-
-### Horizontal mode
-Motus supports the same config (startPoint, endPoint, keyframes, etc...) for horizontal scrolling.
-Horizontal mode can be activated by setting `horizontal` value to *true*.
+<!--- [start code] -->
+<div class="box" id="pointElement1"></div>
+<!--- [end code] -->
 
 ```js
+// the animation starts when the top of the viewport is under startPoint element
 const newAnimation = new Motus.Animation({
   $el: document.getElementById('element11'),
-  horizontal: true,
-  $scrollElement: document.getElementById('container-element11'),
+  startPoint: document.getElementById('pointElement1'),
   keyframes: [
-    {width: '100px'},
+    {width: '300px'}
   ]
 });
 Motus.addAnimation(newAnimation);
 ```
 
 <!--- [start code] -->
-<div class="horizontal-container" id="container-element11">
-  <div style="width: 100vw; height: 1px;"></div>
-  <div class="box" id="element11"></div>
-</div>
+<div class="box" id="element11"></div>
 <!--- [end code] -->
 
-### Working with colors
-Working with colors is no more different that with any other property. Motus supports any way of defining colors.
-
-Ex. `green` == `rgb(0,255,0)` == `#00FF00` == `#0F0`
+#### End point
 
 ```js
+// the animation ends at 13000px from the top of the document
 const newAnimation = new Motus.Animation({
   $el: document.getElementById('element12'),
+  endPoint: 13000,
   keyframes: [
-    {},
-    {backgroundColor: '#0F0'},
-    {backgroundColor: 'red'},
+    {width: '300px'}
   ]
 });
 Motus.addAnimation(newAnimation);
@@ -386,11 +370,46 @@ Motus.addAnimation(newAnimation);
 <div class="box" id="element12"></div>
 <!--- [end code] -->
 
+```js
+// the animation ends at 100px after $el leaves the viewport
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element13'),
+  endPoint: [100],
+  keyframes: [
+    {width: '300px'}
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+<!--- [start code] -->
+<div class="box" id="element13"></div>
+<!--- [end code] -->
+
+```js
+// the animation ends at 100px after $el leaves the viewport
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element14'),
+  endPoint: [-100],
+  keyframes: [
+    {width: '300px'}
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
+
+<!--- [start code] -->
+<div class="box" id="element14"></div>
+<!--- [end code] -->
+
+### Scroll element
+
+
 ### Working with functions
 
-### Hooks 
+### Hooks
 
 ### Throttle
+
 The **throttle** parameter give us control over the rate at which the function that calculates current scroll percentage and applies stiling on the element.
 By default **throttle** is set to *10*.
 
@@ -478,6 +497,7 @@ src/
 - [ ] Split Keyframes.js into smaller files
 - [ ] Improve testing
 - [ ] Improve docs
+- [ ] Keep initial inlined style css for $el
 
 ## License
 

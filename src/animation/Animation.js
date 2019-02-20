@@ -2,7 +2,7 @@ import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
 import { throttle } from 'lodash';
-import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement } from '../helpers/';
+import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement, isSet, isArray } from '../helpers/';
 import throwError from '../helpers/throwError.js';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
 import uniqid from 'uniqid';
@@ -50,8 +50,8 @@ export default class Animation {
    * Create a new animation
    * @param  {object} options - Options object
    * @param {HTMLElement} options.$el - The html element that will be animated
-   * @param {HTMLElement|number} options.startPoint - The position where the animation will start, if not defined, it will be calculated by the $el when it enters the viewport
-   * @param {HTMLElement|number} options.endPoint - The position where the animation will end, if not defined, it will be calculated by the $el when it leaves the viewport
+   * @param {HTMLElement|number|array} options.startPoint - The position where the animation will start, if not defined, it will be calculated by the $el when it enters the viewport
+   * @param {HTMLElement|number|array} options.endPoint - The position where the animation will end, if not defined, it will be calculated by the $el when it leaves the viewport
    * @param {object} options.keyframes - Keyframes
    * @param {object} options.throttle [10]- Limit the amount of times the function that calclates element properties is invoked
    * @param {HTMLElement|object} options.$scrollElement [window] - The element that is scrollable and contains $el
@@ -137,7 +137,7 @@ export default class Animation {
   _computePositions (startPoint, endPoint) {
     const { $scrollElement, horizontal } = this.options;
     // start point
-    if (startPoint || startPoint === 0) {
+    if (isSet(startPoint) && !isArray(startPoint)) {
       this.startPoint = Point.getPxFromPoint(
         startPoint,
         $scrollElement,
@@ -146,8 +146,9 @@ export default class Animation {
     } else {
       // if point is not defined get the distance to it
       this.startPoint = Point.getDistanceFromParent(this.$el, $scrollElement, horizontal) - getElementDimensions($scrollElement)[horizontal ? 'width' : 'height'];
+      if (isArray(startPoint)) this.startPoint += startPoint[0];
     }
-    if (endPoint || endPoint === 0) {
+    if (isSet(endPoint) && !isArray(endPoint)) {
       // end point
       this.endPoint = Point.getPxFromPoint(
         endPoint,
@@ -157,6 +158,7 @@ export default class Animation {
     } else {
       // if point is not defined get the distance to it
       this.endPoint = Point.getDistanceFromParent(this.$el, $scrollElement, horizontal);
+      if (isArray(endPoint)) this.endPoint += endPoint[0];
     }
   }
   /**
@@ -174,7 +176,6 @@ export default class Animation {
     // console.log(start, end, scroll, )
     // call scroll animation hook
     onScroll && onScroll(scroll);
-
     // if scroll is between the start and the end position
     if (scroll > startPoint && scroll < endPoint) { // BETWEEN
       this.appliedAllBefore = false;

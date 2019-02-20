@@ -1,5 +1,6 @@
 import { isHtmlElement } from './helpers/';
 import { getOffset } from './helpers/dom';
+import { isArray } from 'util';
 // import throwError from './helpers/throwError.js';
 // import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
@@ -12,11 +13,12 @@ export default class Point {
    * @returns number
    */
   static getPxFromPoint (point, $scrollElement, horizontal) {
+    // if the specified point is an html element
+    // get the offset minus the offset of the container to get the real offset
+    const containerOffset = getOffset($scrollElement, horizontal) || 0; // window offset is undefined
+    const offset = getOffset(point, horizontal) - containerOffset;
     if (isHtmlElement(point)) {
-      if (horizontal) { // TODO replace with getOffset()
-        return point.offsetLeft - ($scrollElement.offsetLeft || 0);
-      }
-      return point.offsetTop - ($scrollElement.offsetTop || 0);
+      return offset;
     }
     return point;
   }
