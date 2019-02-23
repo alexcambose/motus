@@ -21,7 +21,7 @@ let transforms = {
     defaultValue: '0px',
   },
   scale: {
-    defaultValue: 1,
+    defaultValue: [1],
   },
   scale3d: {
     defaultValue: [1, 1, 1],
@@ -54,10 +54,10 @@ let transforms = {
     defaultValue: 0,
   },
   skewX: {
-    defaultValue: 0,
+    defaultValue: ['0deg'],
   },
   skewY: {
-    defaultValue: 0,
+    defaultValue: ['0deg'],
   },
   perspective: {
     defaultValue: 0,

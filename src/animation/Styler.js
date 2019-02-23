@@ -67,7 +67,13 @@ export default class Styler {
   _applyArray (name, value) {
     const functionName = functionValuesEnum[name].functionName;
     // if value is an array of arrays convert it into an arrat of arguments string
-    value = value.map(e => (isArray(e) ? e.join('') : e));
+    value = value.map(e => {
+      if (isArray(e)) {
+        if (e[1] === NO_UNIT) return e[0];
+        return e[0] + e[1];
+      }
+      return e;
+    });
     CssFunc(this.$el, functionName).add(name, value);
   }
 }

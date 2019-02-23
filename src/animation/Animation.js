@@ -26,9 +26,9 @@ export default class Animation {
     $scrollElement: window,
     // is true the left offset wil be used to calculate the animation evolution
     horizontal: false,
-    // invoked on scroll (throttle will be applied)
+    // invoked on scroll
     onScroll: null,
-    // invoked only if the top (or left if horizontal) is between the start and end position
+    // invoked only if the top (or left if `horizontal`=true) is between the start and end position
     onScrollBetween: null,
     // invoked if the scroll is before the start position
     onScrollBefore: null,
@@ -173,7 +173,6 @@ export default class Animation {
     if (!this.started) return;
     // user scroll position
     const scroll = this._getScrollPosition();
-    // console.log(start, end, scroll, )
     // call scroll animation hook
     onScroll && onScroll(scroll);
     // if scroll is between the start and the end position

@@ -103,7 +103,6 @@ export default class Animator {
     // loop through all keyframe rules
     Object.keys(keyframe).forEach(property => {
       const { from, to, unit } = keyframe[property];
-
       // if the keyfrme value is something like { width: { from: 10, to: 20, unit: 'px' } }
       if (isNumber(from) && isNumber(to)) {
         this._applyNumberValues(
@@ -176,6 +175,7 @@ export default class Animator {
       );
       params[i][1] = to[i][1];
     }
+
     elementStyles.apply(property, params);
   }
 }

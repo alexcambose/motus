@@ -1,6 +1,5 @@
 import { isHtmlElement } from './helpers/';
 import { getOffset } from './helpers/dom';
-import { isArray } from 'util';
 // import throwError from './helpers/throwError.js';
 // import { VALUE_IS_NOT_HTML_ELEMENT } from './enum/errorEnum';
 
