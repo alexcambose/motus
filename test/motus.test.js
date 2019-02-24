@@ -1,5 +1,5 @@
 import Motus from '../src/Motus';
-
+import { NO_UNIT, COLOR_UNIT } from '../src/enum/specialUnitEnum';
 describe('Motus', () => {
   it('has `Animation` class in class properties', () => {
     const animation = Motus.Animation;
@@ -9,7 +9,12 @@ describe('Motus', () => {
     const point = new Motus.Point();
     expect(point instanceof Motus.Point).toBeTruthy();
   });
-
+  it('has `NO_UNIT` property', () => {
+    expect(Motus.NO_UNIT).toEqual(NO_UNIT);
+  });
+  it('has `COLOR_UNIT` property', () => {
+    expect(Motus.COLOR_UNIT).toEqual(COLOR_UNIT);
+  });
   describe('addAnimation()', () => {
     const animation = new Motus.Animation({ $el: document.body, keyframes: { 0: {} } });
     beforeEach(() => {
