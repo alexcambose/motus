@@ -114,7 +114,7 @@ export default class Animator {
         );
       } else if (unit === COLOR_UNIT) {
         this._applyColorValues(property, from, to, percent);
-      } else if (!unit && isArray(from) && isArray(to)) {
+      } else if (isArray(from) && isArray(to)) {
         this._applyArrayValues(property, from, to, percent);
       } else {
         throwError(UNEXPECTED_ERROR);

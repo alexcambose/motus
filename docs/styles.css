@@ -177,3 +177,29 @@ a:not([href]) {
   left: 50%;
   transform: translateX(-50%);
 }
+
+.pointing-element {
+  width: 100%;
+  height: 20px;
+  background-color: var(--purple);
+  margin: 10px 0;
+  position: relative;
+}
+
+.pointing-element.point-start::after, .pointing-element.point-end::after {
+  content: "Start point";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+}
+
+.pointing-element.point-end::after {
+  content: "End point";
+}
+
+.bg-purple {
+  background-color: var(--purple);
+}

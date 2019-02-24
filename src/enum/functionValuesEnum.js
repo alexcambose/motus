@@ -51,7 +51,7 @@ let transforms = {
     defaultValue: '0deg',
   },
   skew: {
-    defaultValue: 0,
+    defaultValue: ['0deg'],
   },
   skewX: {
     defaultValue: ['0deg'],
