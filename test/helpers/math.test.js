@@ -3,6 +3,7 @@ import {
   calculatePercent,
   calculateValueFromPercent,
   floorWithPrecision,
+  uniqid
 } from '../../src/helpers/index';
 describe('previousArrayValue()', () => {
   const obj = {
@@ -63,4 +64,12 @@ describe('calculateValueFromPercent()', () => {
       expect(calculateValueFromPercent(0, 100, Math.PI, i)).toEqual(floorWithPrecision(Math.PI, i));
     }
   });
+});
+describe('uniqid()', () => {
+  it('generates an unique id', () => {
+    for (let i = 0; i < 100; i++) expect(uniqid()).not.toEqual(uniqid());
+  });
+  it('generates a string', () => {
+    expect(typeof uniqid()).toEqual('string');
+  })
 });

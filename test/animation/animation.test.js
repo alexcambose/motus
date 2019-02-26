@@ -14,11 +14,11 @@ describe('Animation', () => {
     {
       width: 100,
       height: {
-        to: 20,
+        to: '20px',
       },
     },
     {
-      scale: 1.1,
+      scale: [1.1],
       color: 'red',
       translate: ['30px', '30%'],
       width: 400,
@@ -64,9 +64,9 @@ describe('Animation', () => {
         unit: undefined,
       },
       scale: {
-        from: 1,
-        to: 1.1,
-        unit: NO_UNIT,
+        from: [[1, NO_UNIT]],
+        to: [[1.1, NO_UNIT]],
+        unit: undefined,
       },
       color: {
         from: 'rgb(0, 0, 0)',

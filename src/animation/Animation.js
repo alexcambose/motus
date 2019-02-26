@@ -1,11 +1,10 @@
 import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
-import { throttle } from 'lodash';
-import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement, isSet, isArray } from '../helpers/';
+import throttle from 'lodash/throttle';
+import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement, isSet, isArray, uniqid } from '../helpers/';
 import throwError from '../helpers/throwError.js';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
-import uniqid from 'uniqid';
 
 /** Class representing a new animation, here are set all the animation's opitons and triggered element calculations based on the scroll percent */
 export default class Animation {

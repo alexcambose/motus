@@ -3,6 +3,7 @@ export { previousArrayValue } from './math.js';
 export { calculatePercent } from './math.js';
 export { floorWithPrecision } from './math.js';
 export { calculateValueFromPercent } from './math.js';
+export { uniqid } from './math.js';
 
 // DOM
 export { getElementDimensions } from './dom.js';

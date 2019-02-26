@@ -237,7 +237,7 @@ describe('keyframes', () => {
       it('inherits the unit and sets the `from` from the property before', () => {
         const k = {
           0: { width: { from: 10, to: 100, unit: '%' } },
-          100: { width: { to: 200 } },
+          100: { width: { to: '200%' } },
         };
         expect(
           Keyframes._normalizeObjectValue('width', 100, k, $element)

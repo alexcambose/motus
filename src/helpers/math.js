@@ -44,3 +44,8 @@ export const calculateValueFromPercent = (min, max, percent, precision) => {
   }
   return value;
 };
+
+/**
+ * Generates a random string
+ */
+export const uniqid = () => Math.random().toString(36).substr(2, 9);
