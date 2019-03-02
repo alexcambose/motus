@@ -20,7 +20,7 @@ const Motus = require('motus');
 import Motus from 'motus';
 ```
 
-# Creating an animation
+## Creating an animation
 
 To create an animation, a new instance of `Motus.Animation` needs to be instantiated and added to the motus animations list.
 ```js
@@ -28,8 +28,22 @@ const newAnimation = new Motus.Animation();
 Motus.addAnimation(newAnimation);
 ```
 
-# Target element
-Setting the target element that will be animated is an essential step in creating the animation. it can be specified by setting the `$el` property.
+## Target element
+Setting the target element that will be animated is an essential and *required* step in creating the animation. it can be specified by setting the `$el` property.
 ```js
-
+const newAnimation = new Motus.Animation({ $el: document.getElementById('element') });
+Motus.addAnimation(newAnimation);
 ```
+
+## Keyframes
+
+The essence and logic of animations are the rules that dictate how the properties of the animated object change. These keyframes are speficied with the `keyframe` parameter.
+ ```js
+ const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element'),
+  keyframes: [
+    {width: 100},
+  ],
+ });
+ Motus.addAnimation(newAnimation);
+ ```
