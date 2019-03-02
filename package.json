@@ -17,7 +17,7 @@
     "prod:node": "webpack --mode=production --env.TARGET_ENV=NODE",
     "prod": "npm run prod:web && npm run prod:node",
     "servedocs": "docsify serve ./docs --open",
-    "start": "npm run servedocs | npm run start:dev"
+    "start": "npm run servedocs | npm run start:dev",
   },
   "jest": {
     "collectCoverageFrom": [
@@ -42,11 +42,6 @@
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/alexcambose/motus/issues"
-  },
-  "standard": {
-    "env": [
-      "mocha"
-    ]
   },
   "homepage": "https://github.com/alexcambose/motus#readme",
   "devDependencies": {
@@ -80,6 +75,6 @@
     "color-string": "^1.5.3",
     "color-to-color": "^1.0.0",
     "css-func": "^1.0.0",
-    "lodash": ">=4.17.11"
+    "lodash.throttle": "^4.1.1"
   }
 }

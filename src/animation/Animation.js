@@ -1,7 +1,7 @@
 import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
-import throttle from 'lodash/throttle';
+import throttle from 'lodash.throttle';
 import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement, isSet, isArray, uniqid } from '../helpers/';
 import throwError from '../helpers/throwError.js';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';

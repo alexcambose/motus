@@ -14,7 +14,13 @@ module.exports = (env, argv) => {
     devtool: 'sourcemaps',
     module: {
       rules: [
-        { test: /\.js$/, exclude: /node_modules/, loader: 'babel-loader' },
+        {
+          test: /\.js$/,
+          exclude: /node_modules/,
+          use: {
+            loader: 'babel-loader',
+          },
+        },
       ],
     },
     stats: 'verbose',

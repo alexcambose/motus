@@ -275,7 +275,6 @@ export default class Keyframes {
     if (!unit) {
       // throw error if the to and from units are different
       if (fromUnit !== toUnit) {
-        console.log([fromValue, fromUnit], [toValue, toUnit])
         throwError(TO_UNIT_DOES_NOT_MATCH_FROM, toUnit, fromUnit);
       }
     }
