@@ -7,7 +7,7 @@ const resetStyles = () => {
   $element.style.height = '10px';
   $element.style.opacity = 1;
   $element.style.color = 'rgb(0,0,0)';
-}
+};
 resetStyles();
 describe('Animation', () => {
   const keyframesArr = [
@@ -81,7 +81,7 @@ describe('Animation', () => {
   });
   it ('getUid()', () => {
     expect(animation.getUid()).toBeTruthy();
-  })
+  });
   it('throws error if the specified element is not a valid html element', () => {
     expect(() => {
       new Animation({ startPoint: 0, endPoint: 200, $el: false, keyframes: keyframesArr });
@@ -105,7 +105,7 @@ describe('Animation', () => {
     });
     const defaultConfig = {
       started: true,
-    }
+    };
 
     describe('onScroll()', () => {
       const scrollMock = jest.fn();
@@ -136,16 +136,16 @@ describe('Animation', () => {
         expect(scrollMock.mock.calls.length).toEqual(0);
       });
     });
-    
+
     describe('onScrollBetween()', () => {
-      const scrollMock = jest.fn()
+      const scrollMock = jest.fn();
       beforeEach(jest.resetAllMocks);
       const newAnimation = new Animation({
         startPoint: 100, endPoint: 200, $el: $element, keyframes: keyframesArr,
         onScrollBetween: scrollMock,
         ...defaultConfig,
       });
-      
+
       it('contains the scroll position and scroll percent as parameters', () => {
         window.scrollY = 190;
         newAnimation.__compute();
@@ -241,7 +241,7 @@ describe('Animation', () => {
         newAnimation.__compute();
         expect(scrollMock.mock.calls.length).toEqual(1);
       });
-      
+
       it('triggers again only if the scroll went under the start point', () => {
         window.scrollY = 210;
         newAnimation.__compute();
@@ -341,6 +341,13 @@ describe('Animation', () => {
       expect(animation.started).toEqual(true);
       animation.stop();
       expect(animation.started).toEqual(false);
+    });
+  });
+  describe('isStarted()', () => {
+    it('returns the started status of the animation', () => {
+      expect(animation.isStarted()).toEqual(animation.started);
+      animation.stop();
+      expect(animation.isStarted()).toEqual(animation.started);
     });
   });
   describe('_getScrollPosition()', () => {

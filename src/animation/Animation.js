@@ -91,11 +91,21 @@ export default class Animation {
     const handleResize = throttle(this._computePositions.bind(this), this.options.throttle);
     window.addEventListener('resize', () => handleResize(this.options.startPoint, this.options.endPoint));
   }
+
   /**
    * Returns the unique identifier
+   * @returns {string}
    */
   getUid () {
     return this.uid;
+  }
+
+  /**
+   * Returns true if the animation is started
+   * @returns {boolean}
+   */
+  isStarted () {
+    return this.started;
   }
   /**
    * Start animation. Listen to scroll events in order to enable animation.
