@@ -22,7 +22,8 @@
       const $coverLink = $('.cover-main h1 a');
       $coverLink.attr('href', '')
       const $coverTitle = $($coverLink).find('span')[0];
-      $coverTitle.innerHTML = `
+      if($coverTitle) {
+        $coverTitle.innerHTML = `
       <div class="title">
             <span class="fancy-letter-1">M</span>
             <span class="fancy-letter-2">o</span>
@@ -32,6 +33,9 @@
             <span class="fancy-version">v2</span>
         </div>
     `;
+      }
+      const $sidebarImageLink = $(".app-name-link")[0];
+      $sidebarImageLink.innerHTML = `<img class="sidebar-logo" src="https://i.imgur.com/GpeWN0B.png"/>`;
       $('#loading').fadeOut();
     })
 // TODO change in production
@@ -52,10 +56,12 @@
     window.$docsify = {
       name: 'motus',
       coverpage: true,
+      onlyCover: true,
       // maxLevel: 3,
-      
+      loadSidebar: true,
       subMaxLevel: 2,
       repo: 'https://github.com/alexcambose/motus',
+      homepage: 'overview.md',
       copyCode: {
         buttonText: 'Copy',
         errorText: 'Error',

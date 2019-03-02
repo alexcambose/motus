@@ -1,7 +1,5 @@
-/* .cover-main h1 span {
-    color: red;
-  } */
-
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
 :root {
   --bg1: #242424;
   --bg2: #FAA916;
@@ -11,10 +9,15 @@
   --purple: #694873;
 }
 
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
 .cover-main .title {
   display: inline-block;
   font-size: 200px;
   position: relative;
+  font-family: 'Quicksand', sans-serif;
 }
 
 .cover-main .fancy-letter-1 {
@@ -64,88 +67,28 @@
   align-items: center;
 }
 
-a:not([href]) {
-  cursor: auto;
-  pointer-events: none;
-}
-
-/* readme related styles*/
-
-.box {
-  width: 50px;
-  height: 50px;
-  background-color: var(--bg1)
-}
-
-/* .cover-main h1 span {
-    color: red;
-  } */
-
-:root {
-  --bg1: #242424;
-  --bg2: #FAA916;
-  --bg3: #4D7EA8;
-  --bg4: #E3170A;
-  --bg5: #395756;
-  --purple: #694873;
-}
-
-.cover-main .title {
+.button {
+  padding: 10px 20px;
+  min-width: 140px;
   display: inline-block;
-  font-size: 200px;
-  position: relative;
+  background-color: transparent;
+  color: var(--purple) !important;
+  font-size: 1.28em;
+  user-select: none;
+  border: 4px solid var(--purple);
+  transition: .2s ease, box-shadow 130ms;
+  box-shadow: 0;
+  border-radius: 4px;
 }
 
-.cover-main .fancy-letter-1 {
-  color: var(--bg2);
-  text-shadow: 3px 3px 6px var(--bg2);
+.button:hover {
+  background-color: var(--purple);
+  color: white !important;
+  box-shadow: 0px 5px 20px 0px black;
 }
 
-.cover-main .fancy-letter-2 {
-  color: var(--bg3);
-  text-shadow: 3px 3px 6px var(--bg3);
-}
-
-.cover-main .fancy-letter-3 {
-  color: var(--bg4);
-  text-shadow: 3px 3px 6px var(--bg4);
-}
-
-.cover-main .fancy-letter-4 {
-  color: var(--bg5);
-  text-shadow: 3px 3px 6px var(--bg5);
-}
-
-.cover-main .fancy-letter-5 {
-  color: var(--purple);
-  text-shadow: 3px 3px 6px var(--purple);
-}
-
-.cover-main .fancy-version {
-  color: var(--purple);
-  text-shadow: 3px 3px 6px var(--purple);
-  font-size: 16%;
-  position: absolute;
-  right: -6%;
-  bottom: 16%;
-}
-
-#loading {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  background-color: #fff;
-  z-index: 9999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-a:not([href]) {
-  cursor: auto;
-  pointer-events: none;
+.button-container .button:not(:first-of-type) {
+  margin-left: 12px;
 }
 
 /* readme related styles*/
@@ -202,4 +145,13 @@ a:not([href]) {
 
 .bg-purple {
   background-color: var(--purple);
+}
+
+.mb-12 {
+  margin-bottom: 24px;
+}
+
+.sidebar-logo {
+  width: 60%;
+  height: auto;
 }

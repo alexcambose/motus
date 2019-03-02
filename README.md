@@ -1,5 +1,5 @@
 # motus
-![Motus Logo](logo.png "Motus logo")
+![Motus Logo](https://i.imgur.com/GpeWN0B.png "Motus logo")
 
 
 [![Build Status](https://travis-ci.com/alexcambose/motus.svg?token=zpfhtmtiyLf5iVSdDrUd&branch=master)](https://travis-ci.com/alexcambose/motus) [![install size](https://packagephobia.now.sh/badge?p=motus@1.0.1)](https://packagephobia.now.sh/result?p=motus@1.0.1)

@@ -7,9 +7,11 @@
 - Simple and lightweight
 - Css like syntax
 
+<div class="button-container">
+  <a class="button" href="https://github.com/alexcambose/motus" target="_blank"><span>GitHub</span></a>
+  <a class="button" href="#/README"><span>Get Started</span></a>
+</div>
 
-[GitHub](https://github.com/docsifyjs/docsify/)
-[Get Started](#docsify)
 
 <!-- background color -->
 

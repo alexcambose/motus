@@ -32,15 +32,7 @@ Animation library that mimics CSS keyframes when scrolling.
 - Support for standard 
 - Scroll hooks
 
-## Installation
-As [npm](https://www.npmjs.com/package/motus) package
-```
-npm i -S motus
-```
-Standalone script file
-```html
-<script src="dist/motus.web.js"></script>
-```
+
 
 ## Usage
 
@@ -415,6 +407,21 @@ Motus.addAnimation(newAnimation);
 <div class="box" id="element14"></div>
 <!--- [end code] -->
 
+### Starting and stopping animations
+
+Animations can be manually started or stopped.
+
+```js
+// the animation ends at 100px before $el leaves the viewport
+const newAnimation = new Motus.Animation({
+  $el: document.getElementById('element20'),
+  endPoint: [-100],
+  keyframes: [
+    {width: '300px'}
+  ]
+});
+Motus.addAnimation(newAnimation);
+```
 
 <!--- [start code] -->
 <div class="box" id="element20"></div>
@@ -621,14 +628,6 @@ src/
 └── Point.js // Class used to get start and end point, contains only static methods
 ```
 
-### Contributing
-
-- Fork it
-- Create your feature branch
-- *Do something awesome*
-- Commit what you have done `git commit -am 'Some changes'`
-- Push to the branch `git push origin my-new-feature`
-- Submit a pull request
 
 ## Road map
 
@@ -640,13 +639,3 @@ src/
 - [ ] Improve docs
 - [ ] Keep initial inlined style css for $el
 
-## License
-
-Motus is made available under the [MIT License](LICENSE).
-
-## Credits
-Motus is created and maintained by Alexandru Cambose *(alexcambose)*
-
-*I'm open to suggestions. Feel free to message me or open an issue. Pull requests are also welcome!*
-
----

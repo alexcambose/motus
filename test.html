@@ -42,6 +42,7 @@
   <br>
   <br>
   <div class="container" id="cont">
+    <div style="width: 1000px;height: 1px;"></div>
 <br>
 <br>
 <br>
@@ -125,16 +126,12 @@
     // ], { throttle: 100, onScrollBetween: () => {
     //   console.log('a')
     // }});
-    const anim2 = new Motus.Animation(false, false, document.getElementById('that2'), [
-        { width: 50 }
-      ], {
-        throttle: 100, 
-        $scrollElement:document.getElementById('cont'),
-        onScrollBetween: () => {
-          console.log('a')
-        }
-        });
-    // Motus.addAnimation(anim)
+    const anim2 = new Motus.Animation({
+      $el: document.getElementById('that2'),
+      keyframes: [{width: 10}],
+      $scrollElement: document.getElementById('cont'),
+      horizontal: true,
+    });
     Motus.addAnimation(anim2)
   </script>
 </body>
