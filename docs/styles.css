@@ -93,6 +93,13 @@ body {
 .button-container .button:not(:first-of-type) {
   margin-left: 12px;
 }
+.expander {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.3em;
+  justify-content: center;
+}
 /*footer*/
 .footer-container {
   font-family: 'Ubuntu Mono', sans-serif;
@@ -100,14 +107,79 @@ body {
   align-items: center;
   flex-direction: column;
 }
-.footer-buttons {
-  margin-top: 20px;
+.footer-container a {
+  font-weight: lighter;
 }
+
 .footer-buttons > *:not(:last-of-type) {
   margin-right: 10px;
 }
+.footer-buttons {
+  margin-top: 30px;
+}
+.footer-author {
+  letter-spacing: 1px;
+  font-size: 14px;
+}
 .footer-expander {
   position: relative;
+  margin: 20px 0 40px;
+  width: 100%;
+}
+.footer-expander:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  background-color: var(--purple);
+}
+.footer-expander-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  border: 3px solid var(--purple);
+  border-radius: 20px;
+  transition: 200ms ease;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.footer-expander-button:hover {
+  width: 100px;
+  height: 34px;
+  border-radius: 30px;
+}
+.footer-expander-button-content {
+  position: relative;
+}
+
+.footer-expander-label, .footer-expander-arrow, .footer-expander-button:hover .footer-expander-arrow  {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  transition: 300ms;
+  opacity: 0;
+  font-size: 14px;
+  text-align: center;
+  width: 100px;
+}
+
+.footer-expander-arrow {font-size: 12px}
+.footer-expander-button:hover .footer-expander-label, .footer-expander-arrow {
+  visibility: visible;
+  opacity: 1;
 }
 
 /* readme related styles*/

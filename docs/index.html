@@ -2,29 +2,30 @@
 <html lang="en">
 
 <head>
-  <meta charset="UTF-8">
-  <title>motus - Animation library that mimics CSS keyframes when scrolling</title>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
-  <meta name="description" content="Animation library that mimics CSS keyframes when scrolling">
-  <meta name="viewport"
-    content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-  <link rel="stylesheet" href="https://unpkg.com/docsify@4.8.6/lib/themes/vue.css">
-  <link rel="stylesheet" href="./styles.css">
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css" integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
+    <meta charset="UTF-8">
+    <title>motus - Animation library that mimics CSS keyframes when scrolling</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content="Animation library that mimics CSS keyframes when scrolling">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/docsify@4.8.6/lib/themes/vue.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
 
 <body>
-  <div id="app"></div>
-  <div id="loading">Loading</div>
-  <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-  <script>
+<div id="app"></div>
+<div id="loading">Loading</div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<script>
     $(document).ready(() => {
-      // custom logo stuff
-      const $coverLink = $('.cover-main h1 a');
-      $coverLink.attr('href', '')
-      const $coverTitle = $($coverLink).find('span')[0];
-      if($coverTitle) {
-        $coverTitle.innerHTML = `
+        // custom logo stuff
+        const $coverLink = $('.cover-main h1 a');
+        $coverLink.attr('href', '')
+        const $coverTitle = $($coverLink).find('span')[0];
+        if ($coverTitle) {
+            $coverTitle.innerHTML = `
       <div class="title">
             <span class="fancy-letter-1">M</span>
             <span class="fancy-letter-2">o</span>
@@ -34,33 +35,28 @@
             <span class="fancy-version">v2</span>
         </div>
     `;
-      }
-      const $sidebarImageLink = $(".app-name-link")[0];
-      $sidebarImageLink.innerHTML = `<img class="sidebar-logo" src="https://i.imgur.com/GpeWN0B.png"/>`;
-      $('#loading').fadeOut();
-      window.onpopstate = () => {
-        var $div = $("<div>", {id: "foo", "class": "a"}).text("hello world");
-        $div.click(function(){ /* ... */ });
-        $('.docsify-pagination-container').before($div);
-      }
-
+        }
+        const $sidebarImageLink = $(".app-name-link")[0];
+        $sidebarImageLink.innerHTML = `<img class="sidebar-logo" src="https://i.imgur.com/GpeWN0B.png"/>`;
+        $('#loading').fadeOut();
     })
-// TODO change in production
-  </script>
-  <!-- <script src="https://rawcdn.githack.com/alexcambose/motus/ecd6eaea25b7bc849d21567e3d65447d75e3326c/dist/motus.web.js"></script> -->
+    // TODO change in production
+</script>
+<!-- <script src="https://rawcdn.githack.com/alexcambose/motus/ecd6eaea25b7bc849d21567e3d65447d75e3326c/dist/motus.web.js"></script> -->
 
-  <!-- Development purposes -->
-  <script src="http://127.0.0.1:3001/motus.web.js"></script>
+<!-- Development purposes -->
+<script src="http://127.0.0.1:3001/motus.web.js"></script>
 
 
 <!-- Docsify stuff -->
 <script src="https://unpkg.com/docsify/lib/docsify.min.js"></script>
 <script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
 <script src="https://unpkg.com/docsify-copy-code@2"></script>
-<script src="//unpkg.com/docsify/lib/plugins/disqus.min.js"></script><script src="index.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/disqus.min.js"></script>
+<script src="index.js"></script>
 
-  <script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
-  <script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+<script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
 
 </body>
 

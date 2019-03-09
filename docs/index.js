@@ -1,12 +1,19 @@
 const createFooter = function(hook) {
     var footer = `
-            <hr>
+            
             <footer class="footer-container">
-            <div><i class="fas fa-code c-purple"></i> with <i class="fas fa-heart c-red"></i>  by <a href="https://github.com/alexcambose">alexcambose</a></div>
             <div class="footer-expander">
-            <span class="footer-expander-arrow"></span>
-            <span class="footer-expader-label">Expand pahe</span>
+            <div class="footer-expander-button" id="expand-page">
+            <div class="footer-expander-button-content">
+            <span class="footer-expander-arrow"><i class="fas fa-arrow-down"></i></span>
+            <span class="footer-expander-label">Expand page</span>
 </div>
+            
+</div>
+            
+</div>
+            <div class="footer-author"><i class="fas fa-code c-purple"></i> with <i class="fas fa-heart c-red"></i>  by <a href="https://github.com/alexcambose">alexcambose</a></div>
+
 <div class="display-flex footer-buttons">
     <span><a class="github-button" href="https://github.com/alexcambose/motus" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star alexcambose/motus on GitHub">Star</a></span>
     <span><!-- Place this tag where you want the button to render. -->
@@ -55,6 +62,37 @@ const runImports = function (imports) {
     }
 };
 
+const addExpanderContainer = (hook) => {
+    hook.doneEach(function() {
+        var $div = $("<div>").addClass('expander');
+        $('.docsify-pagination-container').before($div);
+        $(document).on('click', '#expand-page', () => {
+            const $footerExpanderArrow = $('.footer-expander-arrow');
+            const $footerExpanderLabel = $('.footer-expander-label');
+            const display = () => {
+                $div.text('Added ' + Math.floor($div.height()) + 'px');
+            };
+            if ($div.height() === 0) {
+
+                $footerExpanderArrow.html(`<i class="fas fa-arrow-up"></i>`);
+                $div.animate({height: window.innerHeight, opacity: 1}, {
+                    step: display, complete: () => {
+                        $footerExpanderLabel.text('Shrink page');
+                    }
+                });
+            } else {
+                $footerExpanderArrow.html(`<i class="fas fa-arrow-down"></i>`);
+                $div.animate({height: 0, opacity: 0}, {
+                    step: display, complete: () => {
+                        $div.text('');
+                        $footerExpanderLabel.text('Expand page');
+                    }
+                });
+            }
+        });
+    });
+};
+
 window.$docsify = {
     name: 'motus',
     coverpage: true,
@@ -75,11 +113,13 @@ window.$docsify = {
     disqus: 'motusjs',
     executeScript: true,
     plugins: [
+        addExpanderContainer,
         createFooter,
         // TODO replace with actual link
         EditOnGithubPlugin.create('aa', 'a', 'Edit on Github'),
         runScripts,
-        runImports(['https://cors-anywhere.herokuapp.com/https://buttons.github.io/buttons.js'])
+        runImports(['https://cors-anywhere.herokuapp.com/https://buttons.github.io/buttons.js']),
+
     ]
 };
 
