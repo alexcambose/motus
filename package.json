@@ -19,13 +19,6 @@
     "servedocs": "docsify serve ./docs --open",
     "start": "npm run servedocs | npm run start:dev"
   },
-  "jest": {
-    "collectCoverageFrom": [
-      "src/**/*",
-      "!<rootDir>/node_modules/",
-      "!<rootDir>/dist"
-    ]
-  },
   "pre-commit": "lint",
   "repository": {
     "type": "git",
