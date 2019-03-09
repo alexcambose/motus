@@ -1,5 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Open+Sans');
 @import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+
 :root {
   --bg1: #242424;
   --bg2: #FAA916;
@@ -91,6 +93,22 @@ body {
 .button-container .button:not(:first-of-type) {
   margin-left: 12px;
 }
+/*footer*/
+.footer-container {
+  font-family: 'Ubuntu Mono', sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.footer-buttons {
+  margin-top: 20px;
+}
+.footer-buttons > *:not(:last-of-type) {
+  margin-right: 10px;
+}
+.footer-expander {
+  position: relative;
+}
 
 /* readme related styles*/
 
@@ -147,9 +165,16 @@ body {
 .bg-purple {
   background-color: var(--purple);
 }
-
+.c-purple {color: var(--purple);}
+.c-red {color: var(--bg4);}
 .mb-12 {
   margin-bottom: 24px;
+}
+.mt-10 {
+  margin-top: 20px;
+}
+.display-flex {
+  display: flex;
 }
 
 .sidebar-logo {
