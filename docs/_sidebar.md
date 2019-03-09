@@ -12,3 +12,7 @@
   - [Hooks](hooks.md)
   - [Throttle](throttle.md)
 - [Development](development.md)
+- Demos
+    - [Parallax](demos/parallax.md)
+    - [SVG](demos/svg.md)
+    - [Gallery](demos/gallery.md)

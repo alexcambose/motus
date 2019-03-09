@@ -55,3 +55,4 @@ src/
 - [ ] Improve testing
 - [ ] Improve docs
 - [ ] Keep initial inlined style css for $el
+- [ ] Improve performance
