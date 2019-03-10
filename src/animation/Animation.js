@@ -6,8 +6,10 @@ import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement
 import throwError from '../helpers/throwError.js';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
 
-/** Class representing a new animation, here are set all the animation's opitons and triggered element calculations based on the scroll percent */
-export default class Animation {
+/**
+ * Class representing a new animation, here are set all the animation's opitons and triggered element calculations based on the scroll percent
+ */
+class Animation {
   static defaultOptions = {
     // where animation starts
     startPoint: null,
@@ -133,6 +135,7 @@ export default class Animation {
   }
   /**
    * Get user scroll position based on $scrollElement
+   * @ignore
    */
   _getScrollPosition () {
     const { horizontal, $scrollElement } = this.options;
@@ -142,6 +145,7 @@ export default class Animation {
   /** Method that sets the start and end point to the class properties to be used later when animating, also called on every resize
    * @param  {HTMLElement|object} startPoint
    * @param  {HTMLElement|object} endPoint
+   * @ignore
    */
   _computePositions (startPoint, endPoint) {
     const { $scrollElement, horizontal } = this.options;
@@ -173,6 +177,7 @@ export default class Animation {
   /**
    * Method called on throttled scroll
    * Calls animator to apply keyframe properties
+   * @ignore
    */
   __compute () {
     const { onScrollBefore, onScrollAfter, onScrollBetween, onScroll, onHitTop, onHitBottom } = this.options;
@@ -214,3 +219,5 @@ export default class Animation {
     }
   }
 }
+
+export default Animation;

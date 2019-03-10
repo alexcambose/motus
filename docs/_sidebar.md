@@ -11,6 +11,7 @@
   - [Working with functions](working-with-functions.md)
   - [Hooks](hooks.md)
   - [Throttle](throttle.md)
+- [API](api.md)
 - [Development](development.md)
 - Demos
     - [Parallax](demos/parallax.md)

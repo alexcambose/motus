@@ -17,7 +17,8 @@
     "prod:node": "webpack --mode=production --env.TARGET_ENV=NODE",
     "prod": "npm run prod:web && npm run prod:node",
     "servedocs": "docsify serve ./docs --open",
-    "start": "npm run servedocs | npm run start:dev"
+    "start": "npm run start:dev & sleep 2 ; npm run servedocs ",
+    "update-md-api": "jsdoc2md src/Motus.js > docs/api.md && jsdoc2md src/animation/Animation.js >> docs/api.md"
   },
   "pre-commit": "lint",
   "repository": {
@@ -57,6 +58,7 @@
     "eslint-plugin-promise": "^4.0.1",
     "eslint-plugin-standard": "^4.0.0",
     "jest": "^23.6.0",
+    "jsdoc-to-markdown": "^4.0.1",
     "pre-commit": "^1.2.2",
     "prettier-eslint": "^8.8.2",
     "regenerator-runtime": "^0.12.1",

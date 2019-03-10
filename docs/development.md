@@ -18,6 +18,7 @@ These scripts are available in the `package.json` file and can be executed with 
 - `prod`: Runs `prod:node` `prod:web` together in watch mode
 - `servedocs`: Opens [docsify](https://docsify.js.org) server with the documentation
 - `start`: Runs `servedocs` and `start:dev`
+- `update-md-api`: Generates api docs for *Motus.js* and *Animation.js* and puts it in *docs/api.md*
 
 ## Overview of the project
 
