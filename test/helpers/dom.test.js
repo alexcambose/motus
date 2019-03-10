@@ -86,8 +86,17 @@ describe('helpers', () => {
     })
   });
   describe('getOffset()', () => {
+    document.body.innerHTML = `<div id="div"><svg><path id="p"/></svg></div>`;
+    const $element = document.querySelector('p');
+    const $parentElement = document.querySelector('div');
     it('returns 0 if no element is specified', () => {
       expect(getOffset()).toEqual(0);
+    });
+    it('returns the offset of the element', () => {
+      expect(getOffset($element)).toEqual(0);
+    });
+    it('navigates to the first parent element that has offset properties and returns it\'s value', () => {
+      expect(getOffset($element)).toEqual(getOffset($parentElement));
     });
     // todo testing offset properties
   });

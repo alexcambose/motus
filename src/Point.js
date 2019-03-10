@@ -24,7 +24,6 @@ export default class Point {
   static getDistanceFromParent ($el, $parent, horizontal) {
     const parentOffset = $parent === window ? 0 : getOffset($parent, horizontal);
     const elementOffset = getOffset($el, horizontal);
-
     return elementOffset - parentOffset;
   }
 }

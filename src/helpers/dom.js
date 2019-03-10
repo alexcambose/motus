@@ -63,5 +63,6 @@ export const getElementDefaultProperty = (
 };
 export const getOffset = (element, horizontal = false) => {
   if (!element) return 0;
+  if(element.offsetLeft === undefined) return getOffset(element.parentElement, horizontal);
   return getOffset(element.offsetParent, horizontal) + (horizontal ? element.offsetLeft : element.offsetTop);
-} 
+};

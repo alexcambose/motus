@@ -56,8 +56,10 @@ describe('helpers', () => {
     describe('isHtmlElement()', () => {
       it('returns true if the value is an instance of an html element', () => {
         expect(isHtmlElement(document.body)).toBeTruthy();
+        document.body.innerHTML = `<svg><path id="p"/><div>`;
+        expect(isHtmlElement(document.getElementById('p'))).toBeTruthy();
         expect(isHtmlElement('123')).toBeFalsy();
       })
     });
   });
-})
+});
