@@ -48,7 +48,7 @@ src/
 
 ## Road map
 
-- [ ] Support for multiple unit rules like: `padding: 10px 20px 30px`
+- [ ] Support for multiple unit rules like: `padding: 10px 20px 30px`, `box-shadow: ...`
 - [ ] Modularity, users can add, swap, and remove custom modules that handle custom functionality
 - [ ] Create a React version
 - [ ] Split Keyframes.js into smaller files

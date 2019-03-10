@@ -1,4 +1,5 @@
 # Parallax
+
 <div class="demo"> 
     <div id="parallax">
         <section>
@@ -7,7 +8,7 @@
         <section class="background background1 font-big" id="parallax-element">
                 Lorem ipsum dolor sit amet, consectetur adipiscing elit.
         </section> 
-        <section>
+        <section class="gallery">
               Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam maximus sapien molestie, cursus arcu non, tincidunt dolor.  lorem, at hendrerit nulla auctor ut. Aenean blandit, libero eu pretium condimentum, nisi tortor rutrum risus, e
         </section>
     </div>

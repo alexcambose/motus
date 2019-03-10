@@ -14,7 +14,7 @@
     background-color: var(--bg3);
 }
 .demo section:not(.background):nth-of-type(3n) {
-    background-color: var(--bg3);
+    background-color: var(--bg5);
 }
 .demo section:not(.background):nth-of-type(4n) {
     background-color: var(--bg5);
@@ -28,6 +28,25 @@
 .demo .font-big {
     font-size: 20px;
 }
+.demo section.gallery {
+  padding: 0;
+  display: block;
+  min-height: 100px;
+  overflow: hidden;
+}
+.demo section.gallery .gallery-container {
+  width: calc(160px * 9);
+}
+.demo section.gallery .gallery-container .gallery-item {
+  width: 160px;
+  height: 100px;
+  background-position: center;
+  background-size: cover;
+  display: inline-block;
+  margin-left: -4px;
+  margin-bottom: -4px;
+}
+
 #parallax {
 
 }
