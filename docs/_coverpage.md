@@ -5,7 +5,10 @@
 > Animation library that mimics CSS keyframes when scrolling.
 
 - Simple and lightweight
+- Node & Browser Support
 - Css like syntax
+- Scroll hooks
+- Both vertical and horizontal scrolling
 
 <div class="button-container">
   <a class="button" href="https://github.com/alexcambose/motus" target="_blank"><span>GitHub</span></a>

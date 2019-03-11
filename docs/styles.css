@@ -18,11 +18,13 @@ body {
 
 .cover-main .title {
   display: inline-block;
-  font-size: 200px;
+  font-size: calc(4vh + 14vw);
   position: relative;
   font-family: 'Quicksand', sans-serif;
 }
-
+.cover-main ul {
+  font-size: calc(.2vh + .3vw + 10px);
+}
 .cover-main .fancy-letter-1 {
   color: var(--bg2);
   text-shadow: 3px 3px 6px var(--bg2);
@@ -58,7 +60,7 @@ body {
 }
 @keyframes loadingAnimation {
   0%   {
-    width: 0vw;
+    width: 0;
     background-color: var(--bg2);
   }
   30%   {
@@ -229,10 +231,15 @@ body {
 }
 
 .docsify-copy-code-button {
-  border-radius: 10px !important;
+  border-radius: 6px !important;
   top: 8px !important;
   right: 8px !important;
-  padding: 6px !important;
+  font-size: 13px !important;
+  padding: 8px !important;
+  transition: transform 80ms, opacity 200ms !important;
+}
+.docsify-copy-code-button:hover {
+  transform: scale(1.05);
 }
 
 .box-horizontal {
@@ -281,4 +288,16 @@ body {
 .sidebar-logo {
   width: 60%;
   height: auto;
+}
+pre {
+  border: 1px solid whitesmoke;
+}
+pre:hover {
+  border-color: #efefef;
+}
+@media (max-width: 800px) {
+  .button {
+    width: 100%;
+    margin: 10px 0 !important;
+  }
 }

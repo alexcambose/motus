@@ -26,7 +26,7 @@ const createFooter = function(hook) {
             <footer class="footer-container">
             <div class="footer-expander">
             <div class="footer-expander-button" id="expand-page">
-            <div class="footer-expander-button-content">
+            <div class="footer-expander-button-content" title="Increase or decrease the page height to see the animations from start to finish">
             <span class="footer-expander-arrow"><i class="fas fa-arrow-down"></i></span>
             <span class="footer-expander-label">Expand page</span>
 </div>
@@ -38,11 +38,15 @@ const createFooter = function(hook) {
 
 <div class="display-flex footer-buttons">
     <span><a class="github-button" href="https://github.com/alexcambose/motus" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star alexcambose/motus on GitHub">Star</a></span>
-    <span><!-- Place this tag where you want the button to render. -->
+    <span>
+<a class="github-button" href="https://github.com/alexcambose/motus/fork" data-icon="octicon-repo-forked" data-size="large" data-show-count="true" aria-label="Fork alexcambose/motus on GitHub">Fork</a>
+</span>
+    <span>
 <a class="github-button" href="https://github.com/alexcambose/motus/subscription" data-icon="octicon-eye" data-size="large" data-show-count="true" aria-label="Watch alexcambose/motus on GitHub">Watch</a></span>
     <span>
 <a class="github-button" href="https://github.com/alexcambose" data-size="large" data-show-count="true" aria-label="Follow @alexcambose on GitHub">Follow @alexcambose</a></span>
     </div>
+    
 </footer>`;
 
     hook.afterEach(function(html) {

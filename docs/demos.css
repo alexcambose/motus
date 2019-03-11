@@ -35,10 +35,10 @@
   overflow: hidden;
 }
 .demo section.gallery .gallery-container {
-  width: calc(160px * 9);
+  width: calc(180px * 9);
 }
 .demo section.gallery .gallery-container .gallery-item {
-  width: 160px;
+  width: 180px;
   height: 100px;
   background-position: center;
   background-size: cover;
