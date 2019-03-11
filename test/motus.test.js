@@ -47,6 +47,11 @@ describe('Motus', () => {
       Motus.clearAnimation(animation);
       expect(animation.started).toBeFalsy();
     });
+    it('does not stop the animation if the `autostop` parameter is set to false', () => {
+      Motus.addAnimation(animation);
+      Motus.clearAnimation(animation, false);
+      expect(animation.started).toBeTruthy();
+    });
     it('removes the animation from the motus animations array', () => {
       Motus.addAnimation(animation);
       Motus.clearAnimation(animation);
@@ -57,7 +62,7 @@ describe('Motus', () => {
       expect(() => {
         Motus.clearAnimation(animation);
       }).toThrow();
-      Motus.addAnimation(animation)
+      Motus.addAnimation(animation);
       expect(() => {
         Motus.clearAnimation(animation);
       }).not.toThrow();
@@ -67,6 +72,7 @@ describe('Motus', () => {
         Motus.clearAnimation({});
       }).toThrow();
     });
+
   });
   describe('clearAnimations()', () => {
     const animation = new Motus.Animation({ $el: document.body, keyframes: { 0: {} } });

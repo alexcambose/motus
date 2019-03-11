@@ -87,16 +87,40 @@ describe('Animation', () => {
       new Animation({ startPoint: 0, endPoint: 200, $el: false, keyframes: keyframesArr });
     }).toThrow();
   });
-  describe('points not being defined', () => {
-    it('start point is not defined or falsy', () => {
-      const anim = new Animation({ endPoint: 200, $el: $element, keyframes: keyframesArr });
-      // for some reason window height is 768
-      expect(anim.startPoint).toEqual(-768);
+  describe('points', () => {
+    describe('points not being defined', () => {
+      it('start point is not defined or falsy', () => {
+        const anim = new Animation({ endPoint: 200, $el: $element, keyframes: keyframesArr });
+        // for some reason window height is 768
+        expect(anim.startPoint).toEqual(-768);
+      });
+      it('end point is not defined or falsy', () => {
+        const anim = new Animation({ startPoint: 200, $el: $element, keyframes: keyframesArr });
+        expect(anim.endPoint).toEqual(0);
+      });
+      it('both start and end points are not defined', () => {
+        const anim = new Animation({ $el: $element, keyframes: keyframesArr });
+        expect(anim.startPoint).toEqual(-768);
+        expect(anim.endPoint).toEqual(0);
+      });
+      it('get the element dimensions conditionally if the horizontal property is set or not', () => {
+        const anim = new Animation({ $el: $element, keyframes: keyframesArr, horizontal: true });
+        expect(anim.startPoint).toEqual(-1024); // for some reason it is this value
+
+      });
     });
-    it('end point is not defined or falsy', () => {
-      const anim = new Animation({ startPoint: 200, $el: $element, keyframes: keyframesArr });
-      expect(anim.endPoint).toEqual(0);
-    });
+    describe('points as arrays - adds the number inside the array', () => {
+      it('works for start point', () => {
+        const oldAnimation = new Animation({ $el: $element, keyframes: keyframesArr });
+        const newAnimation = new Animation({ startPoint: [10], $el: $element, keyframes: keyframesArr });
+        expect(newAnimation.startPoint).toEqual(oldAnimation.startPoint + 10);
+      });
+      it('works for end point', () => {
+        const oldAnimation = new Animation({ $el: $element, keyframes: keyframesArr });
+        const newAnimation = new Animation({ endPoint: [10], $el: $element, keyframes: keyframesArr });
+        expect(newAnimation.endPoint).toEqual(oldAnimation.endPoint + 10);
+      });
+    })
   });
   describe('animation hooks', () => {
     afterEach(() => {

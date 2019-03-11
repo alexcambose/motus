@@ -45,7 +45,7 @@ export default class Animator {
   }
 
   /**
-   * Apply keyrame rules based on the scroll position
+   * Apply keyframe rules based on the scroll position
    * @param  {number} percent
    */
   applyAnimations (percent) {
