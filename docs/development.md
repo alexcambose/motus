@@ -32,7 +32,7 @@ src/
 ├── enum
 │   ├── errorEnum.js // Contains all possible error messages as functions
 │   ├── functionValuesEnum.js // Specifies the ralationship between custom css functions and also the default parameters
-│   └── specialUnitEnum.js // 
+│   └── specialUnitEnum.js // Contains units that are not explicitly set in css but are required in Motus
 ├── helpers
 │   ├── dom.js // Style related functions
 │   ├── index.js // exports all helpers from this file

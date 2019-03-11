@@ -56,7 +56,22 @@ body {
   right: -6%;
   bottom: 16%;
 }
-
+@keyframes loadingAnimation {
+  0%   {
+    width: 0vw;
+    background-color: var(--bg2);
+  }
+  30%   {
+    background-color: var(--bg3);
+  }
+  60% {
+    background-color: var(--bg4);
+  }
+  100%   {
+    width: 100vw;
+    background-color: var(--bg5);
+  }
+}
 #loading {
   position: fixed;
   top: 0;
@@ -66,10 +81,19 @@ body {
   background-color: #fff;
   z-index: 9999;
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
 }
-
+#loading:before {
+  content: '';
+  height: 4px;
+  background-color: red;
+  display: block;
+  border-radius: 10px;
+  animation: loadingAnimation 5s infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
 .button {
   padding: 10px 20px;
   min-width: 140px;

@@ -12,6 +12,7 @@ Motus allows developers to create beatuful animations that simulate css keyframe
 - Node & Browser Support
 - Simple and intuitive api
 - Minimal size: 8.5kb gzipped
+- Scroll hooks
 
 # Getting started
 Check out the [Quick Start](http://localhost:3000/#/quick-start) documentation to get started.
