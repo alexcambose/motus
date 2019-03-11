@@ -2,7 +2,15 @@ import Keyframes from './Keyframes';
 import Point from '../Point';
 import Animator from '../animation/Animator';
 import throttle from 'lodash.throttle';
-import { calculatePercent, getElementScroll, getElementDimensions, isHtmlElement, isSet, isArray, uniqid } from '../helpers/';
+import {
+  calculatePercent,
+  getElementDimensions,
+  getElementScroll,
+  isArray,
+  isHtmlElement,
+  isSet,
+  uniqid
+} from '../helpers/';
 import throwError from '../helpers/throwError.js';
 import { VALUE_IS_NOT_HTML_ELEMENT } from '../enum/errorEnum';
 
@@ -109,6 +117,7 @@ class Animation {
   isStarted () {
     return this.started;
   }
+
   /**
    * Start animation. Listen to scroll events in order to enable animation.
    */
@@ -122,6 +131,7 @@ class Animation {
     // also call compute once for setting initial values
     this._compute();
   }
+
   /**
    * Stop animation. Stop listening to scroll events.
    */
@@ -133,6 +143,7 @@ class Animation {
     this.options.onStop && this.options.onStop();
     this.started = false;
   }
+
   /**
    * Get user scroll position based on $scrollElement
    * @ignore
@@ -174,6 +185,7 @@ class Animation {
       if (isArray(endPoint)) this.endPoint += endPoint[0];
     }
   }
+
   /**
    * Method called on throttled scroll
    * Calls animator to apply keyframe properties

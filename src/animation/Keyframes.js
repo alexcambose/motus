@@ -1,25 +1,26 @@
 import {
-  isNumber,
-  isString,
-  isObject,
-  isArray,
-  isNumeric,
   getElementDefaultProperty,
   getValue,
-  previousArrayValue,
+  isArray,
+  isNumber,
+  isNumeric,
+  isObject,
   isSet,
+  isString,
+  previousArrayValue,
 } from '../helpers/';
 
 import throwError from '../helpers/throwError.js';
 import {
-  UNKNOWN_PROPERTY_VALUE,
-  KEYFRAMES_VALUE_NOT_SPECIFIED,
   INVALID_KEYFRAME_PERCENT,
-  PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT,
   KEYFRAME_TO_IS_NOT_SET,
+  KEYFRAMES_VALUE_NOT_SPECIFIED,
   NO_KEYFRAMES,
+  PREVIOUS_UNIT_DOES_NOT_MATCH_CURRENT,
   TO_UNIT_DOES_NOT_MATCH_FROM,
+  UNKNOWN_PROPERTY_VALUE,
 } from '../enum/errorEnum';
+
 /** Handles keyframe normalization */
 export default class Keyframes {
   /**
@@ -122,6 +123,7 @@ export default class Keyframes {
       unit,
     };
   }
+
   /**
    * Convert an array of keyframes into an object, like:
    * keyframesArr = [{width: 100},{width: 200}]
@@ -141,6 +143,7 @@ export default class Keyframes {
       return carry;
     }, {});
   }
+
   /**
    * Gets the previous keyframe percent, if it's the first one returns falsy
    * ex:
@@ -155,6 +158,7 @@ export default class Keyframes {
     const points = Object.keys(keyframes);
     return previousArrayValue(points, percent);
   }
+
   /** Get the previous keyframe property, if the property
    * is not present that it will return the default style taken from the dom
    *
@@ -247,6 +251,7 @@ export default class Keyframes {
 
     return [previousFrom, to, unit];
   }
+
   static _normalizeObjectValue (
     property,
     currentKeyframePercent,

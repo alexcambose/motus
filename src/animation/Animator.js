@@ -1,19 +1,16 @@
-import {
-  calculatePercent,
-  calculateValueFromPercent,
-  isNumber,
-  isArray,
-} from '../helpers/';
+import { calculatePercent, calculateValueFromPercent, isArray, isNumber, } from '../helpers/';
 import Styler from './Styler';
 import c2c from 'color-to-color';
 import { COLOR_UNIT, NO_UNIT } from '../enum/specialUnitEnum';
 import throwError from '../helpers/throwError.js';
 import { UNEXPECTED_ERROR } from '../enum/errorEnum';
+
 /** Each animation has an animator class. Handles getting the current keyframe that needs to be applied and also the percent of current keyframe. */
 export default class Animator {
   static defaultOptions = {
     precision: 1,
   };
+
   constructor (keyframes, $el, options = {}) { // todo the options object is not currently used
     this.options = { ...Animator.defaultOptions, ...options };
     this.keyframes = keyframes;
@@ -78,6 +75,7 @@ export default class Animator {
       currentKeyframeScrollPercent
     );
   }
+
   /**
    * Removes all animation styles from the element and applies only the 0% keyframe if specified
    */
@@ -85,6 +83,7 @@ export default class Animator {
     this.elementStyles.removeAll();
     if (this.keyframes[0]) this._applyKeyframe(this.keyframes[0], 100);
   }
+
   /**
    * Applies all the animation stiling
    */
@@ -142,6 +141,7 @@ export default class Animator {
     // apply the values to the element style
     elementStyles.apply(property, value, unit);
   }
+
   _applyColorValues (property, from, to, percent) {
     const { elementStyles } = this;
     // calculate color from percent
@@ -152,6 +152,7 @@ export default class Animator {
     // apply the values to the element style
     elementStyles.apply(property, value);
   }
+
   /**
    * Calculates the value of all function parameters based on the specified percent and then applies it to the dom element via Styler class
    * @param  {string} property

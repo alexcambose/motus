@@ -1,9 +1,9 @@
 import colorString from 'color-string';
-import { NO_UNIT, COLOR_UNIT } from '../enum/specialUnitEnum';
+import { COLOR_UNIT, NO_UNIT } from '../enum/specialUnitEnum';
 import { NO_VALUE_SPECIFIED } from '../enum/errorEnum';
 import throwError from '../helpers/throwError.js';
 import transformValuesEnums from '../enum/functionValuesEnum';
-import { isArray, camelToKebabCase } from './';
+import { camelToKebabCase, isArray } from './';
 
 export const getElementDimensions = $el => {
   if ($el === window) {
@@ -63,6 +63,6 @@ export const getElementDefaultProperty = (
 };
 export const getOffset = (element, horizontal = false) => {
   if (!element) return 0;
-  if(element.offsetLeft === undefined) return getOffset(element.parentElement, horizontal);
+  if (element.offsetLeft === undefined) return getOffset(element.parentElement, horizontal);
   return getOffset(element.offsetParent, horizontal) + (horizontal ? element.offsetLeft : element.offsetTop);
 };

@@ -2,7 +2,7 @@ import Animation from './animation/Animation';
 import Point from './Point';
 import throwError from './helpers/throwError.js';
 import { ANIMATION_NOT_INSTANCE_OF_ANIMATION, NO_ANIMATION_FOUND } from './enum/errorEnum';
-import { NO_UNIT, COLOR_UNIT } from './enum/specialUnitEnum';
+import { COLOR_UNIT, NO_UNIT } from './enum/specialUnitEnum';
 
 /** Main motus object, contains all animations */
 class Motus {
@@ -30,6 +30,7 @@ class Motus {
       throwError(ANIMATION_NOT_INSTANCE_OF_ANIMATION);
     }
   }
+
   /**
    * Removes a registered animation
    * @example
@@ -51,6 +52,7 @@ class Motus {
     }
     this._animations.splice(foundAnimationIndex, 1);
   }
+
   /**
    * Removes all registered animations
    * @example

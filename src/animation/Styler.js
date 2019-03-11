@@ -1,4 +1,4 @@
-import { isNumber, isString, isArray } from '../helpers/';
+import { isArray, isNumber, isString } from '../helpers/';
 import functionValuesEnum from '../enum/functionValuesEnum';
 import CssFunc from 'css-func';
 import { NO_UNIT } from '../enum/specialUnitEnum';
@@ -11,6 +11,7 @@ export default class Styler {
   constructor ($el) {
     this.$el = $el;
   }
+
   /**
    * @param  {string} name Property name
    * @param  {number|string|array} value Property value
@@ -21,6 +22,7 @@ export default class Styler {
     if (isString(value)) this._applyString(name, value);
     if (isArray(value)) this._applyArray(name, value);
   }
+
   /**
    * Gets element style property
    * @param  {string} property
@@ -28,6 +30,7 @@ export default class Styler {
   _getStyle (property) {
     return this.$el.style[property];
   }
+
   /**
    * Sets element style property
    * @param  {string} property
@@ -36,12 +39,14 @@ export default class Styler {
   _setStyle (property, value) {
     this.$el.style[property] = value;
   }
+
   /**
    * Remove all element styles
    */
   removeAll () {
     this.$el.style = '';
   }
+
   /**
    * Sets the property to the element style
    * @param  {string} name Property name
@@ -52,6 +57,7 @@ export default class Styler {
     if (unit && unit !== NO_UNIT) value += unit;
     this._setStyle(name, value);
   }
+
   /**
    * Sets the property to the element style
    * @param  {string} name
@@ -60,6 +66,7 @@ export default class Styler {
   _applyString (name, value) {
     this._applyNumber(name, value);
   }
+
   /**
    * @param  {string} name
    * @param  {array} value - [[10, 'px'], [20, 'px']] or ['10px', '30px']
