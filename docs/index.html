@@ -1,352 +1,41 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <meta name="author" content="Alexandru Cambose">
-    <meta name="keywords" content="CSS, animation, keyframes, JS, javascript, scroll">
-    <meta name="description" content="Animation library that mimics CSS keyframes when scrolling." />
-    <title>Motus</title>
-    <link rel="stylesheet"
-      href="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/styles/dracula.min.css">
-    <style>
-        @import url('https://fonts.googleapis.com/css?family=Quicksand');
-        @import url('https://fonts.googleapis.com/css?family=Indie+Flower');
-        :root {
-            --bg1: #242424;
-            --bg2: #FAA916;
-            --bg3: #4D7EA8;
-            --bg4: #E3170A;
-            --bg5: #395756;
-            --purple: #694873;
-        }
-        body {
-            padding: 0;
-            margin: 0;
-            color: #fdfdfd;
-            font-family: 'Quicksand', sans-serif;
-            text-align: center;
-        }
-        h1 {
-            text-shadow: 3px 3px 6px grey;
-        }
-        pre { text-align: left; }
-        section {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            flex-direction: column;
-            height: 100vh;
-            min-height: 550px;
-        }
-        code.hljs {
-            background-color: #282a368f;
-            border-radius: 10px;
-            width: 60vw;
-        }
-        section:first-of-type {
-            background-color: var(--bg1);
-        }
-        section:nth-of-type(2) {
-            background-color: var(--bg2);
-        }
-        section:nth-of-type(3) {
-            background-color: var(--bg3);
-        }
-        section:nth-of-type(4) {
-            background-color: var(--bg4);
-        }
-        section:nth-of-type(5) {
-            background-color: var(--bg5);
-        }
-
-        .title {
-            font-size: 5em;
-            margin-bottom: 8px;
-        }
-        section h1 {
-            font-size: 3em;
-        }
-        hr {
-            border: .5px solid #282a368f;
-            width: 50vw;
-        }
-        .cube {
-            border: 1px solid white;
-            height: 40px;
-            width: 40px;
-            background-color: var(--purple);
-        }
-        .start-point {
-            position: absolute;
-            top: 30px;
-            left: 30px;
-            font-family: 'Indie Flower', cursive;
-        }
-        .start-point:after, .end-point:after {
-            content: " ";
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: -30px;
-            height: 1px;
-            background-color: rgba(255, 255, 255, 0.493);
-        }
-        .end-point:after { top: 0; bottom: auto; }
-        .end-point {
-            position: absolute;
-            font-family: 'Indie Flower', cursive;
-            top: 200px;
-            left: 30px;
-        }
-        .fancy-letter-1 {
-            color: var(--bg2);
-            text-shadow: 3px 3px 6px var(--bg2);
-        }
-        .fancy-letter-2 {
-            color: var(--bg3);
-            text-shadow: 3px 3px 6px var(--bg3);
-        }
-        .fancy-letter-3 {
-            color: var(--bg4);
-            text-shadow: 3px 3px 6px var(--bg4);
-        }
-        .fancy-letter-4 {
-            color: var(--bg5);
-            text-shadow: 3px 3px 6px var(--bg5);
-        }
-        .fancy-letter-5 {
-            color: var(--purple);
-            text-shadow: 3px 3px 6px var(--purple);
-        }
-        footer {
-            height: 32vh;
-            background-color: var(--purple);
-            position: relative;
-            box-shadow: -2px 16px 20px 8px black;
-        }
-        .container {
-            display: flex;
-            align-items: center;
-            height: 100%;
-            max-width: 1024px;
-            margin: auto;
-        }
-        small {
-            display: block;
-            font-size: 40%;
-        }
-        a {
-            text-decoration: none;
-            color: var(--bg2);
-        }
-    </style>
+    <title>motus - Animation library that mimics CSS keyframes when scrolling</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+    <meta name="description" content="Animation library that mimics CSS keyframes when scrolling">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <link rel="stylesheet" href="https://unpkg.com/docsify@4.8.6/lib/themes/vue.css">
+    <link rel="stylesheet" href="./styles.css">
+    <link rel="stylesheet" href="./demos.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.2/css/all.css"
+          integrity="sha384-fnmOCqbTlWIlj8LyTjo7mOUStjsKC4pOpQbqyi7RrhN7udi9RwhKkMHpvLbHG9Sr" crossorigin="anonymous">
 </head>
+
 <body>
-    <section>
-        <div class="title">
-            <span class="fancy-letter-1">M</span>
-            <span class="fancy-letter-2">o</span>
-            <span class="fancy-letter-3">t</span>
-            <span class="fancy-letter-4">u</span>
-            <span class="fancy-letter-5">s</span>
-        </div>
-<h3 class="subtitle">Animation library that mimics CSS keyframes when scrolling.</h3>
-<span style="position: absolute; bottom: 30px;"><a class="github-button" href="https://github.com/alexcambose/motus" data-icon="octicon-star" data-size="large" data-show-count="true" aria-label="Star alexcambose/motus on GitHub">Star</a></span>
-</section>
-    <section id="basic">
-        <h1>Basic animation</h1>
-        <hr>
-        <div class="cube" id="cube-basic"></div>
-        <hr>
-        <pre><code class="hljs javascript">const basicAnimation = new Motus.Animation(
-    new Motus.Point(<script>document.write(parseInt(innerHeight/2))</script>), // start point
-    new Motus.Point(<script>document.write(innerHeight + parseInt(innerHeight/2))</script>), // end point
-    document.getElementById('cube-basic'), // element that will animated
-    {
-        100: {
-            width: 200
-        }
-    }
-);
-Motus.addAnimation(basicAnimation);
-</pre></code>
-    </section>
-    <section>
-        <div id="start-point" class="start-point">Starts here!</div>
-        <div id="end-point" class="end-point">Ends here!</div>
-        <h1>Custom start and end point</h1>
-        <hr>
-        <div class="cube" id="cube-startend"></div>
-        <hr>
-<pre><code class="hljs javascript">const customStartPointAnimation = new Motus.Animation(
-    new Motus.Point(document.getElementById('start-point')), // start point DOM element
-    new Motus.Point(document.getElementById('end-point')), // end point DOM element
-    document.getElementById('cube-startend'), // element that will animated
-    {
-        50: {
-            width: {
-                to: '200px'
-            }
-        },
-        100: {
-            width: {
-                to: '100px'
-            }
-        }
-    }
-);
-Motus.addAnimation(customStartPointAnimation);
-</pre></code>
-    </section>
-    <section>
-<h1>Multiple properties</h1>
-        <div id="start-point-mp" class="start-point">Starts here!</div>
-        <div id="end-point-mp" class="end-point">Ends here!</div>
-        <hr>
-        <div class="cube" id="cube-mp"></div>
-        <hr>
-<pre><code class="hljs javascript">const customStartPointAnimation = new Motus.Animation(
-    new Motus.Point(document.getElementById('start-point')), // start point DOM element
-    new Motus.Point(document.getElementById('end-point')), // end point DOM element
-    document.getElementById('cube-startend'), // element that will animated
-    {
-        50: {
-            width: '200px',
-            marginLeft: '100px',
-        },
-        100: {
-            width: '100px',
-            marginLeft: '200px'
-        }
-    }
-);
-Motus.addAnimation(customStartPointAnimation);
-</pre></code>
-    </section>
-    <section>
-            <div id="start-point-startvalues" class="start-point">Starts here!</div>
-            <div id="end-point-startvalues" class="end-point">Ends here!</div>
-            <h1>Custom starting values <small>the smoothness of the animation will depend on what values you specify</small></h1>
-            <hr>
-            <div class="cube" id="cube-startvalues"></div>
-            <hr>
-    <pre><code class="hljs javascript">const customStartPointAnimation = new Motus.Animation(
-    new Motus.Point(document.getElementById('start-point-startvalues')), // start point DOM element
-    new Motus.Point(document.getElementById('end-point-startvalues')), // end point DOM element
-    document.getElementById('cube-startend'), // element that will animated
-    {
-        50: {
-            width: {
-                from: 0,
-                to: 40,
-                unit: 'mm',
-            }
-        },
-        100: {
-            width: {
-                from: 10,
-                to: 70,
-                unit: 'mm',
-            }
-        }
-    }
-);
-Motus.addAnimation(customStartPointAnimation);
-    </pre></code>
-    
-        </section>
-        <footer>
-            <div class="container">
-                <div style="display: flex;flex: 3; ">
-                    <span>Animation library that mimics <a target="_blank" href="https://developer.mozilla.org/en-US/docs/Web/CSS/@keyframes">CSS keyframes</a> when scrolling.</span>
-                </div>
-                <div style="display: flex; flex: 3; align-self: flex-end; margin-bottom: 10px; margin-left: auto; margin-right: auto; justify-content: center;">
-                    <a class="github-button" href="https://github.com/alexcambose" data-size="large" data-show-count="true" aria-label="Follow @alexcambose on GitHub">Follow @alexcambose</a>
-                </div>
-                <div style="display: flex;flex: 3;">
-                    <span>Licensed under the <a target="_blank" href="https://opensource.org/licenses/MIT">MIT</a> license</span>
-                </div>
-            </div>
-        </footer>
-        <a href="https://github.com/alexcambose/motus"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_white_ffffff.png" alt="Fork me on GitHub"></a>
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
-    <script src="https://buttons.github.io/buttons.js"></script>
+<div id="app"></div>
+<div id="loading"></div>
+<script src="https://code.jquery.com/jquery-3.3.1.min.js"></script>
+<!-- <script src="https://rawcdn.githack.com/alexcambose/motus/ecd6eaea25b7bc849d21567e3d65447d75e3326c/dist/motus.web.js"></script> -->
 
-    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/9.12.0/highlight.min.js"></script>
-    <script>hljs.initHighlightingOnLoad();</script>
-    <script src="../dist/motus.js"></script>
-    <script src="https://cdn.rawgit.com/alexcambose/motus/master/dist/motus.js"></script>
-    <script>
+<!-- Development purposes -->
+<script src="http://127.0.0.1:3001/motus.web.js"></script>
 
-    // animation related stuff
-    const basicAnimation = new Motus.Animation(
-    new Motus.Point(parseInt(innerHeight/2)), // start point
-    new Motus.Point(innerHeight + parseInt(innerHeight/2)), // end point
-    document.getElementById('cube-basic'), // element that will animated
-    {
-        100: {
-            width: 200
-        }
-    });
-    Motus.addAnimation(basicAnimation);
-    
-    const customStartPointAnimation = new Motus.Animation(
-    new Motus.Point(document.getElementById('start-point')), // start point
-    new Motus.Point(document.getElementById('end-point')), // end point
-    document.getElementById('cube-startend'), // element that will animated
-    {
-        50: {
-            width: {
-                to: '200px'
-            }
-        },
-        100: {
-            width: {
-                to: '100px'
-            }
-        }
-    });
-Motus.addAnimation(customStartPointAnimation);
-const multiplePropertiesAnimation = new Motus.Animation(
-    new Motus.Point(document.getElementById('start-point-mp')), // start point
-    new Motus.Point(document.getElementById('end-point-mp')), // end point
-    document.getElementById('cube-mp'), // element that will animated
-    {
-        50: {
-            width: '200px',
-            marginLeft: '100px',
-        },
-        100: {
-            width: '100px',
-            marginLeft: '200px'
-        }
-    });
-Motus.addAnimation(multiplePropertiesAnimation);
-const startvaluesAnimation = new Motus.Animation(
-    new Motus.Point(document.getElementById('start-point-startvalues')), // start point
-    new Motus.Point(document.getElementById('end-point-startvalues')), // end point
-    document.getElementById('cube-startvalues'), // element that will animated
-    {
-        50: {
-            width: {
-                from: 0,
-                to: 40,
-                unit: 'mm',
-            }
-        },
-        100: {
-            width: {
-                from: 10,
-                to: 70,
-                unit: 'mm',
-            }
-        }
-    });
-Motus.addAnimation(startvaluesAnimation);
-    </script>
+
+<!-- Docsify stuff -->
+
+<script src="https://unpkg.com/docsify/lib/docsify.min.js"></script>
+<script src="//unpkg.com/docsify-edit-on-github@1.0.1/index.js"></script>
+<script src="//unpkg.com/docsify/lib/plugins/disqus.min.js"></script>
+<script src="index.js"></script>
+<script src="https://unpkg.com/docsify-copy-code@2"></script>
+
+<script src="//unpkg.com/docsify/lib/plugins/search.min.js"></script>
+<script src="//unpkg.com/docsify-pagination/dist/docsify-pagination.min.js"></script>
+
 </body>
 
 </html>

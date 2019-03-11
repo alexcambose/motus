@@ -1,0 +1,19 @@
+- Getting Started
+  - [Overview](overview.md)
+  - [Quick Start](quick-start.md)
+- Usage
+  - [Defining keyframes](defining-keyframes.md)
+  - [Start and End points](start-end-points.md)
+  - [Starting and stopping animations](start-stop-animatios.md)
+  - [Scroll element](scroll-element.md)
+  - [Horizontal mode](horizontal-mode.md)
+  - [Working with colors](working-with-color.md)
+  - [Working with functions](working-with-functions.md)
+  - [Hooks](hooks.md)
+  - [Throttle](throttle.md)
+- [API](api.md)
+- [Development](development.md)
+- Demos
+    - [Parallax](demos/parallax.md)
+    - [SVG](demos/svg.md)
+    - [Gallery](demos/gallery.md)

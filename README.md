@@ -1,126 +1,63 @@
 # motus
-![Motus Logo](https://i.imgur.com/7LBn4c7.png "Motus logo")
+![Motus Logo](https://i.imgur.com/GpeWN0B.png "Motus logo")
 
-[![Build Status](https://travis-ci.com/alexcambose/motus.svg?token=zpfhtmtiyLf5iVSdDrUd&branch=master)](https://travis-ci.com/alexcambose/motus)
+
+[![Build Status](https://travis-ci.com/alexcambose/motus.svg?token=zpfhtmtiyLf5iVSdDrUd&branch=master)](https://travis-ci.com/alexcambose/motus) [![install size](https://packagephobia.now.sh/badge?p=motus@1.0.1)](https://packagephobia.now.sh/result?p=motus@1.0.1)
+![version](https://img.shields.io/npm/v/motus.svg?style=flat)
+
+[![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
 
 Animation library that mimics CSS keyframes when scrolling.
-### [DEMO Website](https://alexcambose.github.io/motus/)
-![dev](https://media.giphy.com/media/nEDxXuCdCJgP6yhn7b/giphy.gif)
+
+## Table of Contents
+- [Features]()
+- [Installation]()
+- [Usage and examples]()
+  - [Quick start]()
+  - [Defining keyframes]()
+  - [Creating an animation]()
+  - [Adding animation to Mouts]()
+  - [Animation hooks]()
+- [Overview of the project]()
+- [Road map]()
+- [License]()
+- [Credits]()
+
+## Features
+- Support for `cm`, `mm`, `in`, `px`, `pt`, `pc`, `em`, `ex`, `ch`, `%`, `rem`, `vw`, `vh`, `vmin`, `vmax`, `deg` units
+- Support for standard 
+- Scroll hooks
+
 ## Installation
 As [npm](https://www.npmjs.com/package/motus) package
-
-```bash
+```
 npm i -S motus
 ```
-
 Standalone script file
-
-```html
+```js
 <script src="dist/motus.js"></script>
 ```
 
 ## Usage
 
+### Quick start 
 Basic usage
+```js 
 
-```js
-const myAnimation = new Motus.Animation(
-    new Motus.Point(100), // set animation start position in px
-    new Motus.Point(200), // set animation end position in px,
-    document.getElementById('some-element'), // element that will animated
-    {
-        50: { // make font size 10 px before it hits 50% of the distance (in this case <150px)
-            fontSize: 10, // px by default
-        },
-        100: { // make font size 20 px after 50%
-            fontSize: 20, // px by default
-        }
-    }
-);
-Motus.addAnimation(myAnimation);
 ```
 
-Different usages
-
-```js
-/********************************************
-    Different ways of defining keyframes
-*********************************************/
-const k1 = {
-    50: {
-        'font-size': {
-            to: 10, // px by default
-        }
-    },
-    100: {
-        'font-size': {
-            to: 20,
-        }
-    }
-}
-//*******************************************
-const k2 = {
-    50: {
-        'font-size': {
-            from: '5em', // initial value (in this case at 0%)
-            to: '10em',
-        }
-    },
-    100: {
-        fontSize: {
-            from: '10em',
-            to: '20em',
-        }
-    }
-}
-//*******************************************
-const k3 = {
-    50: {
-        fontSize: {
-            to: 10,
-            unit: 'em',
-        }
-    },
-    100: {
-        'font-size': {
-            from: 10,
-            to: 20,
-            unit: 'em',
-        }
-    }
-}
-
-const mYaNiMaTiOn = new Motus.Animation(
-    new Motus.Point(document.getElementById('start-point')), // dom elements instead of px
-    new Motus.Point(document.getElementById('end-point')),
-    document.getElementById('some-element'),
-    k1 || k2 || k3 // your choice
-);
-Motus.addAnimation(mYaNiMaTiOn);
-```
-
-## Development
-
-`npm run tsc` - compiles *ts* files in *js* files
-
-`npm run build` - watches for changes and compiles *ts* files into *dist* in develompent mode
-
-`npm run watch` - watches for changes and compiles with `build` *ts* files into *dist*
-
-`npm run prod` - watches for changes and compiles *ts* files into *dist* in production mode
+## Road map
+- Support for multiple unit rules like: `padding: 10px 20px 30px`
+- Modularity, users can add, swap, and remove custom modules that handle custom functionality
+- Create a React version
 
 ## License
 
-[MIT](LICENSE)
+Motus is made available under the [MIT License](LICENSE).
 
+## Credits
+Motus is created and maintained by Alexandru Cambose *(alexcambose)*
 
-# Future versions roadmap
-## Motus version 2.0.0
-- [ ] Rewrite in vanilla js 
+*I'm open to suggestions. Feel free to message me or open an issue. Pull requests are also welcome!*
 
-- [ ] Decouple things
-
-- [ ] Support for transform rules
-
-
-## Create a react version
+---

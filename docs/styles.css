@@ -1,0 +1,303 @@
+@import url('https://fonts.googleapis.com/css?family=Open+Sans');
+@import url('https://fonts.googleapis.com/css?family=Quicksand');
+@import url('https://fonts.googleapis.com/css?family=Ubuntu+Mono');
+
+:root {
+  --bg1: #242424;
+  --bg2: #FAA916;
+  --bg3: #4D7EA8;
+  --bg4: #E3170A;
+  --bg5: #395756;
+  --purple: #694873;
+}
+::-moz-selection { background: var(--purple); color: white; }
+::selection { background: var(--purple); color: white; }
+body {
+  font-family: 'Open Sans', sans-serif;
+}
+
+.cover-main .title {
+  display: inline-block;
+  font-size: calc(4vh + 14vw);
+  position: relative;
+  font-family: 'Quicksand', sans-serif;
+}
+.cover-main ul {
+  font-size: calc(.2vh + .3vw + 10px);
+}
+.cover-main .fancy-letter-1 {
+  color: var(--bg2);
+  text-shadow: 3px 3px 6px var(--bg2);
+}
+
+.cover-main .fancy-letter-2 {
+  color: var(--bg3);
+  text-shadow: 3px 3px 6px var(--bg3);
+}
+
+.cover-main .fancy-letter-3 {
+  color: var(--bg4);
+  text-shadow: 3px 3px 6px var(--bg4);
+}
+
+.cover-main .fancy-letter-4 {
+  color: var(--bg5);
+  text-shadow: 3px 3px 6px var(--bg5);
+}
+
+.cover-main .fancy-letter-5 {
+  color: var(--purple);
+  text-shadow: 3px 3px 6px var(--purple);
+}
+
+.cover-main .fancy-version {
+  color: var(--purple);
+  text-shadow: 3px 3px 6px var(--purple);
+  font-size: 16%;
+  position: absolute;
+  right: -6%;
+  bottom: 16%;
+}
+@keyframes loadingAnimation {
+  0%   {
+    width: 0;
+    background-color: var(--bg2);
+  }
+  30%   {
+    background-color: var(--bg3);
+  }
+  60% {
+    background-color: var(--bg4);
+  }
+  100%   {
+    width: 100vw;
+    background-color: var(--bg5);
+  }
+}
+#loading {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+  background-color: #fff;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+#loading:before {
+  content: '';
+  height: 4px;
+  background-color: red;
+  display: block;
+  border-radius: 10px;
+  animation: loadingAnimation 5s infinite;
+  animation-timing-function: ease-in-out;
+  animation-fill-mode: both;
+}
+.button {
+  padding: 10px 20px;
+  min-width: 140px;
+  display: inline-block;
+  background-color: transparent;
+  color: var(--purple) !important;
+  font-size: 1.28em;
+  user-select: none;
+  border: 4px solid var(--purple);
+  transition: .2s ease, box-shadow 130ms;
+  box-shadow: none;
+  border-radius: 4px;
+}
+
+.button:hover {
+  background-color: var(--purple);
+  color: white !important;
+  box-shadow: 0px 5px 20px 0px black;
+}
+
+.button-container .button:not(:first-of-type) {
+  margin-left: 12px;
+}
+.expander {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  font-size: 1.3em;
+  justify-content: center;
+}
+/*footer*/
+.footer-container {
+  font-family: 'Ubuntu Mono', sans-serif;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+.footer-container a {
+  font-weight: lighter;
+}
+
+.footer-buttons > *:not(:last-of-type) {
+  margin-right: 10px;
+}
+.footer-buttons {
+  margin-top: 30px;
+}
+.footer-author {
+  letter-spacing: 1px;
+  font-size: 14px;
+}
+.footer-expander {
+  position: relative;
+  margin: 20px 0 40px;
+  width: 100%;
+}
+.footer-expander:before {
+  content: '';
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 3px;
+  background-color: var(--purple);
+}
+.footer-expander-button {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  width: 28px;
+  height: 28px;
+  background-color: white;
+  border: 3px solid var(--purple);
+  border-radius: 20px;
+  transition: 200ms ease width, 200ms ease height, 100ms background-color, 100ms color;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.footer-expander-button:hover {
+  width: 100px;
+  height: 34px;
+  border-radius: 30px;
+}
+.footer-expander-button-content {
+  position: relative;
+}
+
+.footer-expander-label, .footer-expander-arrow, .footer-expander-button:hover .footer-expander-arrow  {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  visibility: hidden;
+  transition: 200ms opacity, 200ms letter-spacing;
+  opacity: 0;
+  font-size: 14px;
+  text-align: center;
+  width: 100px;
+  letter-spacing: -4px;
+}
+
+.footer-expander-arrow {font-size: 12px}
+.footer-expander-button:hover .footer-expander-label, .footer-expander-arrow {
+  visibility: visible;
+  opacity: 1;
+  letter-spacing: 0px;
+}
+.footer-expander-button:active {
+  background-color: var(--purple);
+  color: white;
+}
+/* readme related styles*/
+
+.box {
+  width: 50px;
+  height: 50px;
+  background-color: var(--bg1)
+}
+
+.horizontal-container, .vertical-container {
+  width: 100%;
+  height: 300px;
+  background-color: #fff;
+  padding: 10px;
+  overflow: auto;
+  border: 1px solid var(--bg1);
+}
+
+.docsify-copy-code-button {
+  border-radius: 6px !important;
+  top: 8px !important;
+  right: 8px !important;
+  font-size: 13px !important;
+  padding: 8px !important;
+  transition: transform 80ms, opacity 200ms !important;
+}
+.docsify-copy-code-button:hover {
+  transform: scale(1.05);
+}
+
+.box-horizontal {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.pointing-element {
+  width: 100%;
+  height: 20px;
+  background-color: var(--purple);
+  margin: 10px 0;
+  position: relative;
+}
+
+.pointing-element.point-start::after, .pointing-element.point-end::after {
+  content: "Start point";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 12px;
+}
+
+.pointing-element.point-end::after {
+  content: "End point";
+}
+
+.bg-purple {
+  background-color: var(--purple);
+}
+.c-purple {color: var(--purple);}
+.c-red {color: var(--bg4);}
+.mb-12 {
+  margin-bottom: 24px;
+}
+.mt-10 {
+  margin-top: 20px;
+}
+.display-flex {
+  display: flex;
+}
+
+.sidebar-logo {
+  width: 60%;
+  height: auto;
+}
+pre {
+  border: 1px solid whitesmoke;
+}
+pre:hover {
+  border-color: #efefef;
+}
+@media (max-width: 800px) {
+  .button {
+    width: 100%;
+    margin: 10px 0 !important;
+  }
+}

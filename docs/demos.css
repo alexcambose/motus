@@ -1,0 +1,48 @@
+.demo section {
+    padding: 40px;
+    min-height: 300px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+.demo section:not(.background):nth-of-type(1) {
+    background-color: var(--bg2);
+    color: #333;
+}
+.demo section:not(.background):nth-of-type(2n) {
+    background-color: var(--bg3);
+}
+.demo section:not(.background):nth-of-type(3n) {
+    background-color: var(--bg5);
+}
+.demo section:not(.background):nth-of-type(4n) {
+    background-color: var(--bg5);
+}
+.demo .background1 {
+    color: white;
+    background-image: url("https://i.imgur.com/wrc7sDe.jpg");
+    background-size: cover;
+    background-position: center;
+}
+.demo .font-big {
+    font-size: 20px;
+}
+.demo section.gallery {
+  padding: 0;
+  display: block;
+  min-height: 100px;
+  overflow: hidden;
+}
+.demo section.gallery .gallery-container {
+  width: calc(180px * 9);
+}
+.demo section.gallery .gallery-container .gallery-item {
+  width: 180px;
+  height: 100px;
+  background-position: center;
+  background-size: cover;
+  display: inline-block;
+  margin-left: -4px;
+  margin-bottom: -4px;
+}
