@@ -1,14 +1,16 @@
 ![Motus Logo](https://i.imgur.com/GpeWN0B.png "Motus logo")
 
-[![Build](https://img.shields.io/travis/com/alexcambose/motus.svg?style=flat-square)](https://travis-ci.com/alexcambose/motus)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[![Build](https://img.shields.io/travis/com/alexcambose/motus.svg?style=flat-square)](https://travis-ci.com/alexcambose/motus)
 [![Coveralls github](https://img.shields.io/coveralls/github/alexcambose/motus.svg?style=flat-square)](https://coveralls.io/github/alexcambose/motus?branch=master)
 [![npm bundle size](https://img.shields.io/bundlephobia/minzip/motus.svg?style=flat-square)](https://packagephobia.now.sh/result?p=motus)
 [![Gitter](https://img.shields.io/gitter/room/alexcambose/motus.svg?color=%23B22C5B&style=flat-square)](https://gitter.im/alexcambose/motus)
 [![GitHub issues](https://img.shields.io/github/issues/alexcambose/motus.svg?style=flat-square)](https://github.com/alexcambose/motus/issues)
 [![version](https://img.shields.io/npm/v/motus.svg?style=flat-square)](https://www.npmjs.com/package/motus)
 [![license](https://img.shields.io/github/license/alexcambose/motus.svg?style=flat-square)](https://github.com/alexcambose/motus/blob/master/LICENSE)
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 ![Maintenance](https://img.shields.io/maintenance/yes/2019.svg?style=flat-square)
 
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
 [![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
 [![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
 
@@ -47,6 +49,8 @@ Motus.addAnimation(newAnimation);
 - Commit what you have done `git commit -am 'Some changes'`
 - Push to the branch `git push origin my-new-feature`
 - Submit a pull request
+
+For further information about the project please see the [development section](development) from the documentation.
 
 # Credits
 Motus is created and maintained by Alexandru Cambose *(alexcambose)*

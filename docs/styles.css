@@ -15,7 +15,12 @@
 body {
   font-family: 'Open Sans', sans-serif;
 }
-
+.cover-main h1 a {
+  pointer-events: none;
+}
+.cover-main blockquote p {
+  font-weight: bold;
+}
 .cover-main .title {
   display: inline-block;
   font-size: calc(4vh + 14vw);
@@ -213,6 +218,10 @@ body {
   background-color: var(--purple);
   color: white;
 }
+.app-name-link img {
+  width: 75%;
+}
+
 /* readme related styles*/
 
 .box {

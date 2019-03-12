@@ -15,8 +15,6 @@ $(document).ready(() => {
         </div>
     `;
   }
-  const $sidebarImageLink = $(".app-name-link")[0];
-  $sidebarImageLink.innerHTML = `<img class="sidebar-logo" src="https://i.imgur.com/GpeWN0B.png" alt="logo"/>`;
   $('#loading').fadeOut();
 });
 
@@ -129,12 +127,14 @@ window.$docsify = {
     subMaxLevel: 2,
     repo: 'https://github.com/alexcambose/motus',
     homepage: 'overview.md',
+    logo: '/_media/logo.png',
     copyCode: {
         buttonText: 'Copy',
         errorText: 'Error',
         successText: 'Copied'
     },
     themeColor: '#694873',
+    auto2top: true,
     search: [
         '/',
     ],
@@ -143,8 +143,7 @@ window.$docsify = {
     plugins: [
         addExpanderContainer,
         createFooter,
-        // TODO replace with actual link
-        EditOnGithubPlugin.create('https://github.com/alexcambose/motus/tree/master/docs'),
+        EditOnGithubPlugin.create('https://github.com/alexcambose/motus/tree/master/docs/'),
         runScripts,
         runImports(['https://cors-anywhere.herokuapp.com/https://buttons.github.io/buttons.js']),
 
