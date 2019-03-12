@@ -1,9 +1,16 @@
 ![Motus Logo](https://i.imgur.com/GpeWN0B.png "Motus logo")
 
-[![Build Status](https://travis-ci.com/alexcambose/motus.svg?token=zpfhtmtiyLf5iVSdDrUd&branch=master)](https://travis-ci.com/alexcambose/motus) [![install size](https://packagephobia.now.sh/badge?p=motus@1.0.1)](https://packagephobia.now.sh/result?p=motus@1.0.1)
-![version](https://img.shields.io/npm/v/motus.svg?style=flat)
+[![Build](https://img.shields.io/travis/com/alexcambose/motus.svg?style=flat-square)](https://travis-ci.com/alexcambose/motus)
+[![Coveralls github](https://img.shields.io/coveralls/github/alexcambose/motus.svg?style=flat-square)](https://coveralls.io/github/alexcambose/motus?branch=master)
+[![npm bundle size](https://img.shields.io/bundlephobia/minzip/motus.svg?style=flat-square)](https://packagephobia.now.sh/result?p=motus)
+[![Gitter](https://img.shields.io/gitter/room/alexcambose/motus.svg?color=%23B22C5B&style=flat-square)](https://gitter.im/alexcambose/motus)
+[![GitHub issues](https://img.shields.io/github/issues/alexcambose/motus.svg?style=flat-square)](https://github.com/alexcambose/motus/issues)
+[![version](https://img.shields.io/npm/v/motus.svg?style=flat-square)](https://www.npmjs.com/package/motus)
+[![license](https://img.shields.io/github/license/alexcambose/motus.svg?style=flat-square)](https://github.com/alexcambose/motus/blob/master/LICENSE)
+![Maintenance](https://img.shields.io/maintenance/yes/2019.svg?style=flat-square)
 
 [![forthebadge](https://forthebadge.com/images/badges/makes-people-smile.svg)](https://forthebadge.com)
+[![forthebadge](https://forthebadge.com/images/badges/made-with-javascript.svg)](https://forthebadge.com)
 
 # Why Motus ?
 Motus allows developers to create beatuful animations that simulate css keyframes and are applied when the user scrolls.
@@ -11,7 +18,6 @@ Motus allows developers to create beatuful animations that simulate css keyframe
 ## Features
 - Node & Browser Support
 - Simple and intuitive api
-- Minimal size: 8.5kb gzipped
 - Scroll hooks
 - Both vertical and horizontal scrolling
 

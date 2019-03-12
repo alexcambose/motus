@@ -37,7 +37,7 @@ Motus.addAnimation(newAnimation);
 
 ## Keyframes
 
-The essence and logic of animations are the rules that dictate how the properties of the animated object change. These keyframes are speficied with the `keyframe` parameter.
+The essence and logic of animations are the rules that dictate how the styles of the animated object change. These keyframes are specified with the `keyframes` parameter.
  ```js
  const newAnimation = new Motus.Animation({
   $el: document.getElementById('element'),

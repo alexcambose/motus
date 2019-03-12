@@ -113,7 +113,7 @@ body {
 .button:hover {
   background-color: var(--purple);
   color: white !important;
-  box-shadow: 0px 5px 20px 0px black;
+  box-shadow: 0 5px 20px 0 black;
 }
 
 .button-container .button:not(:first-of-type) {
@@ -207,7 +207,7 @@ body {
 .footer-expander-button:hover .footer-expander-label, .footer-expander-arrow {
   visibility: visible;
   opacity: 1;
-  letter-spacing: 0px;
+  letter-spacing: 0;
 }
 .footer-expander-button:active {
   background-color: var(--purple);
@@ -281,10 +281,18 @@ body {
 .mt-10 {
   margin-top: 20px;
 }
+.mt-3 {
+  margin-top: 6px;}
 .display-flex {
   display: flex;
 }
-
+.link-fade {
+  text-decoration: none;
+  opacity: .7;
+}
+.link-fade:hover {
+  opacity: 1;
+}
 .sidebar-logo {
   width: 60%;
   height: auto;

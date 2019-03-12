@@ -1,7 +1,7 @@
 $(document).ready(() => {
   // custom logo stuff
   const $coverLink = $('.cover-main h1 a');
-  $coverLink.attr('href', '')
+  $coverLink.attr('href', '');
   const $coverTitle = $($coverLink).find('span')[0];
   if ($coverTitle) {
     $coverTitle.innerHTML = `
@@ -16,7 +16,7 @@ $(document).ready(() => {
     `;
   }
   const $sidebarImageLink = $(".app-name-link")[0];
-  $sidebarImageLink.innerHTML = `<img class="sidebar-logo" src="https://i.imgur.com/GpeWN0B.png"/>`;
+  $sidebarImageLink.innerHTML = `<img class="sidebar-logo" src="https://i.imgur.com/GpeWN0B.png" alt="logo"/>`;
   $('#loading').fadeOut();
 });
 
@@ -46,7 +46,9 @@ const createFooter = function(hook) {
     <span>
 <a class="github-button" href="https://github.com/alexcambose" data-size="large" data-show-count="true" aria-label="Follow @alexcambose on GitHub">Follow @alexcambose</a></span>
     </div>
-    
+    <div class="mt-10">
+    <a href="https://github.com/alexcambose/motus/issues/new" target="_blank" class="link-fade">Open new Issue</a>
+</div>
 </footer>`;
 
     hook.afterEach(function(html) {
@@ -142,10 +144,11 @@ window.$docsify = {
         addExpanderContainer,
         createFooter,
         // TODO replace with actual link
-        EditOnGithubPlugin.create('aa', 'a', 'Edit on Github'),
+        EditOnGithubPlugin.create('https://github.com/alexcambose/motus/tree/master/docs'),
         runScripts,
         runImports(['https://cors-anywhere.herokuapp.com/https://buttons.github.io/buttons.js']),
 
-    ]
+    ],
+    ga: 'UA-123086279-4'
 };
 

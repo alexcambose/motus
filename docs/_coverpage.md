@@ -1,6 +1,6 @@
 <!-- _coverpage.md -->
 
-# Mouts
+# Motus
 
 > Animation library that mimics CSS keyframes when scrolling.
 
