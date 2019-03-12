@@ -181,7 +181,7 @@ class Animation {
       );
     } else {
       // if point is not defined get the distance to it
-      this.endPoint = Point.getDistanceFromParent(this.$el, $scrollElement, horizontal);
+      this.endPoint = Point.getDistanceFromParent(this.$el, $scrollElement, horizontal) + getElementDimensions(this.$el)[horizontal ? 'width' : 'height'];
       if (isArray(endPoint)) this.endPoint += endPoint[0];
     }
   }

@@ -1,4 +1,4 @@
-import { isArray, isNumber, isString } from '../helpers/';
+import { camelToKebabCase, isArray, isNumber, isString } from '../helpers/';
 import functionValuesEnum from '../enum/functionValuesEnum';
 import CssFunc from 'css-func';
 import { NO_UNIT } from '../enum/specialUnitEnum';
@@ -73,7 +73,7 @@ export default class Styler {
    */
   _applyArray (name, value) {
     const functionName = functionValuesEnum[name].functionName;
-    // if value is an array of arrays convert it into an arrat of arguments string
+    // if value is an array of arrays convert it into an array of arguments string
     value = value.map(e => {
       if (isArray(e)) {
         if (e[1] === NO_UNIT) return e[0];
@@ -81,6 +81,6 @@ export default class Styler {
       }
       return e;
     });
-    CssFunc(this.$el, functionName).add(name, value);
+    CssFunc(this.$el, functionName).add(camelToKebabCase(name), value);
   }
 }

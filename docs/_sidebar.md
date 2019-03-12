@@ -17,3 +17,4 @@
     - [Parallax](demos/parallax.md)
     - [SVG](demos/svg.md)
     - [Gallery](demos/gallery.md)
+    - [Filters](demos/filter.md)

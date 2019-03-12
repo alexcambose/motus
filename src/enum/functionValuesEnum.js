@@ -63,13 +63,36 @@ let transforms = {
     defaultValue: 0,
   },
 };
-
+let filters = {
+  blur: {
+    defaultValue: ['0px'],
+  },
+  brightness: {
+    defaultValue: ['100%'],
+  },
+  contrast: {
+    defaultValue: ['100%'],
+  },
+  hueRotate: {
+    defaultValue: ['0deg'],
+  },
+  grayscale: {
+    defaultValue: ['0%'],
+  },
+  invert: {
+    defaultValue: ['0%'],
+  },
+  opacity: {
+    defaultValue: ['100%'],
+  },
+  saturate: {
+    defaultValue: ['100%'],
+  },
+  sepia: {
+    defaultValue: ['0%'],
+  },
+};
 // add function name property to transforms object, will be useful later to know which function is the property from
-Object.keys(transforms).forEach(
-  prop =>
-    (transforms[prop] = { ...transforms[prop], functionName: 'transform' })
-);
-
 /*
 transforms = {
   ...
@@ -80,7 +103,17 @@ transforms = {
   ...
 }
 */
+Object.keys(transforms).forEach(
+  prop =>
+    (transforms[prop] = { ...transforms[prop], functionName: 'transform' })
+);
+Object.keys(filters).forEach(
+  prop =>
+    (filters[prop] = { ...filters[prop], functionName: 'filter' })
+);
+
 
 export default {
   ...transforms,
+  ...filters,
 };
