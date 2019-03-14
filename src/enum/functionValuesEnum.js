@@ -82,9 +82,6 @@ let filters = {
   invert: {
     defaultValue: ['0%'],
   },
-  opacity: {
-    defaultValue: ['100%'],
-  },
   saturate: {
     defaultValue: ['100%'],
   },

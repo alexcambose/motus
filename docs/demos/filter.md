@@ -16,7 +16,8 @@
 const parallaxAnimation = new Motus.Animation({
     $el: document.getElementById('image'),
     keyframes: [
-      {blur: ['5px']}
+      {brightness: ['200%'], grayscale: ['100%']},
+      {invert: ['100%']}
     ],
 });
 Motus.addAnimation(parallaxAnimation);

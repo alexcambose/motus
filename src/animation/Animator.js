@@ -162,7 +162,6 @@ export default class Animator {
    */
   _applyArrayValues (property, from, to, percent) {
     const { elementStyles } = this;
-
     // value length, minimum from both of them
     const length = Math.min(from.length, to.length);
     let params = [];
@@ -176,7 +175,6 @@ export default class Animator {
       );
       params[i][1] = to[i][1];
     }
-
     elementStyles.apply(property, params);
   }
 }
