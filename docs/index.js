@@ -148,6 +148,5 @@ window.$docsify = {
         runImports(['https://cors-anywhere.herokuapp.com/https://buttons.github.io/buttons.js']),
 
     ],
-    ga: 'UA-123086279-4'
 };
 
