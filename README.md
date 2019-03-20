@@ -25,6 +25,8 @@ Motus allows developers to create beatuful animations that simulate css keyframe
 
 # Getting started
 Check out the [Quick Start](http://localhost:3000/#/quick-start) documentation to get started.
+
+[Live demo](https://codesandbox.io/s/ol4v495l8z)
 # Usage 
 ```js 
 let newAnimation = new Motus.Animation({
