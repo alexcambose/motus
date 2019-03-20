@@ -1,22 +1,3 @@
-$(document).ready(() => {
-  // custom logo stuff
-  const $coverLink = $('.cover-main h1 a');
-  $coverLink.attr('href', '');
-  const $coverTitle = $($coverLink).find('span')[0];
-  if ($coverTitle) {
-    $coverTitle.innerHTML = `
-      <div class="title">
-            <span class="fancy-letter-1">M</span>
-            <span class="fancy-letter-2">o</span>
-            <span class="fancy-letter-3">t</span>
-            <span class="fancy-letter-4">u</span>
-            <span class="fancy-letter-5">s</span>
-            <span class="fancy-version">v2</span>
-        </div>
-    `;
-  }
-  $('#loading').fadeOut();
-});
 
 const createFooter = function(hook) {
     var footer = `

@@ -68,16 +68,27 @@ body {
     width: 0;
     background-color: var(--bg2);
   }
-  30%   {
+  16%   {
     background-color: var(--bg3);
   }
-  60% {
+  32% {
     background-color: var(--bg4);
   }
-  100%   {
+  50%   {
     width: 100vw;
     background-color: var(--bg5);
   }
+  67%   {
+    background-color: var(--bg2);
+  }
+  83%   {
+    background-color: var(--bg3);
+  }
+  100% {
+    width: 0;
+    background-color: var(--bg4);
+  }
+
 }
 #loading {
   position: fixed;
