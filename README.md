@@ -24,7 +24,7 @@ Motus allows developers to create beatuful animations that simulate css keyframe
 - Both vertical and horizontal scrolling
 
 # Getting started
-Check out the [Quick Start](http://localhost:3000/#/quick-start) documentation to get started.
+Check out the [Quick Start](https://alexcambose.github.io/motus/) documentation to get started.
 
 [Live demo](https://codesandbox.io/s/ol4v495l8z)
 # Usage 
