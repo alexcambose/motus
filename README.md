@@ -12,8 +12,8 @@
 </p>
 
 <p align="center">
-  <img src="https://forthebadge.com/images/badges/makes-people-smile.svg">
-  <img src="https://forthebadge.com/images/badges/made-with-javascript.svg">
+  <a href="https://forthebadge.com"><img src="https://forthebadge.com/images/badges/makes-people-smile.svg"></a>
+  <a href="https://forthebadge.com"><img src="https://forthebadge.com/images/badges/made-with-javascript.svg"></a>
 </p>
 
 # Why Motus ?
