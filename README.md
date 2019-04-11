@@ -17,9 +17,6 @@
 </p>
 
 # Why Motus ?
-
-
-
 Motus allows developers to create beatuful animations that simulate css keyframes and are applied when the user scrolls.
 
 ## Features
