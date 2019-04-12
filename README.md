@@ -29,6 +29,9 @@ Motus allows developers to create beatuful animations that simulate css keyframe
 Check out the [Quick Start](https://alexcambose.github.io/motus/) documentation to get started.
 
 [Live demo](https://codesandbox.io/s/ol4v495l8z)
+
+[Parallax demo](https://alexcambose.github.io/motus/parallax-demo)
+
 # Usage 
 ```js 
 let newAnimation = new Motus.Animation({

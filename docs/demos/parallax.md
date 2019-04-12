@@ -24,3 +24,5 @@ const parallaxAnimation = new Motus.Animation({
 });
 Motus.addAnimation(parallaxAnimation);
 ```
+
+For more information on how to create a parallax effect from scratch using Motus, visit [this medium article](https://medium.com/@alexcambose/creating-a-parallax-effect-with-motus-af89bdc3ce1a).
