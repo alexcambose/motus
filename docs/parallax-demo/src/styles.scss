@@ -1,0 +1,52 @@
+body {
+  font-family: 'Oxygen Mono', monospace;
+  margin: 0;
+}
+
+header {
+  background: url(https://i.imgur.com/AzqJ7WR.jpg);
+  background-position: center;
+  background-size: cover;
+  height: 50vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+  font-size: 2em;
+  letter-spacing: 2px;
+}
+
+.flower {
+  width: 20vw;
+  position: absolute;
+  top: 50%;
+  left: 20%;
+  transform: translate(-50%, -50%);
+}
+
+section {
+  @extend header;
+  padding: 30px 10vw;
+  background: #333;
+  color: #fff;
+  font-size: 1.3em;
+  line-height: 40px;
+  &:nth-of-type(2) {
+    @extend header;
+    background-image: url(https://i.imgur.com/prxIGf5.jpg);
+    filter: grayscale(70%);
+  }
+  &:nth-of-type(3) {
+    background-color: #FAFAFA;
+    color: #555;
+  }
+}
+
+footer {
+  @extend section;
+  height: 20vh;
+}
+a {
+  text-decoration: none;
+  color: #fe001a;
+}

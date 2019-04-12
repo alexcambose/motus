@@ -1,0 +1,20 @@
+{
+  "name": "motus-demo",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "start": "parcel serve ./src/index.html",
+    "build": "parcel build ./src/index.html --out-dir ./"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "motus": "^2.0.2",
+    "parcel": "^1.12.3"
+  },
+  "devDependencies": {
+    "sass": "^1.18.0"
+  }
+}
