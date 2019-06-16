@@ -18,6 +18,8 @@ export default class Styler {
    * @param  {string} unit  Property unit
    */
   apply (name, value, unit) {
+    // if the property name is a function but the value (the argument) is not an array
+    if(functionValuesEnum[name]) this._applyArray(name, [value + unit]);
     if (isNumber(value)) this._applyNumber(name, value, unit);
     if (isString(value)) this._applyString(name, value);
     if (isArray(value)) this._applyArray(name, value);
@@ -81,6 +83,6 @@ export default class Styler {
       }
       return e;
     });
-    CssFunc(this.$el, functionName).add(camelToKebabCase(name), value);
+    CssFunc(this.$el, functionName).add(name, value);
   }
 }
