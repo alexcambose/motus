@@ -20,8 +20,9 @@ const newAnimation = new Motus.Animation({
       scale: [3]
     },
     100: {
-      rotate: ['40deg'],
+      rotate: ['90deg'],
       scale: [1],
+      translateY: '-40px', // a single parameter can be written without [...]
     }
   }
 });
