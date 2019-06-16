@@ -38,7 +38,7 @@ export const getValue = value => {
     const color = colorString.to.rgb(rgbArr);
     return [color, COLOR_UNIT];
   }
-  const unitReg = /([0-9.]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax|deg)*/;
+  const unitReg = /([-0-9.]+)(cm|mm|in|px|pt|pc|em|ex|ch|%|rem|vw|vh|vmin|vmax|deg)*/;
 
   const match = value.match(unitReg);
   if (match && match.length === 3) {

@@ -12,8 +12,8 @@ const $element = document.querySelector('p');
 describe('helpers', () => {
   describe('getValue()', () => {
     describe('returns an array with the value and unit', () => {
-      it('return px as default is unit is not specified', () => {
-        expect(getValue('20px')).toEqual([20, 'px']);
+      it('works with negative values', () => {
+        expect(getValue('-20px')).toEqual([-20, 'px']);
       });
       it('works for standard css units', () => {
         expect(getValue('20px')).toEqual([20, 'px']);
