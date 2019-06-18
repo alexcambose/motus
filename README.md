@@ -57,7 +57,7 @@ Motus.addAnimation(newAnimation);
 - Push to the branch `git push origin my-new-feature`
 - Submit a pull request
 
-For further information about the project please see the [development section](development) from the documentation.
+For further information about the project please see the [development section](https://alexcambose.github.io/motus/#/development) from the documentation.
 
 # Credits
 Motus is created and maintained by Alexandru Cambose *(alexcambose)*
