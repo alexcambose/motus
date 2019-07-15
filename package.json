@@ -18,7 +18,8 @@
     "prod": "npm run prod:web && npm run prod:node",
     "servedocs": "docsify serve ./docs --open",
     "start": "npm run start:dev & sleep 2 ; npm run servedocs ",
-    "update-md-api": "jsdoc2md src/Motus.js > docs/api.md && jsdoc2md src/animation/Animation.js >> docs/api.md"
+    "update-md-api": "jsdoc2md src/Motus.js > docs/api.md && jsdoc2md src/animation/Animation.js >> docs/api.md",
+    "postinstall": "opencollective-postinstall || true"
   },
   "pre-commit": "lint",
   "repository": {
@@ -71,6 +72,11 @@
     "color-string": "^1.5.3",
     "color-to-color": "^1.0.0",
     "css-func": "^1.0.0",
-    "lodash.throttle": "^4.1.1"
+    "lodash.throttle": "^4.1.1",
+    "opencollective-postinstall": "^2.0.2"
+  },
+  "collective": {
+    "type": "opencollective",
+    "url": "https://opencollective.com/motus"
   }
 }
