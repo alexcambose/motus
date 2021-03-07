@@ -126,7 +126,7 @@ window.$docsify = {
         createFooter,
         EditOnGithubPlugin.create('https://github.com/alexcambose/motus/tree/master/docs/'),
         runScripts,
-        runImports(['https://cors-anywhere.herokuapp.com/https://buttons.github.io/buttons.js']),
+       // runImports(['https://cors-anywhere.herokuapp.com/https://buttons.github.io/buttons.js']),
 
     ],
 };
