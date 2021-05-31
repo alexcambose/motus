@@ -99,7 +99,10 @@ class Animation {
     // throttle the method that will be called on on resize to update start and end point
     this._computePositions(this.options.startPoint, this.options.endPoint);
     const handleResize = throttle(this._computePositions.bind(this), this.options.throttle);
-    window.addEventListener('resize', () => handleResize(this.options.startPoint, this.options.endPoint));
+    window.addEventListener('resize', () => {
+      handleResize(this.options.startPoint, this.options.endPoint);
+      this._compute();
+    });
   }
 
   /**
